@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-07-21T13:54:13.692Z</updated>
+  <updated>2020-07-21T14:00:24.906Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://yoursite.com/2020/05/19/hive2%E6%9C%8D%E5%8A%A1/"/>
     <id>http://yoursite.com/2020/05/19/hive2%E6%9C%8D%E5%8A%A1/</id>
     <published>2020-05-19T10:05:25.029Z</published>
-    <updated>2020-07-21T13:54:13.692Z</updated>
+    <updated>2020-07-21T14:00:24.906Z</updated>
     
     <summary type="html">
     
@@ -37,8 +37,6 @@
     
     </summary>
     
-    
-      <category term="Hive" scheme="http://yoursite.com/categories/Hive/"/>
     
     
   </entry>

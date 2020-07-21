@@ -8,8 +8,5 @@
 <li>使用beeline，去连接thrift的服务<br>beeline -u jdbc:hive2://CentOS-01:10000</li>
 </ol>
 ]]></content>
-      <categories>
-        <category>Hive</category>
-      </categories>
   </entry>
 </search>
