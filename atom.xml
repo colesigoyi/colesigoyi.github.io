@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-07-21T11:19:42.965Z</updated>
+  <updated>2020-07-21T13:54:13.692Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,34 +17,11 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Hello World</title>
-    <link href="http://yoursite.com/2020/07/21/hello-world/"/>
-    <id>http://yoursite.com/2020/07/21/hello-world/</id>
-    <published>2020-07-21T11:19:42.965Z</published>
-    <updated>2020-07-21T11:19:42.965Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a
-        
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>hive2服务</title>
+    <title>this is my first blog</title>
     <link href="http://yoursite.com/2020/05/19/hive2%E6%9C%8D%E5%8A%A1/"/>
     <id>http://yoursite.com/2020/05/19/hive2%E6%9C%8D%E5%8A%A1/</id>
     <published>2020-05-19T10:05:25.029Z</published>
-    <updated>2020-07-21T13:38:23.815Z</updated>
+    <updated>2020-07-21T13:54:13.692Z</updated>
     
     <summary type="html">
     
@@ -52,8 +29,7 @@
       
         
         
-          &lt;p&gt;title: this is my first blog&lt;/p&gt;
-&lt;ol&gt;
+          &lt;ol&gt;
 &lt;li&gt;启动hive的服务&lt;br&gt;hive ‐‐service hiveserver2 &amp;amp;&lt;/li&gt;
 &lt;li&gt;使用beeline，去连接thrift的服务&lt;br&gt;beeline -u
         
@@ -61,6 +37,8 @@
     
     </summary>
     
+    
+      <category term="Hive" scheme="http://yoursite.com/categories/Hive/"/>
     
     
   </entry>
