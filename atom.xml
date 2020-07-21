@@ -49,4 +49,35 @@
     
   </entry>
   
+  <entry>
+    <title>数据质量检查</title>
+    <link href="http://yoursite.com/2020/06/26/%E6%95%B0%E6%8D%AE%E8%B4%A8%E9%87%8F%E6%A3%80%E6%9F%A5/"/>
+    <id>http://yoursite.com/2020/06/26/%E6%95%B0%E6%8D%AE%E8%B4%A8%E9%87%8F%E6%A3%80%E6%9F%A5/</id>
+    <published>2020-06-26T04:12:57.000Z</published>
+    <updated>2020-07-21T14:14:30.318Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;数据质量检查&quot;&gt;&lt;a href=&quot;#数据质量检查&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="数据质量" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E8%B4%A8%E9%87%8F/"/>
+    
+    
+      <category term="质量检查" scheme="http://yoursite.com/tags/%E8%B4%A8%E9%87%8F%E6%A3%80%E6%9F%A5/"/>
+    
+      <category term="数仓" scheme="http://yoursite.com/tags/%E6%95%B0%E4%BB%93/"/>
+    
+      <category term="数据质量" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E8%B4%A8%E9%87%8F/"/>
+    
+  </entry>
+  
 </feed>
