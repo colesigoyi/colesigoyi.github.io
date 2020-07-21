@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Time will tell!</title>
-  
+  <icon>https://www.gravatar.com/avatar/e257bbdaac96306c21415b0151221195</icon>
   
   <link href="/atom.xml" rel="self"/>
   
@@ -11,7 +11,7 @@
   
   <author>
     <name>xuefeng Tao</name>
-    
+    <email>tao642133424@163.com</email>
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
