@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>hive2的启动</title>
-    <url>/2020/05/19/hive2%E6%9C%8D%E5%8A%A1/</url>
+    <url>/2020/06/26/hive2%E6%9C%8D%E5%8A%A1/</url>
     <content><![CDATA[<ol>
 <li>启动hive的服务<br>hive ‐‐service hiveserver2 &amp;</li>
 <li>使用beeline，去连接thrift的服务<br>beeline -u jdbc:hive2://CentOS-01:10000</li>
