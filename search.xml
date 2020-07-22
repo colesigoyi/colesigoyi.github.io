@@ -146,4 +146,72 @@
         <tag>mysql</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Python时间操作</title>
+    <url>/2020/07/22/python%E6%97%B6%E9%97%B4/</url>
+    <content><![CDATA[<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">print</span> time.time()	<span class="comment">#输出的结果是:1279578704.6725271</span></span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<p>但是这样是一连串的数字不是我们想要的结果，我们可以利用time模块的格式化时间的方法来处理：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">time.localtime(time.time())</span><br></pre></td></tr></table></figure>
+
+<p>用time.localtime()方法，作用是格式化时间戳为本地的时间。<br>输出的结果是：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">time.struct_time(tm_year=<span class="number">2010</span>, tm_mon=<span class="number">7</span>, tm_mday=<span class="number">19</span>, tm_hour=<span class="number">22</span>, tm_min=<span class="number">33</span>, tm_sec=<span class="number">39</span>, tm_wday=<span class="number">0</span>, tm_yday=<span class="number">200</span>, tm_isdst=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>现在看起来更有希望格式成我们想要的时间了。<br>time.strftime(‘%Y-%m-%d’,time.localtime(time.time()))</p>
+<p>最后用time.strftime()方法，把刚才的一大串信息格式化成我们想要的东西，现在的结果是：<br>2010-07-19</p>
+<p>time.strftime里面有很多参数，可以让你能够更随意的输出自己想要的东西：<br>下面是time.strftime的参数：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">strftime(format[, tuple]) -&gt; string</span><br></pre></td></tr></table></figure>
+
+<p>将指定的struct_time(默认为当前时间)，根据指定的格式化字符串输出<br>python中时间日期格式化符号：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">%y 两位数的年份表示（<span class="number">00</span><span class="number">-99</span>）</span><br><span class="line">%Y 四位数的年份表示（<span class="number">000</span><span class="number">-9999</span>）</span><br><span class="line">%m 月份（<span class="number">01</span><span class="number">-12</span>）</span><br><span class="line">%d 月内中的一天（<span class="number">0</span><span class="number">-31</span>）</span><br><span class="line">%H <span class="number">24</span>小时制小时数（<span class="number">0</span><span class="number">-23</span>）</span><br><span class="line">%I <span class="number">12</span>小时制小时数（<span class="number">01</span><span class="number">-12</span>） </span><br><span class="line">%M 分钟数（<span class="number">00</span>=<span class="number">59</span>）</span><br><span class="line">%S 秒（<span class="number">00</span><span class="number">-59</span>）</span><br><span class="line">%a 本地简化星期名称</span><br><span class="line">%A 本地完整星期名称</span><br><span class="line">%b 本地简化的月份名称</span><br><span class="line">%B 本地完整的月份名称</span><br><span class="line">%c 本地相应的日期表示和时间表示</span><br><span class="line">%j 年内的一天（<span class="number">001</span><span class="number">-366</span>）</span><br><span class="line">%p 本地A.M.或P.M.的等价符</span><br><span class="line">%U 一年中的星期数（<span class="number">00</span><span class="number">-53</span>）星期天为星期的开始</span><br><span class="line">%w 星期（<span class="number">0</span><span class="number">-6</span>），星期天为星期的开始</span><br><span class="line">%W 一年中的星期数（<span class="number">00</span><span class="number">-53</span>）星期一为星期的开始</span><br><span class="line">%x 本地相应的日期表示</span><br><span class="line">%X 本地相应的时间表示</span><br><span class="line">%Z 当前时区的名称</span><br><span class="line">%% %号本身</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>语言</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hive中Parquet格式的使用</title>
+    <url>/2020/07/22/Hive%E4%B8%ADParquet%E6%A0%BC%E5%BC%8F%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="Hive中Parquet格式的使用"><a href="#Hive中Parquet格式的使用" class="headerlink" title="Hive中Parquet格式的使用"></a>Hive中Parquet格式的使用</h1><p><strong>#Hive建外部External表（外部表external table）：</strong></p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">EXTERNAL</span> <span class="keyword">TABLE</span> <span class="string">`table_name`</span>(</span><br><span class="line">  <span class="string">`column1`</span> <span class="keyword">string</span>,</span><br><span class="line">  <span class="string">`column2`</span> <span class="keyword">string</span>,</span><br><span class="line">  <span class="string">`column3`</span> <span class="keyword">string</span>)</span><br><span class="line">PARTITIONED <span class="keyword">BY</span> (</span><br><span class="line">  <span class="string">`proc_date`</span> <span class="keyword">string</span>)</span><br><span class="line"><span class="keyword">ROW</span> <span class="keyword">FORMAT</span> SERDE</span><br><span class="line">  <span class="string">'org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe'</span></span><br><span class="line"><span class="keyword">STORED</span> <span class="keyword">AS</span> INPUTFORMAT</span><br><span class="line">  <span class="string">'org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat'</span></span><br><span class="line">OUTPUTFORMAT</span><br><span class="line">  <span class="string">'org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat'</span></span><br><span class="line">LOCATION</span><br><span class="line">  <span class="string">'hdfs://hdfscluster/...'</span></span><br><span class="line">TBLPROPERTIES ( <span class="string">'orc.compress'</span>=<span class="string">'snappy'</span>);</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">#添加分区并加载分区数据：</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> table_name <span class="keyword">add</span> <span class="keyword">partition</span> (proc_date=<span class="string">'$&#123;hivevar:pdate&#125;'</span>) location <span class="string">'...'</span>（不改变源数据存储位置）</span><br><span class="line"></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> table_name <span class="keyword">add</span> <span class="keyword">if</span> <span class="keyword">not</span> exsit <span class="keyword">partition</span> (proc_date=<span class="string">'$&#123;hivevar:pdate&#125;'</span>) location <span class="string">'hdfs://hdfscluster/'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> inpath <span class="string">'...'</span> <span class="keyword">into</span> <span class="keyword">table</span> table_name <span class="keyword">partition</span>(proc_date=<span class="string">'$&#123;hivevar:pdate&#125;'</span>);（会将源数据切到hive表指定的路径下）</span><br><span class="line"></span><br><span class="line"><span class="comment">#删除分区：alter table table_name drop if exists partition(proc_date='$&#123;hivevar:pdate&#125;');</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Hive</category>
+      </categories>
+      <tags>
+        <tag>hive</tag>
+        <tag>Parquet</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Parquet列式存储格式</title>
+    <url>/2020/07/22/parquet%E5%88%97%E5%BC%8F%E5%AD%98%E5%82%A8%E6%A0%BC%E5%BC%8F/</url>
+    <content><![CDATA[<p>Parquet是面向分析型业务的列式存储格式，由Twitter和Cloudera合作开发，2015年5月从Apache的孵化器里毕业成为Apache顶级项目，最新的版本是1.8.0。</p>
+<a id="more"></a>
+
+<h2 id="列式存储"><a href="#列式存储" class="headerlink" title="列式存储"></a>列式存储</h2><p>列式存储和行式存储相比有哪些优势呢？</p>
+<ol>
+<li>可以跳过不符合条件的数据，只读取需要的数据，降低IO数据量。</li>
+<li>压缩编码可以降低磁盘存储空间。由于同一列的数据类型是一样的，可以使用更高效的压缩编码（例如Run Length Encoding和Delta Encoding）进一步节约存储空间。</li>
+<li>只读取需要的列，支持向量运算，能够获取更好的扫描性能。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Parquet</category>
+      </categories>
+      <tags>
+        <tag>hive</tag>
+        <tag>Parquet</tag>
+      </tags>
+  </entry>
 </search>
