@@ -54,17 +54,19 @@
     <link href="http://yoursite.com/2020/06/26/%E6%95%B0%E6%8D%AE%E8%B4%A8%E9%87%8F%E6%A3%80%E6%9F%A5/"/>
     <id>http://yoursite.com/2020/06/26/%E6%95%B0%E6%8D%AE%E8%B4%A8%E9%87%8F%E6%A3%80%E6%9F%A5/</id>
     <published>2020-06-26T04:12:57.000Z</published>
-    <updated>2020-07-21T14:14:30.318Z</updated>
+    <updated>2020-07-22T04:34:24.358Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h2 id=&quot;数据质量检查&quot;&gt;&lt;a href=&quot;#数据质量检查&quot; class=&quot;headerlink&quot;
-        
-      
+      &lt;h2 id=&quot;数据质量检查&quot;&gt;&lt;a href=&quot;#数据质量检查&quot; class=&quot;headerlink&quot; title=&quot;数据质量检查&quot;&gt;&lt;/a&gt;数据质量检查&lt;/h2&gt;&lt;p&gt;是在完成宽表数据开发后进行的，主要包括四个方面：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;重复值检查&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;缺失值检查&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;数据倾斜问题&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;异常值检查&lt;/p&gt;&lt;/li&gt;&lt;/ol&gt;
     
     </summary>
     
