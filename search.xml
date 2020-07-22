@@ -75,4 +75,75 @@
         <tag>数据质量</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Sqoop从mysql导入数据到hive</title>
+    <url>/2020/07/22/sqoop%E4%BB%8Emysql%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE%E5%88%B0hive/</url>
+    <content><![CDATA[<h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p>Sqoop是一个用来将Hadoop和关系型数据库中的数据相互转移的工具，可以将一个关系型数据库（例如 ： MySQL ,Oracle ,Postgres等）中的数据导进到Hadoop的HDFS中，也可以将HDFS的数据导进到关系型数据库中。Sqoop专为大数据批量传输设计，能够分割数据集并创建Hadoop任务来处理每个区块。</p>
+<pre><code>把MySQL、Oracle等数据库中的数据导入到HDFS、Hive、HBase中。
+把HDFS、Hive、HBase中的数据导出到MySQL、Oracle等数据库中。
+1.4 为sqoop1, 1.9 为sqoop2 ，sqoop1与sqoop2是不兼容的。</code></pre><a id="more"></a>
+
+<h3 id="实现需要"><a href="#实现需要" class="headerlink" title="实现需要"></a>实现需要</h3><p>数据库:</p>
+<ul>
+<li>driver</li>
+<li>URL、username、password</li>
+<li>database、table</li>
+</ul>
+<p>hadoop:</p>
+<ul>
+<li>type (hdfp、hive、hbase)</li>
+<li>path 存储到哪里？</li>
+<li>数据分隔符</li>
+<li>mappers 数量，也就是使用多少线程。</li>
+</ul>
+<h2 id="二、命令"><a href="#二、命令" class="headerlink" title="二、命令"></a>二、命令</h2><h3 id="查看-sqoop-支持的命令"><a href="#查看-sqoop-支持的命令" class="headerlink" title="查看 sqoop 支持的命令"></a>查看 sqoop 支持的命令</h3><p>  sqoop help</p>
+<h3 id="显示所有库名"><a href="#显示所有库名" class="headerlink" title="显示所有库名"></a>显示所有库名</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">sqoop list-databases \</span><br><span class="line"><span class="comment">--connect jdbc:mysql://192.168.66.4:3306 \</span></span><br><span class="line"><span class="comment">--username sendi \</span></span><br><span class="line"><span class="comment">--password 1234</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="显示某个数据库里所有表"><a href="#显示某个数据库里所有表" class="headerlink" title="显示某个数据库里所有表"></a>显示某个数据库里所有表</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">sqoop list-tables \</span><br><span class="line"><span class="comment">--connect jdbc:mysql://192.168.66.4:3306/networkmanagement \</span></span><br><span class="line"><span class="comment">--username sendi \</span></span><br><span class="line"><span class="comment">--password 1234</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="MYSQL-导入数据到-HIVE"><a href="#MYSQL-导入数据到-HIVE" class="headerlink" title="MYSQL 导入数据到 HIVE"></a>MYSQL 导入数据到 HIVE</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">sqoop import</span><br><span class="line"><span class="comment">--connect jdbc:mysql://192.168.66.4:3306/networkmanagement \</span></span><br><span class="line"><span class="comment">--username sendi \</span></span><br><span class="line"><span class="comment">--password 1234 \</span></span><br><span class="line"><span class="comment">--table people</span></span><br><span class="line"><span class="comment">--hive-import </span></span><br><span class="line"><span class="comment">--create-hive-table </span></span><br><span class="line"><span class="comment">--fields-terminated-by "\t"</span></span><br><span class="line">-m 5</span><br></pre></td></tr></table></figure>
+
+<h3 id="hive-参数"><a href="#hive-参数" class="headerlink" title="hive 参数"></a>hive 参数</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">–hive-import 必须参数，指定导入hive</span><br><span class="line">–hive-database default hive库名</span><br><span class="line">–hive-table people hive表名</span><br><span class="line">–fields-terminated-by hive的分隔符</span><br><span class="line">–hive-overwrite 重写重复字段</span><br><span class="line">–create-hive-table 帮创建好 hive 表，但是表存在会出错。不建议使用这个参数，因为到导入的时候，会与我们的字段类型有出入。</span><br><span class="line">–hive-partition-key “dt” 指定分区表的字段</span><br><span class="line">–hive-partition-value “2018-08-08” 指定分区表的值</span><br></pre></td></tr></table></figure>
+
+<h3 id="导出没有主键的表"><a href="#导出没有主键的表" class="headerlink" title="导出没有主键的表"></a>导出没有主键的表</h3><p>可以使用两种方式：</p>
+<ul>
+<li>–split-by 指定切分的字段</li>
+<li>-m 1 : 设置只使用一个map进行数据迁移</li>
+</ul>
+<h3 id="过滤条件"><a href="#过滤条件" class="headerlink" title="过滤条件"></a>过滤条件</h3><p>–where “age&gt;18” 匹配条件<br>       –columns “name,age” 选择要导入的指定列<br>       –query ‘select * from people where age&gt;18 and $CONDITIONS’: sql语句查询的结果集<br>      不能 –table 一起使用<br>      需要指定 –target-dir 路径 </p>
+<h3 id="当数据库中字符为空时的处理"><a href="#当数据库中字符为空时的处理" class="headerlink" title="当数据库中字符为空时的处理"></a>当数据库中字符为空时的处理</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">–null-non-string ‘0’ 当不是字符串的数据为空的时候，用 0 替换</span><br><span class="line">–null-string ‘string’ 当字符串为空的时候，使用string 字符替换</span><br></pre></td></tr></table></figure>
+
+<h3 id="提高传输速度"><a href="#提高传输速度" class="headerlink" title="提高传输速度"></a>提高传输速度</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">–direct 提高数据库到hadoop的传输速度</span><br></pre></td></tr></table></figure>
+
+<p>支持的数据库类型与版本：</p>
+<ul>
+<li>myslq 5.0 以上</li>
+<li>oracle 10.2.0 以上</li>
+</ul>
+<h3 id="增量导入"><a href="#增量导入" class="headerlink" title="增量导入"></a>增量导入</h3><p>增量导入对应，首先需要知监控那一列，这列要从哪个值开始增量</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">* check-column id 用来指定一些列</span><br><span class="line">* 这些被指定的列的类型不能使任意字符类型，如char、varchar等类型都是不可以的,常用的是指定主键id.</span><br><span class="line">* –check-column 可以去指定多个列</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>last-value 10 从哪个值开始增量</li>
+<li>incremental 增量的模式<ul>
+<li>append id 是获取大于某一列的某个值。</li>
+<li>lastmodified “2016-12-15 15:47:30” 获取某个时间后修改的所有数据<ul>
+<li>–append 附加模式</li>
+<li>–merge-key id 合并模式</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>注意：增量导入不能与 –delete-target-dir 一起使用，还有必须指定增量的模式</p>
+]]></content>
+      <categories>
+        <category>Sqoop</category>
+      </categories>
+      <tags>
+        <tag>hive</tag>
+        <tag>Sqoop</tag>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
 </search>
