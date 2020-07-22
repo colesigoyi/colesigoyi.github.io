@@ -117,19 +117,27 @@
     <link href="http://yoursite.com/2020/07/21/%E9%80%BB%E8%BE%91%E4%B8%BB%E9%94%AE,%E4%B8%9A%E5%8A%A1%E4%B8%BB%E9%94%AE%E5%92%8C%E5%A4%8D%E5%90%88%E4%B8%BB%E9%94%AE/"/>
     <id>http://yoursite.com/2020/07/21/%E9%80%BB%E8%BE%91%E4%B8%BB%E9%94%AE,%E4%B8%9A%E5%8A%A1%E4%B8%BB%E9%94%AE%E5%92%8C%E5%A4%8D%E5%90%88%E4%B8%BB%E9%94%AE/</id>
     <published>2020-07-21T14:40:53.000Z</published>
-    <updated>2020-07-22T14:30:51.146Z</updated>
+    <updated>2020-07-22T14:32:23.774Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;p&gt;&lt;strong&gt;1.概念定义&lt;/strong&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;strong&gt;1.概念定义&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://msdn.microsoft.com/zh-cn/library/ms191236(v=SQL.100).aspx&quot; target=&quot;_blank&quot;
-        
-      
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://msdn.microsoft.com/zh-cn/library/ms191236(v=SQL.100).aspx&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;主键(PRIMARY KEY)&lt;/a&gt;：表通常具有包含唯一标识表中每一行的值的一列或一组列。这样的一列或多列称为表的主键 (PK)，用于强制表的实体完整性。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://msdn.microsoft.com/zh-cn/library/ms175464(v=SQL.100).aspx&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;外键(FOREIGN KEY)&lt;/a&gt;：外键 (FK) 是用于建立和加强两个表数据之间的链接的一列或多列。在外键引用中，当一个表的列被引用作为另一个表的主键值的列时，就在两表之间创建了链接。这个列就成为第二个表的外键。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://msdn.microsoft.com/zh-cn/library/ms190639(v=SQL.100).aspx&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;聚集索引&lt;/a&gt;：聚集索引基于数据行的键值在表内排序和存储这些数据行。每个表只能有一个聚集索引，因为数据行本身只能按一个顺序存储。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://msdn.microsoft.com/zh-cn/library/ms179325(v=SQL.100).aspx&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;非聚集索引&lt;/a&gt;：非聚集索引包含索引键值和指向表数据存储位置的行定位器。可以对表或索引视图创建多个非聚集索引。通常，设计非聚集索引是为改善经常使用的、没有建立聚集索引的查询的性能。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://msdn.microsoft.com/zh-cn/library/ms179413(v=SQL.100).aspx&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;自动编号列和标识符列&lt;/a&gt;：对于每个表，均可创建一个包含系统生成的序号值的标识符列，该序号值以唯一方式标识表中的每一行。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;业务主键（自然主键）：在数据库表中把具有业务逻辑含义的字段作为主键，称为“自然主键(Natural Key)”。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;逻辑主键（代理主键）：在数据库表中采用一个与当前表中逻辑信息无关的字段作为其主键，称为“代理主键”。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;复合主键（联合主键）：通过两个或者多个字段的组合作为主键。&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;
     
     </summary>
     
