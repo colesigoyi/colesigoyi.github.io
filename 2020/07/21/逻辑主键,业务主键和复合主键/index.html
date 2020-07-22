@@ -11,7 +11,7 @@
    
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    hive2的启动 |  Time will tell!
+    逻辑主键,业务主键和复合主键 |  Time will tell!
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -47,7 +47,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-hive2服务"
+  id="post-逻辑主键,业务主键和复合主键"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -58,18 +58,18 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  hive2的启动
+  逻辑主键,业务主键和复合主键
 </h1>
  
 
     </header>
      
     <div class="article-meta">
-      <a href="/2020/06/26/hive2%E6%9C%8D%E5%8A%A1/" class="article-date">
-  <time datetime="2020-06-26T04:12:57.000Z" itemprop="datePublished">2020-06-26</time>
+      <a href="/2020/07/21/%E9%80%BB%E8%BE%91%E4%B8%BB%E9%94%AE,%E4%B8%9A%E5%8A%A1%E4%B8%BB%E9%94%AE%E5%92%8C%E5%A4%8D%E5%90%88%E4%B8%BB%E9%94%AE/" class="article-date">
+  <time datetime="2020-07-21T14:40:53.000Z" itemprop="datePublished">2020-07-21</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Hive/">Hive</a>
+    <a class="article-category-link" href="/categories/%E6%95%B0%E4%BB%93/">数仓</a>
   </div>
   
 <div class="word_count">
@@ -77,7 +77,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">25</span>
+            <span class="post-count">2.4k</span>
         </span>
     </span>
 
@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1 分钟</span>
+            <span class="post-count">7 分钟</span>
         </span>
     </span>
 </div>
@@ -99,10 +99,36 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <ol>
-<li>启动hive的服务<br>hive ‐‐service hiveserver2 &amp;</li>
-<li>使用beeline，去连接thrift的服务<br>beeline -u jdbc:hive2://CentOS-01:10000</li>
-</ol>
+  <p><strong>1.概念定义</strong></p>
+<ul>
+<li><p><a href="http://msdn.microsoft.com/zh-cn/library/ms191236(v=SQL.100).aspx" target="_blank" rel="noopener">主键(PRIMARY KEY)</a>：表通常具有包含唯一标识表中每一行的值的一列或一组列。这样的一列或多列称为表的主键 (PK)，用于强制表的实体完整性。</p>
+</li>
+<li><p><a href="http://msdn.microsoft.com/zh-cn/library/ms175464(v=SQL.100).aspx" target="_blank" rel="noopener">外键(FOREIGN KEY)</a>：外键 (FK) 是用于建立和加强两个表数据之间的链接的一列或多列。在外键引用中，当一个表的列被引用作为另一个表的主键值的列时，就在两表之间创建了链接。这个列就成为第二个表的外键。</p>
+</li>
+<li><p><a href="http://msdn.microsoft.com/zh-cn/library/ms190639(v=SQL.100).aspx" target="_blank" rel="noopener">聚集索引</a>：聚集索引基于数据行的键值在表内排序和存储这些数据行。每个表只能有一个聚集索引，因为数据行本身只能按一个顺序存储。</p>
+</li>
+<li><p><a href="http://msdn.microsoft.com/zh-cn/library/ms179325(v=SQL.100).aspx" target="_blank" rel="noopener">非聚集索引</a>：非聚集索引包含索引键值和指向表数据存储位置的行定位器。可以对表或索引视图创建多个非聚集索引。通常，设计非聚集索引是为改善经常使用的、没有建立聚集索引的查询的性能。</p>
+</li>
+<li><p><a href="http://msdn.microsoft.com/zh-cn/library/ms179413(v=SQL.100).aspx" target="_blank" rel="noopener">自动编号列和标识符列</a>：对于每个表，均可创建一个包含系统生成的序号值的标识符列，该序号值以唯一方式标识表中的每一行。</p>
+</li>
+<li><p>业务主键（自然主键）：在数据库表中把具有业务逻辑含义的字段作为主键，称为“自然主键(Natural Key)”。</p>
+</li>
+<li><p>逻辑主键（代理主键）：在数据库表中采用一个与当前表中逻辑信息无关的字段作为其主键，称为“代理主键”。</p>
+</li>
+<li><p>复合主键（联合主键）：通过两个或者多个字段的组合作为主键。</p>
+<p><strong>2.原理分析</strong></p>
+<p>​    使用逻辑主键的主要原因是，业务主键一旦改变则系统中关联该主键的部分的修改将会是不可避免的，并且引用越多改动越大。而使用逻辑主键则只需要修改相应的业务主键相关的业务逻辑即可，减少了因为业务主键相关改变对系统的影响范围。业务逻辑的改变是不可避免的，因为“永远不变的是变化”，没有任何一个公司是一成不变的，没有任何一个业务是永远不变的。最典型的例子就是身份证升位和驾驶执照号换用身份证号的业务变更。而且现实中也确实出现了<a href="http://zhidao.baidu.com/question/22152449" target="_blank" rel="noopener">身份证号码重复</a>的情况，这样如果用身份证号码作为主键也带来了难以处理的情况。当然应对改变，可以有很多解决方案，方案之一是做一新系统与时俱进，这对软件公司来说确实是件好事。</p>
+<p>​    使用逻辑主键的另外一个原因是，业务主键过大，不利于传输、处理和存储。我认为一般如果业务主键超过8字节就应该考虑使用逻辑主键了，因为int是4字节的，bigint是8字节的，而业务主键一般是字符串，同样是 8 字节的 bigint 和 8 字节的字符串在传输和处理上自然是 bigint 效率更高一些。想象一下 code == “12345678” 和 id == 12345678 的汇编码的不同就知道了。当然逻辑主键不一定是 int 或者 bigint  ，而业务主键也不一定是字符串也可以是 int 或 datetime  等类型，同时传输的也不一定就是主键，这个就要具体分析了，但是原理类似，这里只是讨论通常情况。同时如果其他表需要引用该主键的话，也需要存储该主键，那么这个存储空间的开销也是不一样的。而且这些表的这个引用字段通常就是外键，或者通常也会建索引方便查找，这样也会造成存储空间的开销的不同，这也是需要具体分析的。</p>
+<p>​    使用逻辑主键的再一个原因是，使用 int 或者 bigint 作为外键进行联接查询，性能会比以字符串作为外键进行联接查询快。原理和上面的类似，这里不再重复。</p>
+<p>​    使用逻辑主键的再一个原因是，存在用户或维护人员误录入数据到业务主键中的问题。例如错把 RMB 录入为 RXB  ，相关的引用都是引用了错误的数据，一旦需要修改则非常麻烦。如果使用逻辑主键则问题很好解决，如果使用业务主键则会影响到其他表的外键数据，当然也可以通过级联更新方式解决，但是不是所有都能级联得了的。</p>
+<p>​    使用业务主键的主要原因是，增加逻辑主键就是增加了一个业务无关的字段，而用户通常都是对于业务相关的字段进行查找（比如员工的工号，书本的 ISBN No.  ），这样我们除了为逻辑主键加索引，还必须为这些业务字段加索引，这样数据库的性能就会下降，而且也增加了存储空间的开销。所以对于业务上确实不常改变的基础数据而言，使用业务主键不失是一个比较好的选择。另一方面，对于基础数据而言，一般的增、删、改都比较少，所以这部分的开销也不会太多，而如果这时候对于业务逻辑的改变有担忧的话，也是可以考虑使用逻辑主键的，这就需要具体问题具体分析了。</p>
+<p>​    使用业务主键的另外一个原因是，对于用户操作而言，都是通过业务字段进行的，所以在这些情况下，如果使用逻辑主键的话，必须要多做一次映射转换的动作。我认为这种担心是多余的，直接使用业务主键查询就能得到结果，根本不用管逻辑主键，除非业务主键本身就不唯一。另外，如果在设计的时候就考虑使用逻辑主键的话，编码的时候也是会以主键为主进行处理的，在系统内部传输、处理和存储都是相同的主键，不存在转换问题。除非现有系统是使用业务主键，要把现有系统改成使用逻辑主键，这种情况才会存在转换问题。暂时没有想到还有什么场景是存在这样的转换的。</p>
+<p>​    使用业务主键的再一个原因是，对于银行系统而言安全性比性能更加重要，这时候就会考虑使用业务主键，既可以作为主键也可以作为冗余数据，避免因为使用逻辑主键带来的关联丢失问题。如果由于某种原因导致主表和子表关联关系丢失的话，银行可是会面临无法挽回的损失的。为了杜绝这种情况的发生，业务主键需要在重要的表中有冗余存在，这种情况最好的处理方式就是直接使用业务主键了。例如身份证号、存折号、卡号等。所以通常银行系统都要求使用业务主键，这个需求并不是出于性能的考虑而是出于安全性的考虑。</p>
+<p>​    使用复合主键的主要原因和使用业务主键是相关的，通常业务主键只使用一个字段不能解决问题，那就只能使用多个字段了。例如使用姓名字段不够用了，再加个生日字段。这种使用复合主键方式效率非常低，主要原因和上面对于较大的业务主键的情况类似。另外如果其他表要与该表关联则需要引用复合主键的所有字段，这就不单纯是性能问题了，还有存储空间的问题了，当然你也可以认为这是合理的数据冗余，方便查询，但是感觉有点得不偿失。</p>
+<p>​    使用复合主键的另外一个原因是，对于关系表来说必须关联两个实体表的主键，才能表示它们之间的关系，那么可以把这两个主键联合组成复合主键即可。如果两个实体存在多个关系，可以再加一个顺序字段联合组成复合主键，但是这样就会引入业务主键的弊端。当然也可以另外对这个关系表添加一个逻辑主键，避免了业务主键的弊端，同时也方便其他表对它的引用。</p>
+<p>综合来说，网上大多数人是倾向于用逻辑主键的，而对于实体表用复合主键方式的应该没有多少人认同。支持业务主键的人通常有种误解，认为逻辑主键必须对用户来说有意义，其实逻辑主键只是系统内部使用的，对用户来说是无需知道的。</p>
+</li>
+</ul>
  
       <!-- reward -->
       
@@ -169,12 +195,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/06/26/hive2%E6%9C%8D%E5%8A%A1/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/07/21/%E9%80%BB%E8%BE%91%E4%B8%BB%E9%94%AE,%E4%B8%9A%E5%8A%A1%E4%B8%BB%E9%94%AE%E5%92%8C%E5%A4%8D%E5%90%88%E4%B8%BB%E9%94%AE/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/beeline/" rel="tag">beeline</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hive/" rel="tag">hive</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%8D%E5%8A%A1/" rel="tag">服务</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hive/" rel="tag">hive</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%B8%BB%E9%94%AE/" rel="tag">主键</a></li></ul>
 
     </footer>
   </div>
@@ -182,19 +208,19 @@
    
   <nav class="article-nav">
     
-      <a href="/2020/07/21/%E9%80%BB%E8%BE%91%E4%B8%BB%E9%94%AE,%E4%B8%9A%E5%8A%A1%E4%B8%BB%E9%94%AE%E5%92%8C%E5%A4%8D%E5%90%88%E4%B8%BB%E9%94%AE/" class="article-nav-link">
+      <a href="/2020/07/22/sqoop%E4%BB%8Emysql%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE%E5%88%B0hive/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            逻辑主键,业务主键和复合主键
+            Sqoop从mysql导入数据到hive
           
         </div>
       </a>
     
     
-      <a href="/2020/06/26/%E6%95%B0%E6%8D%AE%E8%B4%A8%E9%87%8F%E6%A3%80%E6%9F%A5/" class="article-nav-link">
+      <a href="/2020/06/26/hive2%E6%9C%8D%E5%8A%A1/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">数据质量检查</div>
+        <div class="article-nav-title">hive2的启动</div>
       </a>
     
   </nav>

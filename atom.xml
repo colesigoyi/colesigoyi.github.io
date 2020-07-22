@@ -113,6 +113,37 @@
   </entry>
   
   <entry>
+    <title>逻辑主键,业务主键和复合主键</title>
+    <link href="http://yoursite.com/2020/07/21/%E9%80%BB%E8%BE%91%E4%B8%BB%E9%94%AE,%E4%B8%9A%E5%8A%A1%E4%B8%BB%E9%94%AE%E5%92%8C%E5%A4%8D%E5%90%88%E4%B8%BB%E9%94%AE/"/>
+    <id>http://yoursite.com/2020/07/21/%E9%80%BB%E8%BE%91%E4%B8%BB%E9%94%AE,%E4%B8%9A%E5%8A%A1%E4%B8%BB%E9%94%AE%E5%92%8C%E5%A4%8D%E5%90%88%E4%B8%BB%E9%94%AE/</id>
+    <published>2020-07-21T14:40:53.000Z</published>
+    <updated>2020-07-22T14:30:51.146Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;strong&gt;1.概念定义&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://msdn.microsoft.com/zh-cn/library/ms191236(v=SQL.100).aspx&quot; target=&quot;_blank&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="数仓" scheme="http://yoursite.com/categories/%E6%95%B0%E4%BB%93/"/>
+    
+    
+      <category term="hive" scheme="http://yoursite.com/tags/hive/"/>
+    
+      <category term="主键" scheme="http://yoursite.com/tags/%E4%B8%BB%E9%94%AE/"/>
+    
+  </entry>
+  
+  <entry>
     <title>hive2的启动</title>
     <link href="http://yoursite.com/2020/06/26/hive2%E6%9C%8D%E5%8A%A1/"/>
     <id>http://yoursite.com/2020/06/26/hive2%E6%9C%8D%E5%8A%A1/</id>
