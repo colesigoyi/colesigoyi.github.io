@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-07-23T03:51:12.106Z</updated>
+  <updated>2020-07-23T09:18:07.301Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>hive on spark与spark on hive的区别</title>
+    <link href="http://yoursite.com/2020/07/23/Hive%20on%20Spark%E4%B8%8ESparkSql%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
+    <id>http://yoursite.com/2020/07/23/Hive%20on%20Spark%E4%B8%8ESparkSql%E7%9A%84%E5%8C%BA%E5%88%AB/</id>
+    <published>2020-07-23T09:12:57.000Z</published>
+    <updated>2020-07-23T09:18:07.301Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;SparkSQL简介&quot;&gt;&lt;a href=&quot;#SparkSQL简介&quot; class=&quot;headerlink&quot; title=&quot;SparkSQL简介**&quot;&gt;&lt;/a&gt;SparkSQL简介**&lt;/h3&gt;&lt;p&gt;SparkSQL的前身是Shark，给熟悉RDBMS但又不理解MapReduce的技术人员提供快速上手的工具，hive应运而生，它是当时唯一运行在Hadoop上的SQL-on-hadoop工具。但是MapReduce计算过程中大量的中间磁盘落地过程消耗了大量的I/O，降低的运行效率，为了提高SQL-on-Hadoop的效率，Shark应运而生，但又因为Shark对于Hive的太多依赖（如采用Hive的语法解析器、查询优化器等等),2014年spark团队停止对Shark的开发，将所有资源放SparkSQL项目上&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Hive" scheme="http://yoursite.com/categories/Hive/"/>
+    
+    
+      <category term="hive on spark" scheme="http://yoursite.com/tags/hive-on-spark/"/>
+    
+      <category term="spark on hive" scheme="http://yoursite.com/tags/spark-on-hive/"/>
+    
+  </entry>
   
   <entry>
     <title>hive两个聚合函数的计算结果拼接成表并做进一步计算</title>
