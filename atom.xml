@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-07-22T11:41:15.332Z</updated>
+  <updated>2020-07-23T03:51:12.106Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>hive两个聚合函数的计算结果拼接成表并做进一步计算</title>
+    <link href="http://yoursite.com/2020/07/23/%E4%B8%A4%E4%B8%AA%E8%81%9A%E5%90%88%E5%87%BD%E6%95%B0%E8%AE%A1%E7%AE%97%E7%BB%93%E6%9E%9C%E8%BF%9B%E8%A1%8C%E6%8B%BC%E6%8E%A5/"/>
+    <id>http://yoursite.com/2020/07/23/%E4%B8%A4%E4%B8%AA%E8%81%9A%E5%90%88%E5%87%BD%E6%95%B0%E8%AE%A1%E7%AE%97%E7%BB%93%E6%9E%9C%E8%BF%9B%E8%A1%8C%E6%8B%BC%E6%8E%A5/</id>
+    <published>2020-07-23T04:12:57.000Z</published>
+    <updated>2020-07-23T03:51:12.106Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;hive两个聚合函数的计算结果拼接成表并做进一步计算&quot;&gt;&lt;a href=&quot;#hive两个聚合函数的计算结果拼接成表并做进一步计算&quot; class=&quot;headerlink&quot; title=&quot;hive两个聚合函数的计算结果拼接成表并做进一步计算&quot;&gt;&lt;/a&gt;hive两个聚合函数的计算结果拼接成表并做进一步计算&lt;/h4&gt;&lt;p&gt;hive两个聚合函数的计算结果拼接成表让LZ头疼了很久，一度想到用python处理，或者新建两张临时表保存聚合函数的结果然后再取出数据进行计算，或者使用UDF, 但总觉得还有其他方法。经过一番探索，发现WITH AS 可以方便快捷解决此问题。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Hive" scheme="http://yoursite.com/categories/Hive/"/>
+    
+    
+      <category term="hive" scheme="http://yoursite.com/tags/hive/"/>
+    
+      <category term="函数" scheme="http://yoursite.com/tags/%E5%87%BD%E6%95%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>Parquet列式存储格式</title>

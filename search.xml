@@ -258,4 +258,23 @@
         <tag>主键</tag>
       </tags>
   </entry>
+  <entry>
+    <title>hive两个聚合函数的计算结果拼接成表并做进一步计算</title>
+    <url>/2020/07/23/%E4%B8%A4%E4%B8%AA%E8%81%9A%E5%90%88%E5%87%BD%E6%95%B0%E8%AE%A1%E7%AE%97%E7%BB%93%E6%9E%9C%E8%BF%9B%E8%A1%8C%E6%8B%BC%E6%8E%A5/</url>
+    <content><![CDATA[<h4 id="hive两个聚合函数的计算结果拼接成表并做进一步计算"><a href="#hive两个聚合函数的计算结果拼接成表并做进一步计算" class="headerlink" title="hive两个聚合函数的计算结果拼接成表并做进一步计算"></a>hive两个聚合函数的计算结果拼接成表并做进一步计算</h4><p>hive两个聚合函数的计算结果拼接成表让LZ头疼了很久，一度想到用python处理，或者新建两张临时表保存聚合函数的结果然后再取出数据进行计算，或者使用UDF, 但总觉得还有其他方法。经过一番探索，发现WITH AS 可以方便快捷解决此问题。</p>
+<a id="more"></a>
+
+<p>WITH AS短语，也叫做子查询部分（subquery factoring），可以让你做很多事情，定义一个SQL片断，该SQL片断会被整个SQL语句所用到。</p>
+<p>需求：统计test1表满足某条件的记录数和test2表满足某条件的记录数然后做除法。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> c1</span><br><span class="line"><span class="keyword">as</span> (<span class="keyword">select</span> <span class="keyword">count</span>（*） <span class="keyword">as</span> aa <span class="keyword">from</span> test1 ),</span><br><span class="line">c2</span><br><span class="line"><span class="keyword">as</span> (<span class="keyword">select</span> <span class="keyword">count</span>（*）　<span class="keyword">as</span> bb <span class="keyword">from</span> test2)</span><br><span class="line"><span class="keyword">select</span> a.aa/b.bb <span class="keyword">from</span> c1 a, c2 b ;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Hive</category>
+      </categories>
+      <tags>
+        <tag>hive</tag>
+        <tag>函数</tag>
+      </tags>
+  </entry>
 </search>
