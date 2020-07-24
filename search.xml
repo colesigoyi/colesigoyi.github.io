@@ -351,7 +351,7 @@
     <content><![CDATA[<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>同比：本期与同期做对比。</p>
 <p>环比：本期与上期做对比。</p>
 <p>简单点说，同比和环比用于表示某一事物在对比时期内发展变化的方向和程度。以历史同期为基期，例如2016年2月份与2015年2月份、2016年上半年与2015年上半年的比较，就是同比。以前一个统计时间段为基期，例如2016年6月份与2016年5月份、2016年二季度与2016年一季度的比较，就是环比。</p>
-<p><img src="https://i.loli.net/2020/07/24/c5EoSijy31QIDAx.png" alt="image-20200515173201858.png"></p>
+<p><img src="/2020/07/24/%E5%90%8C%E6%AF%94%E7%8E%AF%E6%AF%94/c5EoSijy31QIDAx.png" alt="c5EoSijy31QIDAx"></p>
 <a id="more"></a>
 
 <p>环比一般是用在月、日很少用在年上，主要是对比很短时间内涨幅程度，不过由于行业差异，比如旅游，会受到淡旺季影响。</p>
@@ -565,11 +565,5 @@ grid_hat:
         <tag>机器学习</tag>
         <tag>Notebook</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>测试</title>
-    <url>/2020/07/24/%E6%B5%8B%E8%AF%95/</url>
-    <content><![CDATA[<p><img src="/2020/07/24/%E6%B5%8B%E8%AF%95/output_13_2.png" alt="output_13_2"></p>
-]]></content>
   </entry>
 </search>
