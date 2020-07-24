@@ -105,7 +105,7 @@
 <p>2.能访问公司内网,无法访问公网</p>
 <a id="more"></a>
 
-<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><h3 id="1-出现IPSec共享密匙丢失"><a href="#1-出现IPSec共享密匙丢失" class="headerlink" title="1.出现IPSec共享密匙丢失"></a>1.出现IPSec共享密匙丢失</h3><p><img src="https://i.loli.net/2020/07/24/FEHZDY59BSnXNCP.png" alt="image-20200724171339894.png"></p>
+<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><h3 id="1-出现IPSec共享密匙丢失"><a href="#1-出现IPSec共享密匙丢失" class="headerlink" title="1.出现IPSec共享密匙丢失"></a>1.出现IPSec共享密匙丢失</h3><p><img src="/2020/07/24/mac%E8%BF%9E%E6%8E%A5%E5%85%AC%E5%8F%B8VPN%E7%9A%84%E5%9D%91/FEHZDY59BSnXNCP.png" alt="FEHZDY59BSnXNCP"></p>
 <h4 id="原因"><a href="#原因" class="headerlink" title="原因:"></a>原因:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;etc&#x2F;ppp&#x2F;options</span><br><span class="line">包含缺省应用于系统中所有 PPP 链路的特征（例如，计算机是否要求对等点对其本身进行验证）的文件。如果不存在此文件，将禁止非超级用户使用 PPP。</span><br></pre></td></tr></table></figure>
 
 <h4 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h4><p>知其然，所以知其后然，这时候的解决方法就是在<code>/etc/ppp/</code>目录下建立options`这个配置文件，并且配置ppp链路l2tp不需要ipsec密钥。</p>
@@ -116,9 +116,9 @@
 <p>（2）然后按<code>esc</code>键退出插入模式，最后输入<code>:wq!</code>，强制保存并退出vim模式。</p>
 <h3 id="2-能访问公司内网-无法访问公网"><a href="#2-能访问公司内网-无法访问公网" class="headerlink" title="2.能访问公司内网,无法访问公网"></a>2.能访问公司内网,无法访问公网</h3><p>在vpn的高级里设置:</p>
 <p>1.</p>
-<p><img src="https://i.loli.net/2020/07/24/v3IlwSyEFjTxR95.png" alt="1595581415270-28ce9bf1-e286-40a9-b786-cc651df782a1.png"></p>
+<p><img src="/2020/07/24/mac%E8%BF%9E%E6%8E%A5%E5%85%AC%E5%8F%B8VPN%E7%9A%84%E5%9D%91/v3IlwSyEFjTxR95-20200724191748915.png" alt="v3IlwSyEFjTxR95-20200724191748915"></p>
 <p>2.</p>
-<p><img src="https://i.loli.net/2020/07/24/fDRpcNP2a79kMUS.png" alt="1595581458710-f9efd0df-5447-4ac2-8784-e448e2f344b9.png"></p>
+<p><img src="/2020/07/24/mac%E8%BF%9E%E6%8E%A5%E5%85%AC%E5%8F%B8VPN%E7%9A%84%E5%9D%91/fDRpcNP2a79kMUS.png" alt="fDRpcNP2a79kMUS"></p>
 <p>即可</p>
  
       <!-- reward -->
