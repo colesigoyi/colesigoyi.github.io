@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-07-24T10:35:32.014Z</updated>
+  <updated>2020-07-24T10:56:19.333Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,44 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>测试</title>
+    <link href="http://yoursite.com/2020/07/24/%E6%B5%8B%E8%AF%95/"/>
+    <id>http://yoursite.com/2020/07/24/%E6%B5%8B%E8%AF%95/</id>
+    <published>2020-07-24T10:56:19.000Z</published>
+    <updated>2020-07-24T10:56:19.333Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>测试</title>
+    <link href="http://yoursite.com/2020/07/24/%E6%B5%8B%E8%AF%95-1/"/>
+    <id>http://yoursite.com/2020/07/24/%E6%B5%8B%E8%AF%95-1/</id>
+    <published>2020-07-24T10:54:56.000Z</published>
+    <updated>2020-07-24T10:56:15.860Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;/Users/taoxuefeng/blog/source/_posts/output_13_2-5588172.png&quot;
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>机器学习项目01-鸢尾花分类</title>
@@ -134,29 +172,6 @@
       <category term="hive" scheme="http://yoursite.com/tags/hive/"/>
     
       <category term="函数" scheme="http://yoursite.com/tags/%E5%87%BD%E6%95%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>测试</title>
-    <link href="http://yoursite.com/2020/07/23/%E6%B5%8B%E8%AF%95/"/>
-    <id>http://yoursite.com/2020/07/23/%E6%B5%8B%E8%AF%95/</id>
-    <published>2020-07-23T04:12:57.000Z</published>
-    <updated>2020-07-24T10:50:36.990Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;&lt;img src=&quot;/2020/07/23/%E6%B5%8B%E8%AF%95/output_13_2.png&quot;
-        
-      
-    
-    </summary>
-    
-    
     
   </entry>
   
