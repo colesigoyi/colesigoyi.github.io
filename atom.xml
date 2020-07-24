@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-07-24T10:05:42.030Z</updated>
+  <updated>2020-07-24T10:26:06.816Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>同比与环比</title>
+    <link href="http://yoursite.com/2020/07/24/%E5%90%8C%E6%AF%94%E7%8E%AF%E6%AF%94/"/>
+    <id>http://yoursite.com/2020/07/24/%E5%90%8C%E6%AF%94%E7%8E%AF%E6%AF%94/</id>
+    <published>2020-07-24T10:12:57.000Z</published>
+    <updated>2020-07-24T10:26:06.816Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;概念&quot;&gt;&lt;a href=&quot;#概念&quot; class=&quot;headerlink&quot; title=&quot;概念&quot;&gt;&lt;/a&gt;概念&lt;/h2&gt;&lt;p&gt;同比：本期与同期做对比。&lt;/p&gt;
+&lt;p&gt;环比：本期与上期做对比。&lt;/p&gt;
+&lt;p&gt;简单点说，同比和环比用于表示某一事物在对比时期内发展变化的方向和程度。以历史同期为基期，例如2016年2月份与2015年2月份、2016年上半年与2015年上半年的比较，就是同比。以前一个统计时间段为基期，例如2016年6月份与2016年5月份、2016年二季度与2016年一季度的比较，就是环比。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2020/07/24/c5EoSijy31QIDAx.png&quot; alt=&quot;image-20200515173201858.png&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="数据" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE/"/>
+    
+    
+      <category term="同比/环比" scheme="http://yoursite.com/tags/%E5%90%8C%E6%AF%94-%E7%8E%AF%E6%AF%94/"/>
+    
+  </entry>
   
   <entry>
     <title>mac连接公司vpn的坑</title>

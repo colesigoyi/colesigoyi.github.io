@@ -345,4 +345,37 @@
         <tag>公司vpn</tag>
       </tags>
   </entry>
+  <entry>
+    <title>同比与环比</title>
+    <url>/2020/07/24/%E5%90%8C%E6%AF%94%E7%8E%AF%E6%AF%94/</url>
+    <content><![CDATA[<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>同比：本期与同期做对比。</p>
+<p>环比：本期与上期做对比。</p>
+<p>简单点说，同比和环比用于表示某一事物在对比时期内发展变化的方向和程度。以历史同期为基期，例如2016年2月份与2015年2月份、2016年上半年与2015年上半年的比较，就是同比。以前一个统计时间段为基期，例如2016年6月份与2016年5月份、2016年二季度与2016年一季度的比较，就是环比。</p>
+<p><img src="https://i.loli.net/2020/07/24/c5EoSijy31QIDAx.png" alt="image-20200515173201858.png"></p>
+<a id="more"></a>
+
+<p>环比一般是用在月、日很少用在年上，主要是对比很短时间内涨幅程度，不过由于行业差异，比如旅游，会受到淡旺季影响。</p>
+<p>同比一般用在相邻两年，相同时间段内，查看涨幅程度，一般用在两年相同月份，很少用在两月相同日期</p>
+<h2 id="计算公式"><a href="#计算公式" class="headerlink" title="计算公式"></a>计算公式</h2><h3 id="一、同比增长计算公式："><a href="#一、同比增长计算公式：" class="headerlink" title="一、同比增长计算公式："></a>一、同比增长计算公式：</h3><p>1、同比增长率=（本期数－同期数）÷同期数×100%</p>
+<p>例子：比如说去年3月的产值100万，本年3月的产值300万，同比增长率是多少？</p>
+<p>本题中，同比增长率=（300－100）÷100=200%</p>
+<p>2、当同期数为负值的情况，公式应当完善如下：</p>
+<p>同比增长率=（本期数－同期数）÷ |同期数|×100%</p>
+<p>例子：比如说去年3月的产值100万，本年3月的产值50万，同比增长率是多少？</p>
+<p>本题中，同比增长率=(50W-(-100W))/|-100W||×100%=150%</p>
+<h3 id="二、环比增长计算公式："><a href="#二、环比增长计算公式：" class="headerlink" title="二、环比增长计算公式："></a>二、<a href="https://www.baidu.com/s?wd=环比增长&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao" target="_blank" rel="noopener">环比增长</a>计算公式：</h3><p><a href="https://www.baidu.com/s?wd=环比增长&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao" target="_blank" rel="noopener">环比增长</a>率=（本期数-上期数）/上期数×100%。</p>
+<p>例子：比如说今年3月的产值100万，2月的产值300万，<a href="https://www.baidu.com/s?wd=环比增长&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao" target="_blank" rel="noopener">环比增长</a>率是多少？</p>
+<p>本题中，同比增长率=（300－100）÷100=200%</p>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><p>同比与环比的区别</p>
+<p>同比、环比与定基比，都可以用百分数或倍数表示。定基比发展速度，也简称总速度，一般是指报告期水平与某一固定时期水平之比，表明这种现象在较长时期内总的发展速度。</p>
+<p>同比发展速度，一般指是指本期发展水平与<a href="https://www.baidu.com/s?wd=上年同期&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao" target="_blank" rel="noopener">上年同期</a>发展水平对比，而达到的相对发展速度。环比发展速度，一般是指报告期水平与前一时期水平之比，表明现象逐期的发展速度。</p>
+<p>同比和环比，这两者所反映的虽然都是变化速度，但由于采用基期的不同，其反映的内涵是完全不同的；一般来说，环比可以与环比相比较，而不能拿同比与环比相比较；而对于同一个地方，考虑时间纵向上发展趋势的反映，则往往要把同比与环比放在一起进行对照。</p>
+]]></content>
+      <categories>
+        <category>数据</category>
+      </categories>
+      <tags>
+        <tag>同比/环比</tag>
+      </tags>
+  </entry>
 </search>
