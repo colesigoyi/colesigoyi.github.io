@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-07-23T09:19:55.076Z</updated>
+  <updated>2020-07-24T09:20:48.528Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>mac连接公司vpn的坑</title>
+    <link href="http://yoursite.com/2020/07/24/mac%E8%BF%9E%E6%8E%A5%E5%85%AC%E5%8F%B8VPN%E7%9A%84%E5%9D%91/"/>
+    <id>http://yoursite.com/2020/07/24/mac%E8%BF%9E%E6%8E%A5%E5%85%AC%E5%8F%B8VPN%E7%9A%84%E5%9D%91/</id>
+    <published>2020-07-24T09:12:57.000Z</published>
+    <updated>2020-07-24T09:20:48.528Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;1-出现IPSec共享密匙丢失&quot;&gt;&lt;a href=&quot;#1-出现IPSec共享密匙丢失&quot; class=&quot;headerlink&quot; title=&quot;1.出现IPSec共享密匙丢失&quot;&gt;&lt;/a&gt;1.出现IPSec共享密匙丢失&lt;/h2&gt;&lt;p&gt;&lt;img
+        
+      
+    
+    </summary>
+    
+    
+      <category term="公司vpn" scheme="http://yoursite.com/categories/%E5%85%AC%E5%8F%B8vpn/"/>
+    
+    
+      <category term="远程访问" scheme="http://yoursite.com/tags/%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AE/"/>
+    
+      <category term="公司vpn" scheme="http://yoursite.com/tags/%E5%85%AC%E5%8F%B8vpn/"/>
+    
+  </entry>
   
   <entry>
     <title>hive on spark与spark on hive的区别</title>
