@@ -378,4 +378,192 @@
         <tag>同比/环比</tag>
       </tags>
   </entry>
+  <entry>
+    <title>机器学习项目01-鸢尾花分类</title>
+    <url>/2020/07/24/ML_flower/</url>
+    <content><![CDATA[<p>机器学习项目之鸢尾花分类:</p>
+<h3 id="任务描述"><a href="#任务描述" class="headerlink" title="任务描述:"></a>任务描述:</h3><p>构建一个模型，根据鸢尾花的花萼和花瓣大小将其分为三种不同的品种。</p>
+<p><img src="https://ai-studio-static-online.cdn.bcebos.com/dd74666475b549fcae99ac2aff67488f015cdd76569d4d208909983bcf40fe3c" alt="img"></p>
+<a id="more"></a>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np                </span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> colors     </span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> svm            </span><br><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> SVC</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> model_selection</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> matplotlib <span class="keyword">as</span> mpl</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data_path = <span class="string">'/Users/taoxuefeng/Desktop/jupyterlab/jupyterlab_python/MLData/flower_data/iris.data'</span></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">iris_type</span><span class="params">(s)</span>:</span></span><br><span class="line">    it = &#123;<span class="string">b'Iris-setosa'</span>:<span class="number">0</span>, <span class="string">b'Iris-versicolor'</span>:<span class="number">1</span>, <span class="string">b'Iris-virginica'</span>:<span class="number">2</span>&#125;</span><br><span class="line">    <span class="keyword">return</span> it[s]</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = np.loadtxt(data_path,                <span class="comment">#数据文件路径</span></span><br><span class="line">                 dtype=float,               <span class="comment">#数据文件类型</span></span><br><span class="line">                 delimiter=<span class="string">','</span>,             <span class="comment">#数据分隔符</span></span><br><span class="line">                 converters=&#123;<span class="number">4</span>:iris_type&#125;)  <span class="comment">#将第5列使用函数iris_type进行转换</span></span><br><span class="line"><span class="comment">#print(data)</span></span><br><span class="line"><span class="comment">#print(data.shape)#(150, 5)</span></span><br><span class="line">x, y = np.split(data,     <span class="comment">#要切分的数组</span></span><br><span class="line">               (<span class="number">4</span>,),      <span class="comment">#沿轴切分的位置，第5列开始往后为y</span></span><br><span class="line">               axis = <span class="number">1</span>)  <span class="comment">#代表纵向分割，按列分割</span></span><br><span class="line">x = x[:, <span class="number">0</span>:<span class="number">2</span>]<span class="comment">#在X中我们取前两列作为特征，为了后面的可视化。x[:,0:2]代表第一维(行)全取，第二维(列)取0~2</span></span><br><span class="line"><span class="comment">#print(x)</span></span><br><span class="line">x_train, x_test, y_train, y_test = model_selection.train_test_split(x,<span class="comment">#索要划分的样本特征集</span></span><br><span class="line">                                                                   y,<span class="comment">#所要划分的样本结果</span></span><br><span class="line">                                                                   random_state = <span class="number">1</span>,<span class="comment">#随机数种子</span></span><br><span class="line">                                                                   test_size = <span class="number">0.3</span>) <span class="comment">#测试样本占比</span></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#**********************SVM分类器构建*************************</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">classifier</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment">#clf = svm.SVC(C=0.8,kernel='rbf', gamma=50,decision_function_shape='ovr')</span></span><br><span class="line">    clf = svm.SVC(C=<span class="number">0.5</span>,                         <span class="comment">#误差项惩罚系数,默认值是1</span></span><br><span class="line">                  kernel=<span class="string">'linear'</span>,               <span class="comment">#线性核 kenrel="rbf":高斯核</span></span><br><span class="line">                  decision_function_shape=<span class="string">'ovr'</span>) <span class="comment">#决策函数</span></span><br><span class="line">    <span class="keyword">return</span> clf</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 2.定义模型：SVM模型定义</span></span><br><span class="line">clf = classifier()</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#***********************训练模型*****************************</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train</span><span class="params">(clf,x_train,y_train)</span>:</span></span><br><span class="line">    clf.fit(x_train,         <span class="comment">#训练集特征向量</span></span><br><span class="line">            y_train.ravel()) <span class="comment">#训练集目标值</span></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#***********************训练模型*****************************</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train</span><span class="params">(clf,x_train,y_train)</span>:</span></span><br><span class="line">    clf.fit(x_train,         <span class="comment">#训练集特征向量</span></span><br><span class="line">            y_train.ravel()) <span class="comment">#训练集目标值</span></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 3.训练SVM模型</span></span><br><span class="line">train(clf,x_train,y_train)</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#**************并判断a b是否相等，计算acc的均值*************</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show_accuracy</span><span class="params">(a, b, tip)</span>:</span></span><br><span class="line">    acc = a.ravel() == b.ravel()</span><br><span class="line">    print(<span class="string">'%s Accuracy:%.3f'</span> %(tip, np.mean(acc)))</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_accuracy</span><span class="params">(clf,x_train,y_train,x_test,y_test)</span>:</span></span><br><span class="line">    <span class="comment">#分别打印训练集和测试集的准确率  score(x_train,y_train):表示输出x_train,y_train在模型上的准确率</span></span><br><span class="line">    print(<span class="string">'trianing prediction:%.3f'</span> %(clf.score(x_train, y_train)))</span><br><span class="line">    print(<span class="string">'test data prediction:%.3f'</span> %(clf.score(x_test, y_test)))</span><br><span class="line">    <span class="comment">#原始结果与预测结果进行对比   predict()表示对x_train样本进行预测，返回样本类别</span></span><br><span class="line">    show_accuracy(clf.predict(x_train), y_train, <span class="string">'traing data'</span>)</span><br><span class="line">    show_accuracy(clf.predict(x_test), y_test, <span class="string">'testing data'</span>)</span><br><span class="line">    <span class="comment">#计算决策函数的值，表示x到各分割平面的距离</span></span><br><span class="line">    print(<span class="string">'decision_function:\n'</span>, clf.decision_function(x_train))</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 4.模型评估</span></span><br><span class="line">print_accuracy(clf,x_train,y_train,x_test,y_test)</span><br></pre></td></tr></table></figure>
+
+<pre><code>trianing prediction:0.819
+test data prediction:0.778
+traing data Accuracy:0.819
+testing data Accuracy:0.778
+decision_function:
+ [[-0.30200388  1.26702365  2.28292526]
+ [ 2.1831931  -0.19913458  1.06956422]
+ [ 2.25424706  0.79489006 -0.20587224]
+ [ 2.22927055  0.98556708 -0.22777916]
+ [ 0.95815482  2.18401419 -0.17375192]
+ [ 2.23120771  0.84075865 -0.19144453]
+ [ 2.17327158 -0.14884286  0.92795057]
+ [-0.28667175  1.11372202  2.28302495]
+ [-0.27989264  1.21274017  2.25881762]
+ [-0.29313813  1.24442795  2.2732035 ]
+ [-0.27008816  1.2272086   2.22682127]
+ [-0.25981661  2.21998499  1.20479842]
+ [-0.17071168  0.99542159  2.17180911]
+ [-0.30018876  1.25829325  2.2829419 ]
+ [-0.17539342  2.15368837  1.06772814]
+ [ 2.25702986  0.81715893 -0.22763295]
+ [-0.23988847  2.23286001  1.06656755]
+ [-0.26915223  2.23333222  1.21679709]
+ [ 2.22927055  0.98556708 -0.22777916]
+ [ 2.2530903   0.85932358 -0.2359772 ]
+ [-0.26740532  1.20784059  2.23528903]
+ [ 2.26803658  0.80468578 -0.24299359]
+ [-0.24030826  1.18556963  2.19011259]
+ [-0.25881807  1.17240759  2.23535197]
+ [-0.27273902  1.20332527  2.24866913]
+ [-0.20956348  2.19674141  1.06726512]
+ [-0.26556065  1.16490628  2.24871607]
+ [-0.22965507  1.17870942  2.17146651]
+ [ 2.25807657 -0.22526231  0.80881977]
+ [-0.27322701  2.25917947  1.17077691]
+ [-0.26638767  1.21631409  2.22685842]
+ [-0.26740532  1.20784059  2.23528903]
+ [-0.12135744  2.22922779  0.79343961]
+ [-0.2365929   1.12219635  2.21706342]
+ [-0.21558048  2.22640865  0.92573306]
+ [ 2.22344499 -0.19955645  0.88288227]
+ [ 2.22671228  0.93600592 -0.21794279]
+ [ 2.26578978 -0.24701281  0.82742467]
+ [-0.26556065  1.16490628  2.24871607]
+ [ 2.26204658  0.89725133 -0.25453765]
+ [-0.2518152   2.22343258  1.17120859]
+ [-0.27340098  1.23624732  2.22678409]
+ [-0.21624631  2.17118121  1.14723861]
+ [ 2.22874494 -0.17513313  0.8269183 ]
+ [ 2.2211989   0.87213971 -0.19151045]
+ [-0.23391072  2.21566697  1.11400955]
+ [ 2.22671228  0.93600592 -0.21794279]
+ [-0.29609931  1.25285329  2.27596663]
+ [-0.25476857  1.20746943  2.20485252]
+ [-0.29672783  1.24461331  2.28083131]
+ [-0.27578664  1.21663499  2.24864564]
+ [-0.28091389  2.25930846  1.21661886]
+ [-0.21369288  1.05233452  2.20512234]
+ [-0.27669555  1.12529292  2.27023906]
+ [-0.16942442  2.17056098  0.99533295]
+ [ 2.24933086 -0.25468768  1.0709247 ]
+ [-0.23391072  2.21566697  1.11400955]
+ [ 2.18638944  1.20994285 -0.24936796]
+ [-0.22656825  2.23557826  0.92551338]
+ [-0.27989264  1.21274017  2.25881762]
+ [ 2.24156015  0.83211053 -0.20597859]
+ [-0.28390119  1.23920595  2.25400509]
+ [ 2.24837463  0.81114157 -0.20592544]
+ [ 2.25702986  0.81715893 -0.22763295]
+ [-0.22765797  1.07419821  2.21710769]
+ [-0.18996302  2.19089984  0.99497945]
+ [-0.27357394  1.19278157  2.25408746]
+ [ 2.23355717  0.86019975 -0.2060317 ]
+ [ 2.25277813 -0.21394322  0.80875361]
+ [-0.18611572  1.10670475  2.14746524]
+ [ 2.25454797  0.88341904 -0.24307373]
+ [-0.23391072  2.21566697  1.11400955]
+ [ 2.23794605  0.91585392 -0.22774264]
+ [-0.26740532  1.20784059  2.23528903]
+ [ 2.0914977   1.20089769 -0.21820392]
+ [ 2.25962348  0.84878847 -0.24304703]
+ [-0.25213485  1.16423702  2.22696973]
+ [ 2.26725005  0.88232062 -0.25923379]
+ [-0.14201734  2.14344591  0.99568721]
+ [ 2.25731     0.95572321 -0.25455798]
+ [-0.22656825  2.23557826  0.92551338]
+ [-0.19708433  2.25161696  0.79328185]
+ [ 2.23957622  0.81769302 -0.19137855]
+ [ 2.21575566  1.0173258  -0.21798639]
+ [ 1.02668315  2.21468275 -0.21824732]
+ [ 2.27472592  0.77777882 -0.24294008]
+ [-0.21624631  2.17118121  1.14723861]
+ [-0.24730284  1.20252603  2.19004536]
+ [ 2.24156015  0.83211053 -0.20597859]
+ [-0.27273902  1.20332527  2.24866913]
+ [-0.19455078  2.17814555  1.06749683]
+ [-0.28027257  2.2623408   1.20447285]
+ [-0.28054312  1.20372124  2.26304729]
+ [-0.23391072  2.21566697  1.11400955]
+ [ 2.17896853 -0.12686338  0.8824238 ]
+ [ 2.19820639  1.04471124 -0.20619077]
+ [-0.26313706  2.23602532  1.18984329]
+ [-0.25331913  2.21599142  1.18997806]
+ [-0.28966527  1.23403227  2.27016072]
+ [-0.23157808  2.22314802  1.06680048]
+ [-0.26533811  1.22371567  2.21684157]
+ [-0.25751543  1.18608093  2.22693265]
+ [-0.27562627  2.24825903  1.21670804]
+ [-0.27273902  1.20332527  2.24866913]
+ [ 2.22671228  0.93600592 -0.21794279]]</code></pre><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">draw</span><span class="params">(clf, x)</span>:</span></span><br><span class="line">    iris_feature = <span class="string">'sepal length'</span>, <span class="string">'sepal width'</span>, <span class="string">'petal lenght'</span>, <span class="string">'petal width'</span></span><br><span class="line">    <span class="comment"># 开始画图</span></span><br><span class="line">    x1_min, x1_max = x[:, <span class="number">0</span>].min(), x[:, <span class="number">0</span>].max()               <span class="comment">#第0列的范围</span></span><br><span class="line">    x2_min, x2_max = x[:, <span class="number">1</span>].min(), x[:, <span class="number">1</span>].max()               <span class="comment">#第1列的范围</span></span><br><span class="line">    x1, x2 = np.mgrid[x1_min:x1_max:<span class="number">200j</span>, x2_min:x2_max:<span class="number">200j</span>]   <span class="comment">#生成网格采样点</span></span><br><span class="line">    grid_test = np.stack((x1.flat, x2.flat), axis=<span class="number">1</span>)            <span class="comment">#stack():沿着新的轴加入一系列数组</span></span><br><span class="line">    print(<span class="string">'grid_test:\n'</span>, grid_test)</span><br><span class="line">    <span class="comment"># 输出样本到决策面的距离</span></span><br><span class="line">    z = clf.decision_function(grid_test)</span><br><span class="line">    print(<span class="string">'the distance to decision plane:\n'</span>, z)</span><br><span class="line">    </span><br><span class="line">    grid_hat = clf.predict(grid_test)                           <span class="comment"># 预测分类值 得到【0,0.。。。2,2,2】</span></span><br><span class="line">    print(<span class="string">'grid_hat:\n'</span>, grid_hat)  </span><br><span class="line">    grid_hat = grid_hat.reshape(x1.shape)                       <span class="comment"># reshape grid_hat和x1形状一致</span></span><br><span class="line">                                                                <span class="comment">#若3*3矩阵e，则e.shape()为3*3,表示3行3列   </span></span><br><span class="line"> </span><br><span class="line">    cm_light = mpl.colors.ListedColormap([<span class="string">'#A0FFA0'</span>, <span class="string">'#FFA0A0'</span>, <span class="string">'#A0A0FF'</span>])</span><br><span class="line">    cm_dark = mpl.colors.ListedColormap([<span class="string">'g'</span>, <span class="string">'b'</span>, <span class="string">'r'</span>])</span><br><span class="line"> </span><br><span class="line">    plt.pcolormesh(x1, x2, grid_hat, cmap=cm_light)                                   <span class="comment"># pcolormesh(x,y,z,cmap)这里参数代入</span></span><br><span class="line">                                                                                      <span class="comment"># x1，x2，grid_hat，cmap=cm_light绘制的是背景。</span></span><br><span class="line">    plt.scatter(x[:, <span class="number">0</span>], x[:, <span class="number">1</span>], c=np.squeeze(y), edgecolor=<span class="string">'k'</span>, s=<span class="number">50</span>, cmap=cm_dark) <span class="comment"># 样本点</span></span><br><span class="line">    plt.scatter(x_test[:, <span class="number">0</span>], x_test[:, <span class="number">1</span>], s=<span class="number">120</span>, facecolor=<span class="string">'none'</span>, zorder=<span class="number">10</span>)       <span class="comment"># 测试点</span></span><br><span class="line">    plt.xlabel(iris_feature[<span class="number">0</span>], fontsize=<span class="number">20</span>)</span><br><span class="line">    plt.ylabel(iris_feature[<span class="number">1</span>], fontsize=<span class="number">20</span>)</span><br><span class="line">    plt.xlim(x1_min, x1_max)</span><br><span class="line">    plt.ylim(x2_min, x2_max)</span><br><span class="line">    plt.title(<span class="string">'svm in iris data classification'</span>, fontsize=<span class="number">30</span>)</span><br><span class="line">    plt.grid()</span><br><span class="line">    plt.show()</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 5.模型使用</span></span><br><span class="line">draw(clf,x)</span><br></pre></td></tr></table></figure>
+
+<pre><code>grid_test:
+ [[4.3       2.       ]
+ [4.3       2.0120603]
+ [4.3       2.0241206]
+ ...
+ [7.9       4.3758794]
+ [7.9       4.3879397]
+ [7.9       4.4      ]]
+the distance to decision plane:
+ [[ 2.17689921  1.23467171 -0.25941323]
+ [ 2.17943684  1.23363096 -0.25941107]
+ [ 2.18189345  1.23256802 -0.25940892]
+ ...
+ [-0.27958977  0.83621535  2.28683228]
+ [-0.27928358  0.8332275   2.28683314]
+ [-0.27897389  0.83034313  2.28683399]]
+grid_hat:
+ [0. 0. 0. ... 2. 2. 2.]
+
+
+/Users/taoxuefeng/opt/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:21: MatplotlibDeprecationWarning: shading=&apos;flat&apos; when X and Y have the same dimensions as C is deprecated since 3.3.  Either specify the corners of the quadrilaterals with X and Y, or pass shading=&apos;auto&apos;, &apos;nearest&apos; or &apos;gouraud&apos;, or set rcParams[&apos;pcolor.shading&apos;].  This will become an error two minor releases later.</code></pre><p><img src="https://i.loli.net/2020/07/24/tRZPjJlhgFT5YAV.png" alt="output_13_2.png"></p>
+]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>鸢尾花分类</tag>
+        <tag>机器学习</tag>
+        <tag>Notebook</tag>
+      </tags>
+  </entry>
 </search>

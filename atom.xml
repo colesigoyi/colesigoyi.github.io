@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-07-24T10:26:06.816Z</updated>
+  <updated>2020-07-24T10:35:32.014Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>机器学习项目01-鸢尾花分类</title>
+    <link href="http://yoursite.com/2020/07/24/ML_flower/"/>
+    <id>http://yoursite.com/2020/07/24/ML_flower/</id>
+    <published>2020-07-24T10:32:57.000Z</published>
+    <updated>2020-07-24T10:35:32.014Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;机器学习项目之鸢尾花分类:&lt;/p&gt;
+&lt;h3 id=&quot;任务描述&quot;&gt;&lt;a href=&quot;#任务描述&quot; class=&quot;headerlink&quot; title=&quot;任务描述:&quot;&gt;&lt;/a&gt;任务描述:&lt;/h3&gt;&lt;p&gt;构建一个模型，根据鸢尾花的花萼和花瓣大小将其分为三种不同的品种。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://ai-studio-static-online.cdn.bcebos.com/dd74666475b549fcae99ac2aff67488f015cdd76569d4d208909983bcf40fe3c&quot; alt=&quot;img&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="机器学习" scheme="http://yoursite.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="鸢尾花分类" scheme="http://yoursite.com/tags/%E9%B8%A2%E5%B0%BE%E8%8A%B1%E5%88%86%E7%B1%BB/"/>
+    
+      <category term="机器学习" scheme="http://yoursite.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+      <category term="Notebook" scheme="http://yoursite.com/tags/Notebook/"/>
+    
+  </entry>
   
   <entry>
     <title>同比与环比</title>
@@ -250,7 +277,7 @@
     <link href="http://yoursite.com/2020/06/26/hive2%E6%9C%8D%E5%8A%A1/"/>
     <id>http://yoursite.com/2020/06/26/hive2%E6%9C%8D%E5%8A%A1/</id>
     <published>2020-06-26T04:12:57.000Z</published>
-    <updated>2020-07-21T14:06:11.852Z</updated>
+    <updated>2020-07-24T10:31:25.790Z</updated>
     
     <summary type="html">
     
