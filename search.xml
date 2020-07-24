@@ -342,11 +342,48 @@
       </tags>
   </entry>
   <entry>
+    <title>hive on spark与spark on hive的区别</title>
+    <url>/2020/07/23/Hive-on-Spark%E4%B8%8ESparkSql%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
+    <content><![CDATA[<h3 id="SparkSQL简介"><a href="#SparkSQL简介" class="headerlink" title="SparkSQL简介"></a>SparkSQL简介</h3><p>SparkSQL的前身是Shark，给熟悉RDBMS但又不理解MapReduce的技术人员提供快速上手的工具，hive应运而生，它是当时唯一运行在Hadoop上的SQL-on-hadoop工具。但是MapReduce计算过程中大量的中间磁盘落地过程消耗了大量的I/O，降低的运行效率，为了提高SQL-on-Hadoop的效率，Shark应运而生，但又因为Shark对于Hive的太多依赖（如采用Hive的语法解析器、查询优化器等等),2014年spark团队停止对Shark的开发，将所有资源放SparkSQL项目上</p>
+<a id="more"></a>
+
+<h3 id="SparkSQL、Hive-on-Spark的关系"><a href="#SparkSQL、Hive-on-Spark的关系" class="headerlink" title="SparkSQL、Hive on Spark的关系"></a><strong>SparkSQL、Hive on Spark的关系</strong></h3><p><img src="/2020/07/23/Hive-on-Spark%E4%B8%8ESparkSql%E7%9A%84%E5%8C%BA%E5%88%AB/UPVGS1qbLynB639.png" alt="UPVGS1qbLynB639"></p>
+<p>由上图可以看出，SparkSQL之所以要从Shark中孵化出来，初衷就是为了剥离Shark对于Hive的太多依赖。SparkSQL作为Spark生态中独立的一员继续发展，不在受限于Hive，只是兼容Hive；而Hive on  Spark是Hive的发展计划，该计划将Spark作为Hive最底层的引擎之一，Hive不在受限于一个引擎（之前只支持map-reduce），可以采用map-reduce、Tez、Spark等计算引擎。</p>
+<p>hive on  Spark是有Cloudera发起，有Intel、MapR等公司共同参与的开源项目，其目的就是将Spark作为Hive的一个计算引擎，将Hive的查询作为Spark的任务提交到Spark集群上面进行计算。通过该项目，可以提高Hive查询的性能，同事为已经部署了Hive或者Spark的用户提供了更加灵活地选择，从而进一步提高Hive和Spark的普及率。</p>
+<p>hive on Spark和SparkSQL的结构类似，只是SQL引擎不同，但是计算引擎都是spark</p>
+<p>sparkSQL通过sqlcontext来进行使用，hive on  spark通过hivecontext来使用。sqlcontext和hivecontext都是来自于同一个包，从这个层面上理解，其实hive on spark和sparkSQL并没有太大差别。</p>
+<p>结构上来看，Hive on Spark和SparkSQL都是一个翻译曾，将SQL翻译成分布是可以执行的Spark程序。</p>
+<p>SQLContext：spark处理结构化数据的入口，允许创建DataFrame以及sql查询。</p>
+<p>HiveContext：Spark sql执行引擎，集成hive数据，读取在classpath的hive-site.xml配置文件配置hive。所以ye</p>
+<h3 id="SparkSQL组件和运行架构"><a href="#SparkSQL组件和运行架构" class="headerlink" title="SparkSQL组件和运行架构"></a><strong>SparkSQL组件和运行架构</strong></h3><p>1-SQLContext：Spark SQL提供SQLContext封装Spark中的所有关系型功能。可以用之前的示例中的现有SparkContext创建SQLContext。<br>2-DataFrame：DataFrame是一个分布式的，按照命名列的形式组织的数据集合。DataFrame基于R语言中的data frame概念，与关系型数据库中的数据库表类似。通过调用将DataFrame的内容作为行RDD（RDD of  Rows）返回的rdd方法，可以将DataFrame转换成RDD。可以通过如下数据源创建DataFrame：已有的RDD、结构化数据文件、JSON数据集、Hive表、外部数据库。<br>了私语关系型数据库，SparkSQL中的SQL语句也是由Projection、Data source、Filter但部分组成，分别对应于sql查询过程中的Result、Data  source和Operation；SQL语句是按照Operation-》Data Source -》Result的次序来描述的。如下所示：</p>
+<p><img src="/2020/07/23/Hive-on-Spark%E4%B8%8ESparkSql%E7%9A%84%E5%8C%BA%E5%88%AB/XQZNzEvBbMxS6r1.png" alt="XQZNzEvBbMxS6r1"></p>
+<p>下面对上图中展示的SparkSQL语句的执行顺序进行详细解释：</p>
+<p>1-对读入的SQL语句进行解析（Parse），分辨出SQL语句中哪些词是关键词（如SELECT、FROM、WHERE），哪些是表达式、哪些是Projection、哪些是Data Source等，从而判断SQL语句是否规范；<br>Projection：简单说就是select选择的列的集合，参考：SQL Projection<br>2-将SQL语句和数据库的数据字典（列、表、视图等等）进行绑定（Bind），如果相关的Projection、Data Source等都是存在的话，就表示这个SQL语句是可以执行的；<br>3-一般的数据库会提供几个执行计划，这些计划一般都有运行统计数据，数据库会在这些计划中选择一个最优计划（Optimize）；<br>4-计划执行（Execute），按Operation–&gt;Data Source–&gt;Result的次序来进行的，在执行过程有时候甚至不需要读取物理表就可以返回结果，比如重新运行刚运行过的SQL语句，可能直接从数据库的缓冲池中获取返回结果。</p>
+<h3 id="SQLContext和HiveContext"><a href="#SQLContext和HiveContext" class="headerlink" title="SQLContext和HiveContext"></a><strong>SQLContext和HiveContext</strong></h3><p>当使用SparkSQL时，根据是否要使用Hive，有两个不同的入口。推荐使用入口HiveContext，HiveContext继承自SQLContext。它可以提供HiveQL以及其他依赖于Hive的功能的支持。更为基础的SQLContext则仅仅支持SparlSQL功能的一个子集，子集中去掉了需要依赖Hive的功能。这种分离主要视为那些可能会因为引入Hive的全部依赖而陷入依赖冲突的用户而设计的。因为使用HiveContext的时候不需要事先部署好Hive。如果要把一个Spark  SQL链接到部署好的Hive上面，必须将hive-site.xml复制到Spark的配置文件目录中（$SPARK_HOME/conf）。即使没有部署好Hive，SparkSQL也可以运行，如果没有部署好Hive，但是还要使用HiveContext的话，那么SparkSQL将会在当前的工作目录中创建出自己的Hive元数据仓库，叫做metastore_db。，如果使用HiveQL中的CREATETABLE语句来创建表，那么这些表将会被放在默认的文件系统中的/user/hive/warehouse目录中，这里默认的文件系统视情况而定，如果配置了hdfs-site.xml那么就会存放在HDFS上面，否则就存放在本地文件系统中。</p>
+<p>运行HiveContext的时候hive环境并不是必须，但是需要hive-site.xml配置文件。</p>
+<hr>
+<h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p>hive on spark大体与SparkSQL结构类似，只是SQL引擎不同，但是计算引擎都是spark！</p>
+<p>在pyspark中使用Hive on Spark是中怎么样的体验</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">#初始化Spark SQL</span></span><br><span class="line"><span class="comment">#导入Spark SQL</span></span><br><span class="line">from pyspark.sql import HiveContext,Row</span><br><span class="line"><span class="comment"># 当不能引入Hive依赖时</span></span><br><span class="line"><span class="comment"># from pyspark.sql import SQLContext,Row</span></span><br><span class="line"><span class="comment"># 注意，上面那一点才是关键的，他两来自于同一个包，你们区别能有多大</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">hiveCtx = HiveContext(sc)   <span class="comment">#创建SQL上下文环境</span></span><br><span class="line">input = hiveCtx.jsonFile(inputFile)   <span class="comment">#基本查询示例</span></span><br><span class="line">input.registerTempTable("tweets")   <span class="comment">#注册输入的SchemaRDD（SchemaRDD在Spark 1.3版本后已经改为DataFrame）</span></span><br><span class="line"><span class="comment">#依据retweetCount(转发计数)选出推文</span></span><br><span class="line">topTweets = hiveCtx.sql("<span class="keyword">SELECT</span> <span class="built_in">text</span>,retweetCount <span class="keyword">FROM</span> tweets <span class="keyword">ORDER</span> <span class="keyword">BY</span> retweetCount <span class="keyword">LIMIT</span> <span class="number">10</span><span class="string">")</span></span><br></pre></td></tr></table></figure>
+
+<p>我们可以看到，sqlcontext和hivecontext都是出自于pyspark.sql包，可以从这里理解的话，其实hive on spark和sparksql并没有太大差别</p>
+<p>结构上Hive On Spark和SparkSQL都是一个翻译层，把一个SQL翻译成分布式可执行的Spark程序。而且大家的引擎都是spark</p>
+<p>SparkSQL和Hive On  Spark都是在Spark上实现SQL的解决方案。Spark早先有Shark项目用来实现SQL层，不过后来推翻重做了，就变成了SparkSQL。这是Spark官方Databricks的项目，Spark项目本身主推的SQL实现。Hive On Spark比SparkSQL稍晚。Hive原本是没有很好支持MapReduce之外的引擎的，而Hive On  Tez项目让Hive得以支持和Spark近似的Planning结构（非MapReduce的DAG）。所以在此基础上，Cloudera主导启动了Hive On Spark。这个项目得到了IBM，Intel和MapR的支持（但是没有Databricks）。—From <a href="http://blog.csdn.net/yeruby/article/details/51448188" target="_blank" rel="noopener">SparkSQL与Hive on Spark的比较</a></p>
+]]></content>
+      <categories>
+        <category>Hive</category>
+      </categories>
+      <tags>
+        <tag>hive on spark</tag>
+        <tag>spark on hive</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>机器学习项目01-鸢尾花分类</title>
-    <url>/2020/07/24/ML_flower/</url>
+    <url>/2020/07/24/ML-flower/</url>
     <content><![CDATA[<p>机器学习项目之鸢尾花分类:</p>
 <h3 id="任务描述"><a href="#任务描述" class="headerlink" title="任务描述:"></a>任务描述:</h3><p>构建一个模型，根据鸢尾花的花萼和花瓣大小将其分为三种不同的品种。</p>
-<p><img src="https://ai-studio-static-online.cdn.bcebos.com/dd74666475b549fcae99ac2aff67488f015cdd76569d4d208909983bcf40fe3c" alt="img"></p>
+<p><img src="/2020/07/24/ML-flower/dd74666475b549fcae99ac2aff67488f015cdd76569d4d208909983bcf40fe3c.png" alt="dd74666475b549fcae99ac2aff67488f015cdd76569d4d208909983bcf40fe3c"></p>
 <a id="more"></a>
 
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np                </span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> colors     </span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> svm            </span><br><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> SVC</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> model_selection</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> matplotlib <span class="keyword">as</span> mpl</span><br></pre></td></tr></table></figure>
@@ -518,7 +555,7 @@ grid_hat:
  [0. 0. 0. ... 2. 2. 2.]
 
 
-/Users/taoxuefeng/opt/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:21: MatplotlibDeprecationWarning: shading=&apos;flat&apos; when X and Y have the same dimensions as C is deprecated since 3.3.  Either specify the corners of the quadrilaterals with X and Y, or pass shading=&apos;auto&apos;, &apos;nearest&apos; or &apos;gouraud&apos;, or set rcParams[&apos;pcolor.shading&apos;].  This will become an error two minor releases later.</code></pre><p><img src="https://i.loli.net/2020/07/24/tRZPjJlhgFT5YAV.png" alt="output_13_2.png"></p>
+/Users/taoxuefeng/opt/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:21: MatplotlibDeprecationWarning: shading=&apos;flat&apos; when X and Y have the same dimensions as C is deprecated since 3.3.  Either specify the corners of the quadrilaterals with X and Y, or pass shading=&apos;auto&apos;, &apos;nearest&apos; or &apos;gouraud&apos;, or set rcParams[&apos;pcolor.shading&apos;].  This will become an error two minor releases later.</code></pre><p><img src="/2020/07/24/ML-flower/tRZPjJlhgFT5YAV.png" alt="tRZPjJlhgFT5YAV"></p>
 ]]></content>
       <categories>
         <category>机器学习</category>
@@ -527,43 +564,6 @@ grid_hat:
         <tag>鸢尾花分类</tag>
         <tag>机器学习</tag>
         <tag>Notebook</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hive on spark与spark on hive的区别</title>
-    <url>/2020/07/23/Hive-on-Spark%E4%B8%8ESparkSql%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
-    <content><![CDATA[<h3 id="SparkSQL简介"><a href="#SparkSQL简介" class="headerlink" title="SparkSQL简介"></a>SparkSQL简介</h3><p>SparkSQL的前身是Shark，给熟悉RDBMS但又不理解MapReduce的技术人员提供快速上手的工具，hive应运而生，它是当时唯一运行在Hadoop上的SQL-on-hadoop工具。但是MapReduce计算过程中大量的中间磁盘落地过程消耗了大量的I/O，降低的运行效率，为了提高SQL-on-Hadoop的效率，Shark应运而生，但又因为Shark对于Hive的太多依赖（如采用Hive的语法解析器、查询优化器等等),2014年spark团队停止对Shark的开发，将所有资源放SparkSQL项目上</p>
-<a id="more"></a>
-
-<h3 id="SparkSQL、Hive-on-Spark的关系"><a href="#SparkSQL、Hive-on-Spark的关系" class="headerlink" title="SparkSQL、Hive on Spark的关系"></a><strong>SparkSQL、Hive on Spark的关系</strong></h3><p><img src="/2020/07/23/Hive-on-Spark%E4%B8%8ESparkSql%E7%9A%84%E5%8C%BA%E5%88%AB/UPVGS1qbLynB639.png" alt="UPVGS1qbLynB639"></p>
-<p>由上图可以看出，SparkSQL之所以要从Shark中孵化出来，初衷就是为了剥离Shark对于Hive的太多依赖。SparkSQL作为Spark生态中独立的一员继续发展，不在受限于Hive，只是兼容Hive；而Hive on  Spark是Hive的发展计划，该计划将Spark作为Hive最底层的引擎之一，Hive不在受限于一个引擎（之前只支持map-reduce），可以采用map-reduce、Tez、Spark等计算引擎。</p>
-<p>hive on  Spark是有Cloudera发起，有Intel、MapR等公司共同参与的开源项目，其目的就是将Spark作为Hive的一个计算引擎，将Hive的查询作为Spark的任务提交到Spark集群上面进行计算。通过该项目，可以提高Hive查询的性能，同事为已经部署了Hive或者Spark的用户提供了更加灵活地选择，从而进一步提高Hive和Spark的普及率。</p>
-<p>hive on Spark和SparkSQL的结构类似，只是SQL引擎不同，但是计算引擎都是spark</p>
-<p>sparkSQL通过sqlcontext来进行使用，hive on  spark通过hivecontext来使用。sqlcontext和hivecontext都是来自于同一个包，从这个层面上理解，其实hive on spark和sparkSQL并没有太大差别。</p>
-<p>结构上来看，Hive on Spark和SparkSQL都是一个翻译曾，将SQL翻译成分布是可以执行的Spark程序。</p>
-<p>SQLContext：spark处理结构化数据的入口，允许创建DataFrame以及sql查询。</p>
-<p>HiveContext：Spark sql执行引擎，集成hive数据，读取在classpath的hive-site.xml配置文件配置hive。所以ye</p>
-<h3 id="SparkSQL组件和运行架构"><a href="#SparkSQL组件和运行架构" class="headerlink" title="SparkSQL组件和运行架构"></a><strong>SparkSQL组件和运行架构</strong></h3><p>1-SQLContext：Spark SQL提供SQLContext封装Spark中的所有关系型功能。可以用之前的示例中的现有SparkContext创建SQLContext。<br>2-DataFrame：DataFrame是一个分布式的，按照命名列的形式组织的数据集合。DataFrame基于R语言中的data frame概念，与关系型数据库中的数据库表类似。通过调用将DataFrame的内容作为行RDD（RDD of  Rows）返回的rdd方法，可以将DataFrame转换成RDD。可以通过如下数据源创建DataFrame：已有的RDD、结构化数据文件、JSON数据集、Hive表、外部数据库。<br>了私语关系型数据库，SparkSQL中的SQL语句也是由Projection、Data source、Filter但部分组成，分别对应于sql查询过程中的Result、Data  source和Operation；SQL语句是按照Operation-》Data Source -》Result的次序来描述的。如下所示：</p>
-<p><img src="/2020/07/23/Hive-on-Spark%E4%B8%8ESparkSql%E7%9A%84%E5%8C%BA%E5%88%AB/XQZNzEvBbMxS6r1.png" alt="XQZNzEvBbMxS6r1"></p>
-<p>下面对上图中展示的SparkSQL语句的执行顺序进行详细解释：</p>
-<p>1-对读入的SQL语句进行解析（Parse），分辨出SQL语句中哪些词是关键词（如SELECT、FROM、WHERE），哪些是表达式、哪些是Projection、哪些是Data Source等，从而判断SQL语句是否规范；<br>Projection：简单说就是select选择的列的集合，参考：SQL Projection<br>2-将SQL语句和数据库的数据字典（列、表、视图等等）进行绑定（Bind），如果相关的Projection、Data Source等都是存在的话，就表示这个SQL语句是可以执行的；<br>3-一般的数据库会提供几个执行计划，这些计划一般都有运行统计数据，数据库会在这些计划中选择一个最优计划（Optimize）；<br>4-计划执行（Execute），按Operation–&gt;Data Source–&gt;Result的次序来进行的，在执行过程有时候甚至不需要读取物理表就可以返回结果，比如重新运行刚运行过的SQL语句，可能直接从数据库的缓冲池中获取返回结果。</p>
-<h3 id="SQLContext和HiveContext"><a href="#SQLContext和HiveContext" class="headerlink" title="SQLContext和HiveContext"></a><strong>SQLContext和HiveContext</strong></h3><p>当使用SparkSQL时，根据是否要使用Hive，有两个不同的入口。推荐使用入口HiveContext，HiveContext继承自SQLContext。它可以提供HiveQL以及其他依赖于Hive的功能的支持。更为基础的SQLContext则仅仅支持SparlSQL功能的一个子集，子集中去掉了需要依赖Hive的功能。这种分离主要视为那些可能会因为引入Hive的全部依赖而陷入依赖冲突的用户而设计的。因为使用HiveContext的时候不需要事先部署好Hive。如果要把一个Spark  SQL链接到部署好的Hive上面，必须将hive-site.xml复制到Spark的配置文件目录中（$SPARK_HOME/conf）。即使没有部署好Hive，SparkSQL也可以运行，如果没有部署好Hive，但是还要使用HiveContext的话，那么SparkSQL将会在当前的工作目录中创建出自己的Hive元数据仓库，叫做metastore_db。，如果使用HiveQL中的CREATETABLE语句来创建表，那么这些表将会被放在默认的文件系统中的/user/hive/warehouse目录中，这里默认的文件系统视情况而定，如果配置了hdfs-site.xml那么就会存放在HDFS上面，否则就存放在本地文件系统中。</p>
-<p>运行HiveContext的时候hive环境并不是必须，但是需要hive-site.xml配置文件。</p>
-<hr>
-<h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p>hive on spark大体与SparkSQL结构类似，只是SQL引擎不同，但是计算引擎都是spark！</p>
-<p>在pyspark中使用Hive on Spark是中怎么样的体验</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">#初始化Spark SQL</span></span><br><span class="line"><span class="comment">#导入Spark SQL</span></span><br><span class="line">from pyspark.sql import HiveContext,Row</span><br><span class="line"><span class="comment"># 当不能引入Hive依赖时</span></span><br><span class="line"><span class="comment"># from pyspark.sql import SQLContext,Row</span></span><br><span class="line"><span class="comment"># 注意，上面那一点才是关键的，他两来自于同一个包，你们区别能有多大</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">hiveCtx = HiveContext(sc)   <span class="comment">#创建SQL上下文环境</span></span><br><span class="line">input = hiveCtx.jsonFile(inputFile)   <span class="comment">#基本查询示例</span></span><br><span class="line">input.registerTempTable("tweets")   <span class="comment">#注册输入的SchemaRDD（SchemaRDD在Spark 1.3版本后已经改为DataFrame）</span></span><br><span class="line"><span class="comment">#依据retweetCount(转发计数)选出推文</span></span><br><span class="line">topTweets = hiveCtx.sql("<span class="keyword">SELECT</span> <span class="built_in">text</span>,retweetCount <span class="keyword">FROM</span> tweets <span class="keyword">ORDER</span> <span class="keyword">BY</span> retweetCount <span class="keyword">LIMIT</span> <span class="number">10</span><span class="string">")</span></span><br></pre></td></tr></table></figure>
-
-<p>我们可以看到，sqlcontext和hivecontext都是出自于pyspark.sql包，可以从这里理解的话，其实hive on spark和sparksql并没有太大差别</p>
-<p>结构上Hive On Spark和SparkSQL都是一个翻译层，把一个SQL翻译成分布式可执行的Spark程序。而且大家的引擎都是spark</p>
-<p>SparkSQL和Hive On  Spark都是在Spark上实现SQL的解决方案。Spark早先有Shark项目用来实现SQL层，不过后来推翻重做了，就变成了SparkSQL。这是Spark官方Databricks的项目，Spark项目本身主推的SQL实现。Hive On Spark比SparkSQL稍晚。Hive原本是没有很好支持MapReduce之外的引擎的，而Hive On  Tez项目让Hive得以支持和Spark近似的Planning结构（非MapReduce的DAG）。所以在此基础上，Cloudera主导启动了Hive On Spark。这个项目得到了IBM，Intel和MapR的支持（但是没有Databricks）。—From <a href="http://blog.csdn.net/yeruby/article/details/51448188" target="_blank" rel="noopener">SparkSQL与Hive on Spark的比较</a></p>
-]]></content>
-      <categories>
-        <category>Hive</category>
-      </categories>
-      <tags>
-        <tag>hive on spark</tag>
-        <tag>spark on hive</tag>
       </tags>
   </entry>
 </search>
