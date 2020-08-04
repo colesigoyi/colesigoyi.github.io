@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-08-04T11:44:53.197Z</updated>
+  <updated>2020-08-04T11:45:19.506Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,17 +21,11 @@
     <link href="http://yoursite.com/2020/08/04/MapReduce%E5%B0%8F%E6%96%87%E4%BB%B6%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/"/>
     <id>http://yoursite.com/2020/08/04/MapReduce%E5%B0%8F%E6%96%87%E4%BB%B6%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/</id>
     <published>2020-08-04T11:42:41.000Z</published>
-    <updated>2020-08-04T11:44:53.197Z</updated>
+    <updated>2020-08-04T11:45:19.506Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;
-        
-      
+      &lt;p&gt;默认情况下，TextInputformat对任务的切片机智是按文件规划切片，不管文件多小，都会是一个单独的切片，都是交给一个maptask，如果有多个小文件，就会产生大量的maptask，处理效率底下。&lt;/p&gt;
     
     </summary>
     
