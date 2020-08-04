@@ -580,4 +580,25 @@ grid_hat:
         <tag>Notebook</tag>
       </tags>
   </entry>
+  <entry>
+    <title>MapReduce小文件优化问题</title>
+    <url>/2020/08/04/MapReduce%E5%B0%8F%E6%96%87%E4%BB%B6%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><p>默认情况下，TextInputformat对任务的切片机智是按文件规划切片，不管文件多小，都会是一个单独的切片，都是交给一个maptask，如果有多个小文件，就会产生大量的maptask，处理效率底下。</p>
+<p>解决办法：</p>
+<pre><code>1.从源头上解决，将文件合并后再上传到HDFS处理。
+2.如果小文件已经在HDFS中，可以先写一个MapReduce程序对小文件合并
+3.可以用另一种InputFormat：CombineInputFormat（它可以将多个文件划分到一个切片中），这样就可以交给一个maptask处理。</code></pre><p> 使用默认的InputFormat</p>
+<p><img src="/2020/08/04/MapReduce%E5%B0%8F%E6%96%87%E4%BB%B6%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x1b3l1bmZhbjY=,size_16,color_FFFFFF,t_70.png" alt="watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x1b3l1bmZhbjY=,size_16,color_FFFFFF,t_70"></p>
+<p> 使用CombineTextInputFormat</p>
+<pre><code>job.setInputFormatClass(CombineTextInputFormat.class);
+CombineTextInputFormat.setMaxInputSplitSize(job, 4194304);
+CombineTextInputFormat.setMinInputSplitSize(job, 2097152);</code></pre><p><img src="/2020/08/04/MapReduce%E5%B0%8F%E6%96%87%E4%BB%B6%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/2019080810591773.png" alt="2019080810591773"></p>
+]]></content>
+      <categories>
+        <category>MapReduce</category>
+      </categories>
+      <tags>
+        <tag>优化</tag>
+      </tags>
+  </entry>
 </search>
