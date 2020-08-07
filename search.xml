@@ -605,9 +605,11 @@ CombineTextInputFormat.setMinInputSplitSize(job, 2097152);</code></pre><p><img s
   </entry>
   <entry>
     <title>Hbase学习笔记-1</title>
-    <url>/2020/08/04/Hbase%E7%AC%94%E8%AE%B0-1/Hbase%E7%AC%94%E8%AE%B0-1/</url>
+    <url>/2020/08/04/Hbase%E7%AC%94%E8%AE%B0-1/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><h1 id="Hbase学习笔记-1"><a href="#Hbase学习笔记-1" class="headerlink" title="Hbase学习笔记-1"></a>Hbase学习笔记-1</h1><h2 id="一-Hadoop的局限性"><a href="#一-Hadoop的局限性" class="headerlink" title="一.Hadoop的局限性"></a>一.Hadoop的局限性</h2><p>Hbase是一个构建在Hadoop文件系统之上的面向列(列族)的数据库管理系统</p>
-<img src="/2020/08/04/Hbase%E7%AC%94%E8%AE%B0-1/Hbase%E7%AC%94%E8%AE%B0-1/image-20200804194929543.png" alt="image-20200804194929543" style="zoom:50%;">
+<img src="/2020/08/04/Hbase%E7%AC%94%E8%AE%B0-1/image-20200804194929543.png" alt="image-20200804194929543" style="zoom:50%;">
+
+<a id="more"></a>
 
 <p>Hadoop存在的限制:</p>
 <p>Hadoop可以通过HDFS来存储结构化,半结构化甚至非结构化的数据,是传统数据库的补充,是海量数据存储的最佳方法,针对大文件的存储,批量访问和流式访问都做了优化,同时也通过多副本解决容灾问题,使得数据更加安全.</p>
@@ -639,7 +641,7 @@ CombineTextInputFormat.setMinInputSplitSize(job, 2097152);</code></pre><p><img s
 <li>该表具有两个列族，分别是 personal 和 office;</li>
 <li>其中列族 personal 拥有 name、city、phone 三个列，列族 office 拥有 tel、addres 两个列。</li>
 </ul>
-<img src="/2020/08/04/Hbase%E7%AC%94%E8%AE%B0-1/Hbase%E7%AC%94%E8%AE%B0-1/image-20200807172505289.png" alt="image-20200807172505289" style="zoom:50%;">
+<img src="/2020/08/04/Hbase%E7%AC%94%E8%AE%B0-1/image-20200807172505289.png" alt="image-20200807172505289" style="zoom:50%;">
 
 <p>Hbase 的表具有以下特点：</p>
 <ul>
