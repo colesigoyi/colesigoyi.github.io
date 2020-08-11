@@ -157,7 +157,7 @@
 <li><font color="red">内存共享</font>：在海量数据的处理中，大部分的对象都是以字符串形式存在的，在<strong>不同线程间合理共享对象</strong>，可以大幅度降低字符拷贝带来的性能消耗；</li>
 <li><font color="red">在高吞吐与低延迟间寻求平衡</font>：高吞吐与低延迟天生就是一对矛盾体，将<strong>多个读写库的操作或者ACK操作合并</strong>时，可以有效降低数据吞吐，但也会增加延迟，可以进行业务上的取舍。</li>
 </ol>
-<h3 id="0xFF-总结"><a href="#0xFF-总结" class="headerlink" title="|0xFF 总结"></a>|0xFF 总结</h3><p>在整个实时数仓的建设中，业界已经有了常用的方案选型。整体架构设计<strong>通过分层设计为OLAP查询分担压力，让出计算空间，复杂的计算统一在实时计算层处理掉，避免给OLAP查询带来过大的压力</strong>。汇总计算交给OLAP数据库进行。因此，在整个架构中实时计算一般是<font color="red">Spark+Flink</font>配合，消息队列Kafka一家独大，在整个大数据领域消息队列的应用中仍然处于垄断地位，Hbase、Redis和MySQL都在特定场景下有一席之地。</p>
+<h3 id="0xFF-总结"><a href="#0xFF-总结" class="headerlink" title="|0xFF 总结"></a>|0xFF 总结</h3><p>在整个实时数仓的建设中，业界已经有了常用的方案选型。整体架构设计<strong>通过分层设计为OLAP查询分担压力，让出计算空间，复杂的计算统一在实时计算层处理掉，避免给OLAP查询带来过大的压力</strong>。汇总计算交给OLAP数据库进行。因此，在整个架构中实时计算一般是<font color="red">Spark+Flink</font>配合，<font color="red">消息队列Kafka</font>一家独大，在整个大数据领域消息队列的应用中仍然处于垄断地位，Hbase、Redis和MySQL都在特定场景下有一席之地。</p>
 <p>目前还<font color="red">没有一个</font>OLAP系统能够满足各种场景的查询需求。其本质原因是，<font color="red">没有一个系统能同时在数据量、性能、和灵活性三个方面做到完美</font>，每个系统在设计时都需要在这三者间做出取舍。</p>
 <p><strong>从长远看，Spark和Flink更有可能成为下一代的Hadoop，值得投入大量时间学习</strong>。</p>
  
