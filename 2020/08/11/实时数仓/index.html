@@ -88,7 +88,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">2.7k</span>
+            <span class="post-count">2.8k</span>
         </span>
     </span>
 
@@ -136,6 +136,34 @@
 <p><font color="red">ROLAP</font>：在大数据生态圈中，主流的应用于ROLAP场景的交互式计算引擎包括<strong>Impala和Presto</strong>。基于关系数据库OLAP实现（Relational OLAP），它以关系数据库为核心，以<strong>关系型结构</strong>进行多维数据的表示和存储。它将多维结构划分成两类表：一类是<strong>事实表</strong>，迎来存储数据和维度关键字；另一类是<strong>维度表</strong>，即对每个维度至少使用一个表来存放维度层次、成员类别等维度描述信息。ROLAP的最大好处是可以实时地从源数据中获得最新数据更新，以保持数据实时性，缺点在于运算效率比较低，用户等待时间比较长。</p>
 <p><font color="red">MOLAP</font>：MOLAP是一种通过<font color="red">预计算Cube方式</font>加速查询的OLAP引擎，它的核心思想是“<font color="red">空间换时间</font>”，典型的代表包括<strong>Druid和Kylin</strong>。基于多维数据组织的OLAP实现（Multidimensional OLAP），它以多维数据组织方式为核心，使用多维数组存储数据。多维数据在存储系统中形成“<strong>数据立方体（Cube）</strong>”结构，此结构是高度优化的，可以最大程度提高查询性能。MOLAP的优势在于借助数据多位预处理显著提高运算效率，主要缺陷在于占用存储空间大和数据更新有一定延迟。</p>
 <p><font color="red">HOLAP</font>：基于混合数据组织的OLAP实现（Hybrid OLAP），用户可以根据自己的业务需求，选择哪些模型采用ROLAP、哪些采用MOLAP。一般来说，<strong>将不常用或需要灵活定义的分析使用ROLAP，而常用、常规模型采用MOLAP实现</strong>。</p>
+<table>
+<thead>
+<tr>
+<th><strong>名称</strong></th>
+<th><strong>描述</strong></th>
+<th><strong>细节数据存储位置</strong></th>
+<th><strong>聚合后的数据存储位置</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ROLAP(Relational OLAP)</td>
+<td>基于关系数据库的OLAP实现</td>
+<td>关系型数据库</td>
+<td>关系型数据库</td>
+</tr>
+<tr>
+<td>MOLAP(Multidimensional OLAP)</td>
+<td>基于多维数据组织的OLAP实现</td>
+<td>数据立方体</td>
+<td>数据立方体</td>
+</tr>
+<tr>
+<td>HOLAP(Hybrid OLAP)</td>
+<td>基于混合数据组织的OLAP实现</td>
+<td>关系型数据库</td>
+<td>数据立方体</td>
+</tr>
+</tbody></table>
 <h3 id="0x05-实时数仓的分层模型"><a href="#0x05-实时数仓的分层模型" class="headerlink" title="|0x05 实时数仓的分层模型"></a>|0x05 实时数仓的分层模型</h3><p>实时数仓的分层思路<strong>沿用</strong>了离线的思想。</p>
 <ul>
 <li><font color="red">CDM层（明细数据层)</font>: CDM层根据业务场景的不同，分为<strong>各个主题域</strong>。</li>
