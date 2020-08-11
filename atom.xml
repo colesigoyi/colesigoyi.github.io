@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-08-11T04:00:56.091Z</updated>
+  <updated>2020-08-11T04:03:56.796Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,17 +21,13 @@
     <link href="http://yoursite.com/2020/08/11/%E5%AE%9E%E6%97%B6%E6%95%B0%E4%BB%93/"/>
     <id>http://yoursite.com/2020/08/11/%E5%AE%9E%E6%97%B6%E6%95%B0%E4%BB%93/</id>
     <published>2020-08-11T03:47:16.000Z</published>
-    <updated>2020-08-11T04:00:56.091Z</updated>
+    <updated>2020-08-11T04:03:56.796Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;
-        
-      
+      &lt;h3 id=&quot;0x00-数仓为什么要实时&quot;&gt;&lt;a href=&quot;#0x00-数仓为什么要实时&quot; class=&quot;headerlink&quot; title=&quot;|0x00 数仓为什么要实时&quot;&gt;&lt;/a&gt;|0x00 数仓为什么要实时&lt;/h3&gt;&lt;p&gt;去年开始，==实时数仓==的概念突然火了。也许是&lt;strong&gt;传统的离线数仓搞了很多年&lt;/strong&gt;，技术相对成熟了，因此大家都把注意力放到了&lt;strong&gt;挑战性更高&lt;/strong&gt;的实时上来；也许是随着&lt;strong&gt;存量市场竞争&lt;/strong&gt;的到来，对于速度的要求越来越快，&lt;strong&gt;T+1已经不能满足数据的获取要求了&lt;/strong&gt;，实时的构建需求也就应运而生了。 &lt;/p&gt;
+&lt;p&gt;==总之，时效性开始大于分析性==。&lt;/p&gt;
+&lt;p&gt;文本简单介绍实时数仓的一些基础理论，更系统性的理论，仍然行业需要更大范围的应用和总结。总之，这是一块&lt;strong&gt;有前景&lt;/strong&gt;的&lt;strong&gt;新领域&lt;/strong&gt;，值得探索。&lt;/p&gt;
     
     </summary>
     
