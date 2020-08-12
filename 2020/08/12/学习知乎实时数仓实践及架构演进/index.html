@@ -152,7 +152,7 @@
 <p><img src="/2020/08/12/%E5%AD%A6%E4%B9%A0%E7%9F%A5%E4%B9%8E%E5%AE%9E%E6%97%B6%E6%95%B0%E4%BB%93%E5%AE%9E%E8%B7%B5%E5%8F%8A%E6%9E%B6%E6%9E%84%E6%BC%94%E8%BF%9B/v2-e073c2397c34f614cc26fac279f2863a_1440w.jpg" alt="img"></p>
 <p>判断一个用户是不是新用户，最简单的办法就是维护一个历史用户池，对每条日志判断该用户是否存在于用户池中。 由于日志量巨大，为了不影响 Streaming 任务的处理速度，我们设计了两层缓存：Thread Local Cache 和 Redis Cache，同时用 HBase 做持久化存储以保存历史用户。访问速度：本地内存 &gt; 远端内存 &gt; 远端磁盘，对于我们这个任务来说，只有 1% 左右的请求会打到 HBase，日志高峰期 26w/s，完全不会影响任务的实时性。当然本地缓存 LruCache 的容量大小和 Redis 的性能也是影响实时性的两个因素。</p>
 <p>Streaming ETL 除了上述几个通用场景外，还有一些其他逻辑，这些逻辑的存在有的是为了满足下游更方便的使用数据的需求，有的是对某些错误埋点的修复，总之 Streaming ETL 在整个实时数仓中处于指标计算的上游，有着不可替代的作用。</p>
-<h3 id="Spark-Streaming-在实时数仓-1-0-中的稳定性实践"><a href="#Spark-Streaming-在实时数仓-1-0-中的稳定性实践" class="headerlink" title="Spark Streaming 在实时数仓 1.0 中的稳定性实践"></a>Spark Streaming 在实时数仓 1.0 中的稳定性实践</h3><ol>
+<h3 id="Spark-Streaming-稳定性实践"><a href="#Spark-Streaming-稳定性实践" class="headerlink" title="Spark Streaming 稳定性实践"></a>Spark Streaming 稳定性实践</h3><h4 id="在实时数仓-1-0-中的"><a href="#在实时数仓-1-0-中的" class="headerlink" title="在实时数仓 1.0 中的"></a>在实时数仓 1.0 中的</h4><ol>
 <li>Spark Streaming 消费 Kafka 数据推荐使用 Direct 模式。我们早期使用的是 High Level 或者叫 Receiver 模式并使用了 checkpoint 功能，这种方式在更新程序逻辑时需要删除 checkpoint 否则新的程序逻辑就无法生效。另外，由于使用了 checkpoint 功能，Streaming 任务会保持和 Hdfs 通信，可能会因为 NameNode 的抖动导致 Streaming 任务抖动。因此，推荐使用 Direct 模式，关于这种模式和 Receiver 模式的详细对比，可以参考官方文档。</li>
 <li>保证 Spark Streaming 任务的资源稳定。以 Yarn 为例，运行 Streaming 任务的队列能够分配到的最小资源小于了任务所需要的资源，任务会出现频繁丢失 Executor 的情况，这会导致 Streaming 任务变慢，因为丢失的 Executor 所对应的数据需要重新计算，同时还需要重新分配 Executor。</li>
 <li>Spark Streaming 消费 Kafka 时需要做数据流限速。默认情况下 Spark Streaming 以尽可能大的速度读取消息队列，当 Streaming 任务挂了很久之后再次被启动时，由于拉取的数据量过大可能会导致上游的 Kafka 集群 IO 被打爆进而出现 Kafka 集群长时间阻塞。可以使用 Streaming Conf 参数做限速，限定每秒拉取的最大速度。</li>
@@ -162,7 +162,7 @@
 <h3 id="Repair-ETL"><a href="#Repair-ETL" class="headerlink" title="Repair ETL"></a>Repair ETL</h3><p>数据架构图中有两个 Kafka，第一个 Kafka 存放的是原始日志，第二个 Kafka 存放的是实时 ETL 后的日志，我们将两个 Kafka 的数据全部落地，这样做的目的是为了保证数据链路的稳定性。因为实时 ETL 中有大量的业务逻辑，未知需求的逻辑也许会给整个流量数据带来安全隐患，而上游的 Log Collect Server 不存在任何业务逻辑只负责收发日志，相比之下第一个 Kafka 的数据要安全和稳定的多。Repair ETL 并不是经常启用，只有当实时 ETL 丢失数据或者出现逻辑错误时，才会启用该程序用于修复日志。</p>
 <h3 id="Batch-Load-2-HDFS"><a href="#Batch-Load-2-HDFS" class="headerlink" title="Batch Load 2 HDFS"></a>Batch Load 2 HDFS</h3><p>前面已经介绍过，我们所有的埋点共用同一套 Proto Buffer Schema，数据传输格式全部为二进制。我们自研了落地 Kafka PB 数据到 Hdfs 的 Map Reduce 任务 BatchLoader，该任务除了落地数据外，还负责对数据去重。在 Streaming ETL 阶段我们做到了 At-least-once，通过此处的BatchLoader 去重我们实现了全局 Exactly-once。BatchLoader 除了支持落地数据、对数据去重外，还支持多目录分区（p_date/p_hour/p_plaform/p_logtype）、数据回放、自依赖管理（早期没有统一的调度器）等。截止到目前，BatchLoader 落地了 40+ 的 Kakfa Topic 数据。</p>
 <h3 id="Batch-Load-2-Druid"><a href="#Batch-Load-2-Druid" class="headerlink" title="Batch Load 2 Druid"></a>Batch Load 2 Druid</h3><p>采用 Tranquility 实时导入 Druid，这种方式强制需要一个时间窗口，当上游数据延迟超过窗值后会丢弃窗口之外的数据，这种情况会导致实时报表出现指标错误。为了修复这种错误，我们通过 Druid 发起一个离线 Map Reduce 任务定期重导上一个时间段的数据。通过这里的 Batch 导入和前面的实时导入，实现了实时数仓的 Lambda 架构。</p>
-<h3 id="实时数仓-1-0-的几个不足之处"><a href="#实时数仓-1-0-的几个不足之处" class="headerlink" title="实时数仓 1.0 的几个不足之处"></a>实时数仓 1.0 的几个不足之处</h3><p>到目前为止我们已经介绍完 Lambda 架构实时数仓的几个模块，1.0 版本的实时数仓有以下几个不足</p>
+<h3 id="实时数仓-1-0-的不足之处"><a href="#实时数仓-1-0-的不足之处" class="headerlink" title="实时数仓 1.0 的不足之处"></a>实时数仓 1.0 的不足之处</h3><p>到目前为止我们已经介绍完 Lambda 架构实时数仓的几个模块，1.0 版本的实时数仓有以下几个不足</p>
 <ol>
 <li>所有的流量数据存放在同一个 Kafka Topic 中，如果下游每个业务线都要消费，这会导致全量数据被消费多次，Kafka 出流量太高无法满足该需求。</li>
 <li>所有的指标计算全部由 Druid 承担，Druid 同时兼顾实时数据源和离线数据源的查询，随着数据量的暴涨 Druid 稳定性急剧下降，这导致各个业务的核心报表不能稳定产出。</li>
@@ -177,7 +177,7 @@
 <p>Streaming Proxy 是流量分发模块，它消费上游 ETL 后的全量数据并定期读取埋点元信息，通过将流量数据与元信息数据进行「Join」完成按业务进行流量拆分的逻辑，同时也会对切分后的流量按业务做 ETL 处理。 只要埋点元信息中新增一个埋点，那么这个埋点对应的数据就会自动切分到该业务的 Kafka 中，最终业务 Kafka 中的数据是独属于当前业务的且已经被通用 ETL 和业务 ETL 处理过，这大大降低了各个业务使用数据的成本。</p>
 <h3 id="汇总层之指标汇总"><a href="#汇总层之指标汇总" class="headerlink" title="汇总层之指标汇总"></a>汇总层之指标汇总</h3><p>指标汇总层是由明细层或者明细汇总层通过聚合计算得到，这一层产出了绝大部分的实时数仓指标，这也是与实时数仓 1.0 最大的区别。知乎是一个生产内容的平台，对业务指标的汇总我们可以从内容角度和用户角度进行汇总，从内容角度我们可以实时统计内容（内容可以是答案、问题、文章、视频、想法）的被点赞数、被关注数、被收藏数等指标，从用户角度我可以实时统计用户的粉丝数、回答数、提问数等指标。对流量指标的汇总我们分为各业务指标汇总和全局指标汇总。对各业务指标汇总，我们可以实时统计首页、搜索、视频、想法等业务的卡片曝光数、卡片点击数、CTR 等，对全局指标汇总我们主要以实时会话为主，实时统计一个会话内的 PV 数、卡片曝光数、点击数、浏览深度、会话时长等指标。</p>
 <h3 id="指标汇总层的存储选型"><a href="#指标汇总层的存储选型" class="headerlink" title="指标汇总层的存储选型"></a>指标汇总层的存储选型</h3><p>不同于明细层和明细汇总层，指标汇总层需要将实时计算好的指标存储起来以供应用层使用。我们根据不同的场景选用了 HBase 和 Redis 作为实时指标的存储引擎。Redis 的场景主要是满足带 Update 操作且 OPS 较高的需求，例如：实时统计全站所有内容（问题、答案、文章等）的累计 PV 数，由于浏览内容产生大量的 PV 日志，可能高达几万或者几十万每秒，需要对每一条内容的 PV 进行实时累加，这种场景下选用 Redis 更为合适。HBase 的场景主要是满足高频 Append 操作、低频随机读取且指标列较多的需求，例如：每分钟统计一次所有内容的被点赞数、被关注数、被收藏数等指标，将每分钟聚合后的结果行 Append 到 HBase 并不会带来性能和存储量的问题，但这种情况下 Redis 在存储量上可能会出现瓶颈。</p>
-<h3 id="指标计算打通指标系统和可视化系统"><a href="#指标计算打通指标系统和可视化系统" class="headerlink" title="指标计算打通指标系统和可视化系统"></a>指标计算打通指标系统和可视化系统</h3><p>指标口径管理依赖指标系统，指标可视化依赖可视化系统，我们通过下图的需求开发过程来讲解如何将三者联系起来。</p>
+<h3 id="指标计算打通"><a href="#指标计算打通" class="headerlink" title="指标计算打通"></a>指标计算打通</h3><h4 id="指标系统和可视化系统"><a href="#指标系统和可视化系统" class="headerlink" title="指标系统和可视化系统"></a>指标系统和可视化系统</h4><p>指标口径管理依赖指标系统，指标可视化依赖可视化系统，我们通过下图的需求开发过程来讲解如何将三者联系起来。</p>
 <p><img src="/2020/08/12/%E5%AD%A6%E4%B9%A0%E7%9F%A5%E4%B9%8E%E5%AE%9E%E6%97%B6%E6%95%B0%E4%BB%93%E5%AE%9E%E8%B7%B5%E5%8F%8A%E6%9E%B6%E6%9E%84%E6%BC%94%E8%BF%9B/v2-6ea544ac5b0473365f142d15f0ea1948_1440w.jpg" alt="img"></p>
 <ol>
 <li><p>需求方整理好需求文档后向数仓工程师提出需求并约会议评审需求，需求文档中必须包含指标的计算口径和指标对应的维度。</p>
