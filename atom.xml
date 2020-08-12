@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-08-12T03:27:09.201Z</updated>
+  <updated>2020-08-12T03:29:14.864Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,11 +21,11 @@
     <link href="http://yoursite.com/2020/08/12/%E5%AD%A6%E4%B9%A0%E7%9F%A5%E4%B9%8E%E5%AE%9E%E6%97%B6%E6%95%B0%E4%BB%93%E5%AE%9E%E8%B7%B5%E5%8F%8A%E6%9E%B6%E6%9E%84%E6%BC%94%E8%BF%9B/"/>
     <id>http://yoursite.com/2020/08/12/%E5%AD%A6%E4%B9%A0%E7%9F%A5%E4%B9%8E%E5%AE%9E%E6%97%B6%E6%95%B0%E4%BB%93%E5%AE%9E%E8%B7%B5%E5%8F%8A%E6%9E%B6%E6%9E%84%E6%BC%94%E8%BF%9B/</id>
     <published>2020-08-12T02:49:20.000Z</published>
-    <updated>2020-08-12T03:27:09.201Z</updated>
+    <updated>2020-08-12T03:29:14.864Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;“数据智能” (Data Intelligence) 有一个必须且基础的环节，就是数据仓库的建设，同时，数据仓库也是公司数据发展到一定规模后必然会提供的一种基础服务。从智能商业的角度来讲，数据的结果代表了用户的反馈，获取结果的及时性就显得尤为重要，快速的获取数据反馈能够帮助公司更快的做出决策，更好的进行产品迭代，实时数仓在这一过程中起到了不可替代的作用。&lt;/p&gt;
+      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;“数据智能” (Data Intelligence) 有一个必须且基础的环节，就是数据仓库的建设，同时，数据仓库也是公司数据发展到一定规模后必然会提供的一种基础服务。从智能商业的角度来讲，数据的结果代表了用户的反馈，获取结果的及时性就显得尤为重要，快速的获取数据反馈能够帮助公司更快的做出决策，更好的进行产品迭代，实时数仓在这一过程中起到了不可替代的作用。&lt;/p&gt;
 &lt;p&gt;本文主要讲述知乎的实时数仓实践以及架构的演进，这包括以下几个方面&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;p&gt;实时数仓 1.0 版本，主题： ETL 逻辑实时化，技术方案：Spark Streaming。&lt;/p&gt;
