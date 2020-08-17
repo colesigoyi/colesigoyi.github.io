@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-08-12T03:29:14.864Z</updated>
+  <updated>2020-08-17T09:15:52.716Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,53 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>g</title>
+    <link href="http://yoursite.com/2020/08/17/g/"/>
+    <id>http://yoursite.com/2020/08/17/g/</id>
+    <published>2020-08-17T09:15:52.000Z</published>
+    <updated>2020-08-17T09:15:52.716Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>spark-streaming学习1</title>
+    <link href="http://yoursite.com/2020/08/17/spark-streaming%E5%AD%A6%E4%B9%A01/"/>
+    <id>http://yoursite.com/2020/08/17/spark-streaming%E5%AD%A6%E4%B9%A01/</id>
+    <published>2020-08-17T09:11:45.000Z</published>
+    <updated>2020-08-17T09:15:35.509Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;一、流处理&quot;&gt;&lt;a href=&quot;#一、流处理&quot; class=&quot;headerlink&quot; title=&quot;一、流处理&quot;&gt;&lt;/a&gt;一、流处理&lt;/h2&gt;&lt;h3 id=&quot;1-1-静态数据处理&quot;&gt;&lt;a href=&quot;#1-1-静态数据处理&quot; class=&quot;headerlink&quot; title=&quot;1.1 静态数据处理&quot;&gt;&lt;/a&gt;1.1 静态数据处理&lt;/h3&gt;&lt;p&gt;在流处理之前，数据通常存储在数据库，文件系统或其他形式的存储系统中。应用程序根据需要查询数据或计算数据。这就是传统的静态数据处理架构。Hadoop 采用 HDFS 进行数据存储，采用 MapReduce 进行数据查询或分析，这就是典型的静态数据处理架构。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/2020/08/17/spark-streaming%E5%AD%A6%E4%B9%A01/image-20200817171353524.png&quot; alt=&quot;image-20200817171353524&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="spark streaming" scheme="http://yoursite.com/categories/spark-streaming/"/>
+    
+    
+      <category term="流处理" scheme="http://yoursite.com/tags/%E6%B5%81%E5%A4%84%E7%90%86/"/>
+    
+      <category term="spark" scheme="http://yoursite.com/tags/spark/"/>
+    
+  </entry>
   
   <entry>
     <title>学习知乎实时数仓实践及架构演进</title>
