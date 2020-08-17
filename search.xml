@@ -864,11 +864,6 @@ CombineTextInputFormat.setMinInputSplitSize(job, 2097152);</code></pre><p><img s
       </tags>
   </entry>
   <entry>
-    <title>g</title>
-    <url>/2020/08/17/g/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script>]]></content>
-  </entry>
-  <entry>
     <title>spark-streaming学习1</title>
     <url>/2020/08/17/spark-streaming%E5%AD%A6%E4%B9%A01/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><h2 id="一、流处理"><a href="#一、流处理" class="headerlink" title="一、流处理"></a>一、流处理</h2><h3 id="1-1-静态数据处理"><a href="#1-1-静态数据处理" class="headerlink" title="1.1 静态数据处理"></a>1.1 静态数据处理</h3><p>在流处理之前，数据通常存储在数据库，文件系统或其他形式的存储系统中。应用程序根据需要查询数据或计算数据。这就是传统的静态数据处理架构。Hadoop 采用 HDFS 进行数据存储，采用 MapReduce 进行数据查询或分析，这就是典型的静态数据处理架构。</p>
