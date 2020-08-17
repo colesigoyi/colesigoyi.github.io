@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-08-17T09:15:35.509Z</updated>
+  <updated>2020-08-17T09:28:53.761Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Hbase学习2-系统架构与数据结构</title>
+    <link href="http://yoursite.com/2020/08/17/Hbase%E5%AD%A6%E4%B9%A0-2-%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    <id>http://yoursite.com/2020/08/17/Hbase%E5%AD%A6%E4%B9%A0-2-%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</id>
+    <published>2020-08-17T09:23:29.000Z</published>
+    <updated>2020-08-17T09:28:53.761Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;一、基本概念&quot;&gt;&lt;a href=&quot;#一、基本概念&quot; class=&quot;headerlink&quot; title=&quot;一、基本概念&quot;&gt;&lt;/a&gt;一、基本概念&lt;/h2&gt;&lt;p&gt;一个典型的 Hbase Table 表如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/2020/08/17/Hbase%E5%AD%A6%E4%B9%A0-2-%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/image-20200817172516439.png&quot; alt=&quot;image-20200817172516439&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Hbase" scheme="http://yoursite.com/categories/Hbase/"/>
+    
+    
+      <category term="Hbase" scheme="http://yoursite.com/tags/Hbase/"/>
+    
+      <category term="学习笔记" scheme="http://yoursite.com/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>spark-streaming学习1</title>
