@@ -1000,4 +1000,131 @@ CombineTextInputFormat.setMinInputSplitSize(job, 2097152);</code></pre><p><img s
         <tag>学习笔记</tag>
       </tags>
   </entry>
+  <entry>
+    <title>How to Install ClickHouse with RPM packages from Altinity&#39;s repo(s)</title>
+    <url>/2020/08/19/How-to-Install-ClickHouse-with-RPM-packages-from-Altinity-s-repo-s/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><h1 id="How-to-Install-ClickHouse-with-RPM-packages-from-Altinity’s-repo-s"><a href="#How-to-Install-ClickHouse-with-RPM-packages-from-Altinity’s-repo-s" class="headerlink" title="How to Install ClickHouse with RPM packages from Altinity’s repo(s)"></a>How to Install ClickHouse with RPM packages from Altinity’s repo(s)</h1><hr>
+<h2 id="What-is-this"><a href="#What-is-this" class="headerlink" title="What is this"></a>What is this</h2><p>This is a detailed explanation on how to install ready-to-use ClickHouse RPMs from Altinity’s repos (either <a href="https://packagecloud.io/Altinity/clickhouse" target="_blank" rel="noopener">general repo</a> or <a href="https://packagecloud.io/Altinity/clickhouse-altinity-stable" target="_blank" rel="noopener">stable repo</a>) located on <a href="https://packagecloud.io/Altinity" target="_blank" rel="noopener">packagecloud.io</a>. This is <strong>not</strong> an instructions on how to build your own hand-made RPMs. However, if you need to build your own RPMs, there is a <a href="https://github.com/Altinity/clickhouse-rpm" target="_blank" rel="noopener">detailed explanation</a> on how to build ClickHouse RPMs from sources with the help of Altinity’s <a href="https://github.com/Altinity/clickhouse-rpm" target="_blank" rel="noopener">RPM builder</a></p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><h3 id="general-and-stable-repos"><a href="#general-and-stable-repos" class="headerlink" title="general and stable repos"></a><code>general</code> and <code>stable</code> repos</h3><p>Altinity provides two repos:</p>
+<ul>
+<li><p><code>general</code> <a href="https://packagecloud.io/Altinity/clickhouse" target="_blank" rel="noopener">repo</a> with general ClickHouse releases.</p>
+</li>
+<li><p><code>stable</code> <a href="https://packagecloud.io/Altinity/clickhouse-altinity-stable" target="_blank" rel="noopener">repo</a> with Altinity Stable ClickHouse releases.</p>
+<a id="more"></a>
+
+</li>
+</ul>
+<h3 id="Supported-OSes"><a href="#Supported-OSes" class="headerlink" title="Supported OSes"></a>Supported OSes</h3><p>All instructions in this manual were tested on Centos 6.10, CentOS 7.5 and Amazon Linux 2.</p>
+<p><strong>IMPORTANT for Amazon Linux users</strong> Amazon Linux is being detected as CentOS 6, while RPMs built for CentOS 7 are the best choice. So we need to explicitly install CentOS 7 RPMs More details further in the doc.</p>
+<h3 id="Register-repo"><a href="#Register-repo" class="headerlink" title="Register repo"></a>Register repo</h3><p>In order to install ClickHouse RPM packages from Altinity’s repo, we need to register it (repo) with our <code>yum</code>, making <code>yum</code> aware of additional packages installable from external source.</p>
+<p>In general, repositories are listed in <code>/etc/yum.repos.d</code> folder, so we need to add Altinity’s repo description in there.</p>
+<p>This can be done either <a href="https://github.com/Altinity/clickhouse-rpm-install#manual-installation" target="_blank" rel="noopener">manually</a> or via <a href="https://github.com/Altinity/clickhouse-rpm-install#script-based-installation" target="_blank" rel="noopener">script</a>, provided by <code>packagecloud.io</code>. In any case, as a result, we’ll have ClickHouse packages available for installation via <code>yum</code>.</p>
+<p><strong>IMPORTANT for Amazon Linux users</strong> Amazon Linux is being detected as CentOS 6 by the script, so we need to explicitly instruct it to use CentOS 7 repo.</p>
+<ul>
+<li>In case of <a href="https://github.com/Altinity/clickhouse-rpm-install#manual-installation" target="_blank" rel="noopener">manual installation</a>, just use <a href="https://github.com/Altinity/clickhouse-rpm-install#el7-repo-file" target="_blank" rel="noopener">EL7 repo file</a>. It is compatible with Amazon Linux</li>
+<li>In case of <a href="https://github.com/Altinity/clickhouse-rpm-install#script-based-installation" target="_blank" rel="noopener">script-based installation</a>, script provided by packagecloud should be explicitly instructed to use CentOS 7 repo, instead of CentOS 6 repo, which is being used by default for Amazon Linux. More details further in the doc.</li>
+</ul>
+<p>Let’s start with script-based installation, since this approach looks like more user-friendly.</p>
+<h2 id="Script-based-installation"><a href="#Script-based-installation" class="headerlink" title="Script-based installation"></a>Script-based installation</h2><p>For our convenience,<code>packagecloud.io</code> provides nice and user-friendly way to add repos with their <code>shell script</code>. We’ll need to download and run <strong>packagecloud</strong>‘s <code>shell script</code>, which will do all required steps.</p>
+<h3 id="Install-dependencies"><a href="#Install-dependencies" class="headerlink" title="Install dependencies"></a>Install dependencies</h3><p>Installation process requires <code>curl</code> in order to download packages. ClickHouse test package has some dependencies in EPEL, so <code>epel-release</code> has to be installed as well, in case you’d like to install ClickHouse test package. Some installations do not have <code>sudo</code> installed, so we need to ensure it is availbale also.</p>
+<p>Ensure <code>sudo</code> is available:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum install -y sudo</span><br></pre></td></tr></table></figure>
+
+<p>Ensure <code>curl</code> is available:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo yum install -y curl</span><br><span class="line"># in case test package would be installed, add epel-release</span><br><span class="line">sudo yum install -y epel-release</span><br></pre></td></tr></table></figure>
+
+<p>Let’s download and run installation <code>shell script</code>, provided by <code>packagecloud.io</code>. First of all, we need to point what script (from <code>general</code> or <code>stable</code> repo) we’ll be using:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># For &#39;general&#39; repo use this URL:</span><br><span class="line">SCRIPT_URL&#x3D;&quot;https:&#x2F;&#x2F;packagecloud.io&#x2F;install&#x2F;repositories&#x2F;altinity&#x2F;clickhouse&#x2F;script.rpm.sh&quot;</span><br><span class="line"></span><br><span class="line"># For &#39;stable&#39; repo use this URL:</span><br><span class="line">SCRIPT_URL&#x3D;&quot;https:&#x2F;&#x2F;packagecloud.io&#x2F;install&#x2F;repositories&#x2F;altinity&#x2F;clickhouse-altinity-stable&#x2F;script.rpm.sh&quot;</span><br></pre></td></tr></table></figure>
+
+<p>Now we can register Altiniry’s repo in the system by running appropriate script.</p>
+<p><strong>for CentOS 6 and 7</strong>:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">curl -s &quot;$&#123;SCRIPT_URL&#125;&quot; | sudo bash</span><br></pre></td></tr></table></figure>
+
+<p><strong>for Amazon Linux</strong>:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">curl -s &quot;$&#123;SCRIPT_URL&#125;&quot; | sudo os&#x3D;centos dist&#x3D;7 bash</span><br></pre></td></tr></table></figure>
+
+<p>pay attention to <code>os=centos dist=7</code> explicitly specified.</p>
+<p>At this point we have <code>yum</code> aware of additional RPM packages available.</p>
+<p>We are ready to install ClickHouse.</p>
+<h3 id="Install-packages"><a href="#Install-packages" class="headerlink" title="Install packages"></a>Install packages</h3><p>First of all, ensure we have ClickHouse packages available for installation</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo yum list &#39;clickhouse*&#39;</span><br></pre></td></tr></table></figure>
+
+<p>ClickHouse packages should be listed as available, something like this:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Available Packages</span><br><span class="line">clickhouse-client.x86_64            19.13.3.26-1.el7      Altinity_clickhouse</span><br><span class="line">clickhouse-common-static.x86_64     19.13.3.26-1.el7      Altinity_clickhouse</span><br><span class="line">clickhouse-compressor.x86_64        1.1.54336-3.el7       Altinity_clickhouse</span><br><span class="line">clickhouse-debuginfo.x86_64         19.13.3.26-1.el7      Altinity_clickhouse</span><br><span class="line">clickhouse-odbc.x86_64              1.0.0.20190611-1      Altinity_clickhouse</span><br><span class="line">clickhouse-server.x86_64            19.13.3.26-1.el7      Altinity_clickhouse</span><br><span class="line">clickhouse-server-common.x86_64     19.13.3.26-1.el7      Altinity_clickhouse</span><br><span class="line">clickhouse-test.x86_64              19.13.3.26-1.el7      Altinity_clickhouse</span><br></pre></td></tr></table></figure>
+
+<p>There are multiple packages available (new versions and old tools as well), some of them are deprecated already, so there is no need to install all available RPMs.</p>
+<p>Now let’s install ClickHouse main parts - server and client applications.</p>
+<h4 id="Install-latest-ClickHouse-version"><a href="#Install-latest-ClickHouse-version" class="headerlink" title="Install latest ClickHouse version"></a>Install latest ClickHouse version</h4><p>In case we’d like to just install latest ClickHouse (it is so in most cases), we can simply install <code>clickhouse-server</code> and <code>clickhouse-client</code> as following:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo yum install -y clickhouse-server clickhouse-client</span><br></pre></td></tr></table></figure>
+
+<p>However, sometimes we’d like to install specific version of ClickHouse.</p>
+<h4 id="Install-specific-ClickHouse-version"><a href="#Install-specific-ClickHouse-version" class="headerlink" title="Install specific ClickHouse version"></a>Install specific ClickHouse version</h4><p>We can either just want to install latest version from specific branch, or we may know what ClickHouse version we’d like to install exactly, or we can look over availbale (older) versions available for installation. These cases are little bit different, let’s take a look on both of them.</p>
+<p><strong>Select latest version from specific branch</strong></p>
+<p>In case we’d like to install latest version of <code>19.11.X.Y</code> family, we can list available latest <code>19.11.*</code> packages</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo yum list &#39;clickhouse*19.11.*&#39;</span><br></pre></td></tr></table></figure>
+
+<p>We’ll see packages of one proposed version (latest) only:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Available Packages</span><br><span class="line">clickhouse-client.x86_64         19.11.9.52-1.el7</span><br><span class="line">clickhouse-common-static.x86_64  19.11.9.52-1.el7</span><br><span class="line">clickhouse-debuginfo.x86_64      19.11.9.52-1.el7</span><br><span class="line">clickhouse-server.x86_64         19.11.9.52-1.el7</span><br><span class="line">clickhouse-server-common.x86_64  19.11.9.52-1.el7</span><br><span class="line">clickhouse-test.x86_64           19.11.9.52-1.el7</span><br></pre></td></tr></table></figure>
+
+<p><strong>Select specific version from specific branch</strong></p>
+<p>In case we’d like to see all available versions of <code>19.11.X.Y</code> family, then select preferred version out of availbale for installation:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo yum list &#39;clickhouse*19.11.*&#39; --showduplicates</span><br></pre></td></tr></table></figure>
+
+<p>We’ll see all available package versions from <code>19.11.X.Y</code> family:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Available Packages</span><br><span class="line">clickhouse-client.x86_64         19.11.2.7-1.el7</span><br><span class="line">clickhouse-client.x86_64         19.11.3.11-1.el7</span><br><span class="line">clickhouse-client.x86_64         19.11.4.24-1.el7</span><br><span class="line">clickhouse-client.x86_64         19.11.6.31-1.el7</span><br><span class="line">clickhouse-client.x86_64         19.11.7.40-1.el7</span><br><span class="line">clickhouse-client.x86_64         19.11.8.46-1.el7</span><br><span class="line">clickhouse-client.x86_64         19.11.9.52-1.el7</span><br><span class="line">clickhouse-common-static.x86_64  19.11.2.7-1.el7</span><br><span class="line">clickhouse-common-static.x86_64  19.11.3.11-1.el7</span><br><span class="line">clickhouse-common-static.x86_64  19.11.4.24-1.el7</span><br><span class="line">clickhouse-common-static.x86_64  19.11.6.31-1.el7</span><br><span class="line">...</span><br><span class="line">and more</span><br></pre></td></tr></table></figure>
+
+<p><strong>Install specific version</strong></p>
+<p>By now, we have picked up specific version (out of available) - let’s install it:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo yum install -y clickhouse-server-19.11.7.40 clickhouse-client-19.11.7.40</span><br></pre></td></tr></table></figure>
+
+<p>and verify it is listed as installed</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo yum list installed &#39;clickhouse*&#39;</span><br></pre></td></tr></table></figure>
+
+<p>ClickHouse packages should be listed as installed, something like this:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Installed Packages</span><br><span class="line">clickhouse-client.x86_64                 19.11.7.40-1.el7           @Altinity_clickhouse</span><br><span class="line">clickhouse-common-static.x86_64          19.11.7.40-1.el7           @Altinity_clickhouse</span><br><span class="line">clickhouse-server.x86_64                 19.11.7.40-1.el7           @Altinity_clickhouse</span><br><span class="line">clickhouse-server-common.x86_64          19.11.7.40-1.el7           @Altinity_clickhouse</span><br></pre></td></tr></table></figure>
+
+<p>Ensure ClickHouse server is running</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo &#x2F;etc&#x2F;init.d&#x2F;clickhouse-server restart</span><br></pre></td></tr></table></figure>
+
+<p>And connect to it with <code>clickhouse-client</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">clickhouse-client</span><br></pre></td></tr></table></figure>
+
+<p>ClickHouse server should respond, something like this:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ClickHouse client version 19.11.7.40.</span><br><span class="line">Connecting to localhost:9000 as user default.</span><br><span class="line">Connected to ClickHouse server version 19.11.7 revision 54423.</span><br><span class="line"></span><br><span class="line">ip-172-31-37-226.ec2.internal :)</span><br></pre></td></tr></table></figure>
+
+<p>Well, all looks fine and ClickHouse installed from <strong>RPM</strong> packages!</p>
+<p>We are all done!</p>
+<h2 id="Manual-installation"><a href="#Manual-installation" class="headerlink" title="Manual installation"></a>Manual installation</h2><p>Let’s add any of Altinity’s repos - <a href="https://packagecloud.io/Altinity/clickhouse" target="_blank" rel="noopener">general</a> or <a href="https://packagecloud.io/Altinity/clickhouse-altinity-stable" target="_blank" rel="noopener">stable</a> manually</p>
+<h3 id="Install-required-packages"><a href="#Install-required-packages" class="headerlink" title="Install required packages"></a>Install required packages</h3><p>We’ll need the following packages installed beforehands:</p>
+<ul>
+<li><code>pygpgme</code> - helps handling gpg-signatures</li>
+<li><code>yum-utils</code> - contains tools for handling source RPMs</li>
+<li><code>coreutils</code> - contains core utils and we’ll need <code>tee</code> command later</li>
+<li><code>epel-release</code> - contains ClickHouse test package dependencies</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo yum install -y pygpgme yum-utils coreutils epel-release</span><br></pre></td></tr></table></figure>
+
+<h3 id="Create-required-files"><a href="#Create-required-files" class="headerlink" title="Create required files"></a>Create required files</h3><p>Now let’s create <code>yum</code>‘s repository configuration file: <code>/etc/yum.repos.d/altinity_clickhouse.repo</code>. Depending on what CentOS version you are running you may need files for EL 6 or 7 version.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># For &#39;general&#39; repo use this URL</span><br><span class="line">BASE_URL&#x3D;&quot;https:&#x2F;&#x2F;packagecloud.io&#x2F;altinity&#x2F;clickhouse&quot;</span><br><span class="line"></span><br><span class="line"># For &#39;stable&#39; repo use this URL</span><br><span class="line">BASE_URL&#x3D;&quot;https:&#x2F;&#x2F;packagecloud.io&#x2F;altinity&#x2F;clickhouse-altinity-stable&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="EL6-repo-file"><a href="#EL6-repo-file" class="headerlink" title="EL6 repo file"></a>EL6 repo file</h4><p>EL6 (<strong>do NOT use with Amazon Linux</strong>) ready-to-copy+paste command to create <code>yum</code>‘s repo config file.<br>It writes <code>/etc/yum.repos.d/altinity_clickhouse.repo</code> file:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF | sudo tee &#x2F;etc&#x2F;yum.repos.d&#x2F;altinity_clickhouse.repo</span><br><span class="line">[altinity_clickhouse]</span><br><span class="line">name&#x3D;altinity_clickhouse</span><br><span class="line">baseurl&#x3D;$&#123;BASE_URL&#125;&#x2F;el&#x2F;6&#x2F;\$basearch</span><br><span class="line">repo_gpgcheck&#x3D;1</span><br><span class="line">gpgcheck&#x3D;0</span><br><span class="line">enabled&#x3D;1</span><br><span class="line">gpgkey&#x3D;$&#123;BASE_URL&#125;&#x2F;gpgkey</span><br><span class="line">sslverify&#x3D;1</span><br><span class="line">sslcacert&#x3D;&#x2F;etc&#x2F;pki&#x2F;tls&#x2F;certs&#x2F;ca-bundle.crt</span><br><span class="line">metadata_expire&#x3D;300</span><br><span class="line"></span><br><span class="line">[altinity_clickhouse-source]</span><br><span class="line">name&#x3D;altinity_clickhouse-source</span><br><span class="line">baseurl&#x3D;$&#123;BASE_URL&#125;&#x2F;el&#x2F;6&#x2F;SRPMS</span><br><span class="line">repo_gpgcheck&#x3D;1</span><br><span class="line">gpgcheck&#x3D;0</span><br><span class="line">enabled&#x3D;1</span><br><span class="line">gpgkey&#x3D;$&#123;BASE_URL&#125;&#x2F;gpgkey</span><br><span class="line">sslverify&#x3D;1</span><br><span class="line">sslcacert&#x3D;&#x2F;etc&#x2F;pki&#x2F;tls&#x2F;certs&#x2F;ca-bundle.crt</span><br><span class="line">metadata_expire&#x3D;300</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h4 id="EL7-repo-file"><a href="#EL7-repo-file" class="headerlink" title="EL7 repo file"></a>EL7 repo file</h4><p>EL7 <strong>and Amazon Linux</strong> ready-to-copy+paste command to create <code>yum</code>‘s repo config file.<br>It writes <code>/etc/yum.repos.d/altinity_clickhouse.repo</code> file:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF | sudo tee &#x2F;etc&#x2F;yum.repos.d&#x2F;altinity_clickhouse.repo</span><br><span class="line">[altinity_clickhouse]</span><br><span class="line">name&#x3D;altinity_clickhouse</span><br><span class="line">baseurl&#x3D;$&#123;BASE_URL&#125;&#x2F;el&#x2F;7&#x2F;\$basearch</span><br><span class="line">repo_gpgcheck&#x3D;1</span><br><span class="line">gpgcheck&#x3D;0</span><br><span class="line">enabled&#x3D;1</span><br><span class="line">gpgkey&#x3D;$&#123;BASE_URL&#125;&#x2F;gpgkey</span><br><span class="line">sslverify&#x3D;1</span><br><span class="line">sslcacert&#x3D;&#x2F;etc&#x2F;pki&#x2F;tls&#x2F;certs&#x2F;ca-bundle.crt</span><br><span class="line">metadata_expire&#x3D;300</span><br><span class="line"></span><br><span class="line">[altinity_clickhouse-source]</span><br><span class="line">name&#x3D;altinity_clickhouse-source</span><br><span class="line">baseurl&#x3D;$&#123;BASE_URL&#125;&#x2F;el&#x2F;7&#x2F;SRPMS</span><br><span class="line">repo_gpgcheck&#x3D;1</span><br><span class="line">gpgcheck&#x3D;0</span><br><span class="line">enabled&#x3D;1</span><br><span class="line">gpgkey&#x3D;$&#123;BASE_URL&#125;&#x2F;gpgkey</span><br><span class="line">sslverify&#x3D;1</span><br><span class="line">sslcacert&#x3D;&#x2F;etc&#x2F;pki&#x2F;tls&#x2F;certs&#x2F;ca-bundle.crt</span><br><span class="line">metadata_expire&#x3D;300</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h3 id="Update-cache"><a href="#Update-cache" class="headerlink" title="Update cache"></a>Update cache</h3><p>After repo files created, let’s update <code>yum</code>‘s cache with packges from newly added repo</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo yum -q makecache -y --disablerepo&#x3D;&#39;*&#39; --enablerepo&#x3D;&#39;altinity*&#39;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Install-packages-manually"><a href="#Install-packages-manually" class="headerlink" title="Install packages manually"></a>Install packages manually</h3><p>Packages can be installed the same way as in section <a href="https://github.com/Altinity/clickhouse-rpm-install#install-packages" target="_blank" rel="noopener">Install packages</a> after script-based installation.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>Now we have ClickHouse <strong>RPM</strong> packages available for easy installation.</p>
+]]></content>
+      <categories>
+        <category>ClickHouse</category>
+      </categories>
+      <tags>
+        <tag>ClickHouse</tag>
+        <tag>安装</tag>
+      </tags>
+  </entry>
 </search>

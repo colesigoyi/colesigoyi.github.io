@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-08-17T09:28:53.761Z</updated>
+  <updated>2020-08-19T11:26:32.712Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>How to Install ClickHouse with RPM packages from Altinity&#39;s repo(s)</title>
+    <link href="http://yoursite.com/2020/08/19/How-to-Install-ClickHouse-with-RPM-packages-from-Altinity-s-repo-s/"/>
+    <id>http://yoursite.com/2020/08/19/How-to-Install-ClickHouse-with-RPM-packages-from-Altinity-s-repo-s/</id>
+    <published>2020-08-19T11:24:41.000Z</published>
+    <updated>2020-08-19T11:26:32.712Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;How-to-Install-ClickHouse-with-RPM-packages-from-Altinity’s-repo-s&quot;&gt;&lt;a href=&quot;#How-to-Install-ClickHouse-with-RPM-packages-from-Altinity’s-repo-s&quot; class=&quot;headerlink&quot; title=&quot;How to Install ClickHouse with RPM packages from Altinity’s repo(s)&quot;&gt;&lt;/a&gt;How to Install ClickHouse with RPM packages from Altinity’s repo(s)&lt;/h1&gt;&lt;hr&gt;
+&lt;h2 id=&quot;What-is-this&quot;&gt;&lt;a href=&quot;#What-is-this&quot; class=&quot;headerlink&quot; title=&quot;What is this&quot;&gt;&lt;/a&gt;What is this&lt;/h2&gt;&lt;p&gt;This is a detailed explanation on how to install ready-to-use ClickHouse RPMs from Altinity’s repos (either &lt;a href=&quot;https://packagecloud.io/Altinity/clickhouse&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;general repo&lt;/a&gt; or &lt;a href=&quot;https://packagecloud.io/Altinity/clickhouse-altinity-stable&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;stable repo&lt;/a&gt;) located on &lt;a href=&quot;https://packagecloud.io/Altinity&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;packagecloud.io&lt;/a&gt;. This is &lt;strong&gt;not&lt;/strong&gt; an instructions on how to build your own hand-made RPMs. However, if you need to build your own RPMs, there is a &lt;a href=&quot;https://github.com/Altinity/clickhouse-rpm&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;detailed explanation&lt;/a&gt; on how to build ClickHouse RPMs from sources with the help of Altinity’s &lt;a href=&quot;https://github.com/Altinity/clickhouse-rpm&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;RPM builder&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;Introduction&quot;&gt;&lt;a href=&quot;#Introduction&quot; class=&quot;headerlink&quot; title=&quot;Introduction&quot;&gt;&lt;/a&gt;Introduction&lt;/h2&gt;&lt;h3 id=&quot;general-and-stable-repos&quot;&gt;&lt;a href=&quot;#general-and-stable-repos&quot; class=&quot;headerlink&quot; title=&quot;general and stable repos&quot;&gt;&lt;/a&gt;&lt;code&gt;general&lt;/code&gt; and &lt;code&gt;stable&lt;/code&gt; repos&lt;/h3&gt;&lt;p&gt;Altinity provides two repos:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;general&lt;/code&gt; &lt;a href=&quot;https://packagecloud.io/Altinity/clickhouse&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;repo&lt;/a&gt; with general ClickHouse releases.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;stable&lt;/code&gt; &lt;a href=&quot;https://packagecloud.io/Altinity/clickhouse-altinity-stable&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;repo&lt;/a&gt; with Altinity Stable ClickHouse releases.&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="ClickHouse" scheme="http://yoursite.com/categories/ClickHouse/"/>
+    
+    
+      <category term="ClickHouse" scheme="http://yoursite.com/tags/ClickHouse/"/>
+    
+      <category term="安装" scheme="http://yoursite.com/tags/%E5%AE%89%E8%A3%85/"/>
+    
+  </entry>
   
   <entry>
     <title>Hbase学习2-系统架构与数据结构</title>
