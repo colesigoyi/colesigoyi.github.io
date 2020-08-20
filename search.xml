@@ -1126,4 +1126,52 @@ CombineTextInputFormat.setMinInputSplitSize(job, 2097152);</code></pre><p><img s
         <tag>安装</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Spark结构化流-窗口操作与水印</title>
+    <url>/2020/08/20/Spark%E7%BB%93%E6%9E%84%E5%8C%96%E6%B5%81-%E7%AA%97%E5%8F%A3%E6%93%8D%E4%BD%9C%E4%B8%8E%E6%B0%B4%E5%8D%B0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><h3 id="事件时间窗口操作"><a href="#事件时间窗口操作" class="headerlink" title="事件时间窗口操作"></a>事件时间窗口操作</h3><p>滑动事件时间窗口上的聚合对于结构化流而言非常简单，并且与分组聚合非常相似。在分组聚合中，在用户指定的分组列中为每个唯一值维护聚合值（例如，计数）。在基于窗口的聚合的情况下，行事件时间所属的每个窗口都会维护聚合值。让我们通过插图来了解这一点。</p>
+<p>想象一下我们的<a href="https://spark.apache.org/docs/2.2.0/structured-streaming-programming-guide.html#quick-example" target="_blank" rel="noopener">快速示例</a>已被修改，并且流现在包含行以及生成行的时间。而不是运行字数统计，我们希望在10分钟的窗口内对字数进行计数，每5分钟更新一次。也就是说，在10分钟窗口12:00-12：10、12：05-12：15、12：10-12:20等之间接收的单词中的单词计数。请注意，12：00-12:10表示数据12:00之后但12:10之前到达。现在，考虑在12:07收到的单词。此字应增加对应于两个窗口12:00-12:10和12:05-12:15的计数。因此，计数将通过分组键（即单词）和窗口（可以从事件时间计算）来索引。</p>
+<p>结果表如下所示。</p>
+<p><img src="/2020/08/20/Spark%E7%BB%93%E6%9E%84%E5%8C%96%E6%B5%81-%E7%AA%97%E5%8F%A3%E6%93%8D%E4%BD%9C%E4%B8%8E%E6%B0%B4%E5%8D%B0/structured-streaming-window.png" alt="窗口操作"></p>
+<a id="more"></a>
+
+<p>由于此窗口化类似于分组，因此在代码中，您可以使用<code>groupBy()</code>和<code>window()</code>操作来表示窗口化聚合。您可以在<a href="https://github.com/apache/spark/blob/v2.2.0/examples/src/main/scala/org/apache/spark/examples/sql/streaming/StructuredNetworkWordCountWindowed.scala" target="_blank" rel="noopener">Scala</a> / <a href="https://github.com/apache/spark/blob/v2.2.0/examples/src/main/java/org/apache/spark/examples/sql/streaming/JavaStructuredNetworkWordCountWindowed.java" target="_blank" rel="noopener">Java</a> / <a href="https://github.com/apache/spark/blob/v2.2.0/examples/src/main/python/sql/streaming/structured_network_wordcount_windowed.py" target="_blank" rel="noopener">Python中</a>看到以下示例的完整代码 。</p>
+<ul>
+<li>scala</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> spark.implicits._</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> words = ... <span class="comment">// streaming DataFrame of schema &#123; timestamp: Timestamp, word: String &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Group the data by window and word and compute the count of each group</span></span><br><span class="line"><span class="keyword">val</span> windowedCounts = words.groupBy(</span><br><span class="line">  window($<span class="string">"timestamp"</span>, <span class="string">"10 minutes"</span>, <span class="string">"5 minutes"</span>),</span><br><span class="line">  $<span class="string">"word"</span></span><br><span class="line">).count()</span><br></pre></td></tr></table></figure>
+
+<h3 id="处理后期数据和加水印"><a href="#处理后期数据和加水印" class="headerlink" title="处理后期数据和加水印"></a>处理后期数据和加水印</h3><p>现在考虑如果事件之一迟到应用程序会发生什么。例如，例如，应用程序可以在12:11接收在12:04（即事件时间）生成的单词。应用程序应使用12:04而不是12:11来更新窗口的旧计数<code>12:00 - 12:10</code>。这在我们基于窗口的分组中很自然地发生–结构化流可以长时间保持部分聚合的中间状态，以便后期数据可以正确更新旧窗口的聚合，如下所示。</p>
+<p><img src="/2020/08/20/Spark%E7%BB%93%E6%9E%84%E5%8C%96%E6%B5%81-%E7%AA%97%E5%8F%A3%E6%93%8D%E4%BD%9C%E4%B8%8E%E6%B0%B4%E5%8D%B0/structured-streaming-late-data.png" alt="处理后期数据"></p>
+<p>但是，要连续几天运行此查询，系统必须限制其累积的中间内存状态量。这意味着系统需要知道何时可以从内存中状态删除旧聚合，因为应用程序将不再接收该聚合的最新数据。为此，我们在Spark 2.1中引入了 <strong>水印功能</strong>，该功能使引擎自动跟踪数据中的当前事件时间，并尝试相应地清除旧状态。您可以通过指定事件时间列和有关事件时间期望数据延迟的阈值来定义查询的水印。对于在时间开始的特定窗口<code>T</code>，引擎将维持状态并允许以后的数据更新状态，直到<code>(max event time seen by the engine - late threshold &gt; T)</code>。换句话说，阈值内的较晚数据将被汇总，但阈值后的数据将被丢弃。让我们通过一个例子来理解这一点。我们可以使用<code>withWatermark()</code>以下示例在上一个示例中轻松定义水印。</p>
+<ul>
+<li>scala</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> spark.implicits._</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> words = ... <span class="comment">// streaming DataFrame of schema &#123; timestamp: Timestamp, word: String &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Group the data by window and word and compute the count of each group</span></span><br><span class="line"><span class="keyword">val</span> windowedCounts = words</span><br><span class="line">    .withWatermark(<span class="string">"timestamp"</span>, <span class="string">"10 minutes"</span>)</span><br><span class="line">    .groupBy(</span><br><span class="line">        window($<span class="string">"timestamp"</span>, <span class="string">"10 minutes"</span>, <span class="string">"5 minutes"</span>),</span><br><span class="line">        $<span class="string">"word"</span>)</span><br><span class="line">    .count()</span><br></pre></td></tr></table></figure>
+
+<p>在此示例中，我们将在“时间戳”列的值上定义查询的水印，还将“ 10分钟”定义为允许数据晚到的阈值。如果此查询在“更新输出”模式下运行（稍后在“ <a href="https://spark.apache.org/docs/2.2.0/structured-streaming-programming-guide.html#output-modes" target="_blank" rel="noopener">输出模式”</a>部分中讨论），则引擎将在“结果表”中保持窗口的更新计数，直到该窗口早于水印为止，该时间滞后于“列”中的当前事件时间。时间戳”的时间缩短10分钟。这是一个例子。</p>
+<p><img src="/2020/08/20/Spark%E7%BB%93%E6%9E%84%E5%8C%96%E6%B5%81-%E7%AA%97%E5%8F%A3%E6%93%8D%E4%BD%9C%E4%B8%8E%E6%B0%B4%E5%8D%B0/structured-streaming-watermark-update-mode.png" alt="更新模式中的水印"></p>
+<p>如图所示，引擎跟踪的最大事件时间是 <em>蓝色虚线</em>，<code>(max event time - &#39;10 mins&#39;)</code> 在每次触发的开始时设置的水印是红线。例如，当引擎观察到数据时 <code>(12:14, dog)</code>，它将为下一个触发器为<code>12:04</code>。此水印可让引擎再保持10分钟的中间状态，以便对较晚的数据进行计数。例如，数据<code>(12:09, cat)</code>不正确且延迟，并且落在windows <code>12:05 - 12:15</code>和中<code>12:10 - 12:20</code>。由于它仍在<code>12:04</code>触发器中的水印之前，因此引擎仍将中间计数保持为状态并正确更新相关窗口的计数。但是，当水印更新为<code>12:11</code>，<code>(12:00 - 12:10)</code>清除了窗口的中间状态，并且所有后续数据（例如<code>(12:04, donkey)</code>）都被认为“为时已晚”，因此被忽略。请注意，在每次触发后，更新的计数（即紫色行）都会写入更新，作为更新输出指示的触发输出。</p>
+<p>某些接收器（例如文件）可能不支持更新模式所需的细粒度更新。为了与他们合作，我们还支持追加模式，其中仅将<em>最终计数</em>写入接收器。如下所示。</p>
+<p>请注意，<code>withWatermark</code>在非流数据集上使用是no-op。由于水印不应以任何方式影响任何批量查询，因此我们将直接忽略它。</p>
+<p><img src="/2020/08/20/Spark%E7%BB%93%E6%9E%84%E5%8C%96%E6%B5%81-%E7%AA%97%E5%8F%A3%E6%93%8D%E4%BD%9C%E4%B8%8E%E6%B0%B4%E5%8D%B0/structured-streaming-watermark-append-mode.png" alt="追加模式中的水印"></p>
+<p>与之前的更新模式类似，引擎为每个窗口维护中间计数。但是，部分计数不会更新到结果表，也不会写入接收器。引擎等待“ 10分钟”来计算延迟日期，然后丢弃窗口的中间状态&lt;水印，并将最终计数附加到结果表/接收器。例如，<code>12:00 - 12:10</code>仅在将水印更新为之后，窗口的最终计数才添加到结果表中<code>12:11</code>。</p>
+<p><strong>用于加水印以清除聚合状态</strong> 的条件重要的是要注意，对于加水印以清除聚合查询中的状态必须满足以下条件<em>（从Spark 2.1.1开始，将来可能会更改）</em>。</p>
+<ul>
+<li><strong>输出模式必须为追加或更新。</strong>完整模式要求保留所有聚合数据，因此不能使用水印删除中间状态。有关 每种输出模式的语义的详细说明，请参见“ <a href="https://spark.apache.org/docs/2.2.0/structured-streaming-programming-guide.html#output-modes" target="_blank" rel="noopener">输出模式”</a>部分。</li>
+<li>聚合必须在“事件时间”列上或<code>window</code>“事件时间”列上有一个。</li>
+<li><code>withWatermark</code>必须在与汇总中使用的时间戳列相同的列上调用。例如， <code>df.withWatermark(&quot;time&quot;, &quot;1 min&quot;).groupBy(&quot;time2&quot;).count()</code>在附加输出模式下无效，因为水印是在与聚合列不同的列上定义的。</li>
+<li><code>withWatermark</code>必须在使用水印详细信息的聚合之前调用。例如，<code>df.groupBy(&quot;time&quot;).count().withWatermark(&quot;time&quot;, &quot;1 min&quot;)</code>在追加输出模式下无效。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>spark-structured-streaming</category>
+      </categories>
+      <tags>
+        <tag>流处理</tag>
+        <tag>spark</tag>
+        <tag>窗口操作</tag>
+        <tag>水印操作</tag>
+      </tags>
+  </entry>
 </search>
