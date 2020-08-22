@@ -1180,6 +1180,8 @@ CombineTextInputFormat.setMinInputSplitSize(job, 2097152);</code></pre><p><img s
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><p>为了更好的理解 Docker 是什么，我们先来讲个故事：</p>
 <p>我需要盖一个房子，于是我搬石头、砍木头、画图纸、盖房子。一顿操作，终于把这个房子盖好了。</p>
 <p><img src="/2020/08/22/Docker%E4%BB%8B%E7%BB%8D/640.png" alt="img"></p>
+<a id="more"></a>
+
 <p>结果，住了一段时间，心血来潮想搬到海边去。这时候按以往的办法，我只能去海边，再次搬石头、砍木头、画图纸、盖房子。</p>
 <p><img src="/2020/08/22/Docker%E4%BB%8B%E7%BB%8D/640-20200822115940565.png" alt="img"></p>
 <p>烦恼之际，跑来一个魔法师教会我一种魔法。这种魔法可以把我盖好的房子复制一份，做成「镜像」，放在我的背包里。</p>
