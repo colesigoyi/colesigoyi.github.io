@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-08-22T04:27:26.239Z</updated>
+  <updated>2020-08-24T08:06:38.617Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Spark数据倾斜处理方法总结</title>
+    <link href="http://yoursite.com/2020/08/24/Spark%E6%95%B0%E6%8D%AE%E5%80%BE%E6%96%9C%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/"/>
+    <id>http://yoursite.com/2020/08/24/Spark%E6%95%B0%E6%8D%AE%E5%80%BE%E6%96%9C%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/</id>
+    <published>2020-08-24T07:53:57.000Z</published>
+    <updated>2020-08-24T08:06:38.617Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Spark性能优化之道——解决Spark数据倾斜（Data-Skew）的N种姿势&quot;&gt;&lt;a href=&quot;#Spark性能优化之道——解决Spark数据倾斜（Data-Skew）的N种姿势&quot; class=&quot;headerlink&quot; title=&quot;Spark性能优化之道——解决Spark数据倾斜（Data Skew）的N种姿势&quot;&gt;&lt;/a&gt;Spark性能优化之道——解决Spark数据倾斜（Data Skew）的N种姿势&lt;/h2&gt;&lt;p&gt;本文结合实例详细阐明了Spark数据倾斜的几种场景以及对应的解决方案，包括避免数据源倾斜，调整并行度，使用自定义Partitioner，使用Map侧Join代替Reduce侧Join，给倾斜Key加上随机前缀等。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;  本文转发自技术世界，原文链接&lt;a href=&quot;http://www.jasongj.com/spark/skew/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://www.jasongj.com/spark/skew/&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;摘要&quot;&gt;&lt;a href=&quot;#摘要&quot; class=&quot;headerlink&quot; title=&quot;摘要&quot;&gt;&lt;/a&gt;摘要&lt;/h1&gt;&lt;p&gt;本文结合实例详细阐明了Spark数据倾斜的几种场景以及对应的解决方案，包括避免数据源倾斜，调整并行度，使用自定义Partitioner，使用Map侧Join代替Reduce侧Join，给倾斜Key加上随机前缀等。&lt;/p&gt;
+&lt;h1 id=&quot;为何要处理数据倾斜（Data-Skew）&quot;&gt;&lt;a href=&quot;#为何要处理数据倾斜（Data-Skew）&quot; class=&quot;headerlink&quot; title=&quot;为何要处理数据倾斜（Data Skew）&quot;&gt;&lt;/a&gt;为何要处理数据倾斜（Data Skew）&lt;/h1&gt;&lt;h2 id=&quot;什么是数据倾斜&quot;&gt;&lt;a href=&quot;#什么是数据倾斜&quot; class=&quot;headerlink&quot; title=&quot;什么是数据倾斜&quot;&gt;&lt;/a&gt;什么是数据倾斜&lt;/h2&gt;&lt;p&gt;对Spark/Hadoop这样的大数据系统来讲，数据量大并不可怕，可怕的是数据倾斜。&lt;/p&gt;
+&lt;p&gt;何谓数据倾斜？数据倾斜指的是，并行处理的数据集中，某一部分（如Spark或Kafka的一个Partition）的数据显著多于其它部分，从而使得该部分的处理速度成为整个数据集处理的瓶颈。&lt;/p&gt;
+&lt;p&gt;对于分布式系统而言，理想情况下，随着系统规模（节点数量）的增加，应用整体耗时线性下降。如果一台机器处理一批大量数据需要120分钟，当机器数量增加到三时，理想的耗时为120 / 3 = 40分钟，如下图所示&lt;/p&gt;
+&lt;p&gt;但是，上述情况只是理想情况，实际上将单机任务转换成分布式任务后，会有overhead，使得总的任务量较之单机时有所增加，所以每台机器的执行时间加起来比单台机器时更大。这里暂不考虑这些overhead，假设单机任务转换成分布式任务后，总任务量不变。&lt;br&gt;　　&lt;br&gt;但即使如此，想做到分布式情况下每台机器执行时间是单机时的，就必须保证每台机器的任务量相等。不幸的是，很多时候，任务的分配是不均匀的，甚至不均匀到大部分任务被分配到个别机器上，其它大部分机器所分配的任务量只占总得的小部分。比如一台机器负责处理80%的任务，另外两台机器各处理10%的任务，如下图所示&lt;br&gt;&lt;a href=&quot;http://www.jasongj.com/img/spark/spark1_skew/skew_time.png&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;&lt;img src=&quot;/2020/08/24/Spark%E6%95%B0%E6%8D%AE%E5%80%BE%E6%96%9C%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/skew_time.png&quot; alt=&quot;unideal scale out&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Spark" scheme="http://yoursite.com/categories/Spark/"/>
+    
+    
+      <category term="Spark" scheme="http://yoursite.com/tags/Spark/"/>
+    
+      <category term="数据倾斜" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E5%80%BE%E6%96%9C/"/>
+    
+  </entry>
   
   <entry>
     <title>Docker介绍</title>
@@ -500,39 +531,6 @@
       <category term="hive" scheme="http://yoursite.com/tags/hive/"/>
     
       <category term="主键" scheme="http://yoursite.com/tags/%E4%B8%BB%E9%94%AE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>hive2的启动</title>
-    <link href="http://yoursite.com/2020/06/26/hive2%E6%9C%8D%E5%8A%A1/"/>
-    <id>http://yoursite.com/2020/06/26/hive2%E6%9C%8D%E5%8A%A1/</id>
-    <published>2020-06-26T04:12:57.000Z</published>
-    <updated>2020-07-24T10:31:25.790Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;ol&gt;
-&lt;li&gt;启动hive的服务&lt;br&gt;hive ‐‐service hiveserver2 &amp;amp;&lt;/li&gt;
-&lt;li&gt;使用beeline，去连接thrift的服务&lt;br&gt;beeline -u
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Hive" scheme="http://yoursite.com/categories/Hive/"/>
-    
-    
-      <category term="hive" scheme="http://yoursite.com/tags/hive/"/>
-    
-      <category term="服务" scheme="http://yoursite.com/tags/%E6%9C%8D%E5%8A%A1/"/>
-    
-      <category term="beeline" scheme="http://yoursite.com/tags/beeline/"/>
     
   </entry>
   
