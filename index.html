@@ -115,6 +115,62 @@
     
     
     <article
+  id="post-Hive-SQl"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/09/01/Hive-SQl/"
+    >Hive SQl</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/09/01/Hive-SQl/" class="article-date">
+  <time datetime="2020-09-01T05:52:54.000Z" itemprop="datePublished">2020-09-01</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Hive/">Hive</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h3 id="添加分区"><a href="#添加分区" class="headerlink" title="添加分区"></a>添加分区</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ALTER TABLE table_name ADD <span class="title">PARTITION</span> <span class="params">(partCol = <span class="string">'value1'</span>)</span> location 'loc1'</span>; <span class="comment">//示例</span></span><br><span class="line"></span><br><span class="line"><span class="function">ALTER TABLE table_name ADD IF NOT EXISTS <span class="title">PARTITION</span> <span class="params">(dt=<span class="string">'20130101'</span>)</span> LOCATION '/user/hadoop/warehouse/table_name/dt</span>=<span class="number">20130101</span><span class="string">'; //一次添加一个分区</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">ALTER TABLE page_view ADD PARTITION (dt='</span><span class="number">2008</span>-<span class="number">08</span>-<span class="number">08</span><span class="string">', country='</span>us<span class="string">') location '</span>/path/to/us/part080808<span class="string">' PARTITION (dt='</span><span class="number">2008</span>-<span class="number">08</span>-<span class="number">09</span><span class="string">', country='</span>us<span class="string">') location '</span>/path/to/us/part080809<span class="string">';  //一次添加多个分区</span></span><br></pre></td></tr></table></figure> 
+      <a class="article-more-link" href="/2020/09/01/Hive-SQl/"
+        >阅读更多...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hive/" rel="tag">hive</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql/" rel="tag">sql</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+   
+</article>
+
+    
+    <article
   id="post-Spark数据倾斜处理方法总结"
   class="article article-type-post"
   itemscope
@@ -638,62 +694,6 @@
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hbase/" rel="tag">Hbase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-   
-</article>
-
-    
-    <article
-  id="post-MapReduce小文件优化问题"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/08/04/MapReduce%E5%B0%8F%E6%96%87%E4%BB%B6%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/"
-    >MapReduce小文件优化问题</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/08/04/MapReduce%E5%B0%8F%E6%96%87%E4%BB%B6%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/" class="article-date">
-  <time datetime="2020-08-04T11:42:41.000Z" itemprop="datePublished">2020-08-04</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/MapReduce/">MapReduce</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <p>默认情况下，TextInputformat对任务的切片机智是按文件规划切片，不管文件多小，都会是一个单独的切片，都是交给一个maptask，如果有多个小文件，就会产生大量的maptask，处理效率底下。</p> 
-      <a class="article-more-link" href="/2020/08/04/MapReduce%E5%B0%8F%E6%96%87%E4%BB%B6%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/"
-        >阅读更多...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a></li></ul>
 
     </footer>
   </div>
