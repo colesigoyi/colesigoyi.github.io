@@ -1673,7 +1673,20 @@ CombineTextInputFormat.setMinInputSplitSize(job, 2097152);</code></pre><p><img s
 
 <h3 id="修改表属性"><a href="#修改表属性" class="headerlink" title="修改表属性:"></a>修改表属性:</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">alter table table_name set TBLPROPERTIES (&#39;EXTERNAL&#39;&#x3D;&#39;TRUE&#39;);  &#x2F;&#x2F;内部表转外部表 </span><br><span class="line"></span><br><span class="line">alter table table_name set TBLPROPERTIES (&#39;EXTERNAL&#39;&#x3D;&#39;FALSE&#39;);  &#x2F;&#x2F;外部表转内部表</span><br></pre></td></tr></table></figure>
 
-<h3 id="表的重命名"><a href="#表的重命名" class="headerlink" title="表的重命名"></a>表的重命名</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ALTER TABLE table_name RENAME TO new_table_name</span><br></pre></td></tr></table></figure>]]></content>
+<h3 id="表的重命名"><a href="#表的重命名" class="headerlink" title="表的重命名"></a>表的重命名</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ALTER TABLE table_name RENAME TO new_table_name</span><br></pre></td></tr></table></figure>
+
+<h3 id="get-json-object-string-json-string-string-path"><a href="#get-json-object-string-json-string-string-path" class="headerlink" title="get_json_object(string json_string, string path)"></a>get_json_object(string json_string, string path)</h3><p>说明：<br>第一个参数填写json对象变量，第二个参数使用$表示json变量标识，然后用 . 或 [] 读取对象或数组；如果输入的json字符串无效，那么返回NULL。<br>每次只能返回一个数据项。</p>
+<p>举例：<br>data 为 test表中的字段，数据结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">data &#x3D;</span><br><span class="line">&#123;</span><br><span class="line"> &quot;store&quot;:</span><br><span class="line">        &#123;</span><br><span class="line">         &quot;fruit&quot;:[&#123;&quot;weight&quot;:8,&quot;type&quot;:&quot;apple&quot;&#125;, &#123;&quot;weight&quot;:9,&quot;type&quot;:&quot;pear&quot;&#125;],  </span><br><span class="line">         &quot;bicycle&quot;:&#123;&quot;price&quot;:19.95,&quot;color&quot;:&quot;red&quot;&#125;</span><br><span class="line">         &#125;, </span><br><span class="line"> &quot;email&quot;:&quot;amy@only_for_json_udf_test.net&quot;, </span><br><span class="line"> &quot;owner&quot;:&quot;amy&quot; </span><br><span class="line">&#125;12345678910</span><br></pre></td></tr></table></figure>
+
+<p>1.get单层值</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hive&gt; select  get_json_object(data, &#39;$.owner&#39;) from test;</span><br><span class="line">结果：amy12</span><br></pre></td></tr></table></figure>
+
+<p>2.get多层值.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hive&gt; select  get_json_object(data, &#39;$.store.bicycle.price&#39;) from test;</span><br><span class="line">结果：19.9512</span><br></pre></td></tr></table></figure>
+
+<p>3.get数组值[]</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hive&gt; select  get_json_object(data, &#39;$.store.fruit[0]&#39;) from test;</span><br><span class="line">结果：&#123;&quot;weight&quot;:8,&quot;type&quot;:&quot;apple&quot;&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>Hive</category>
       </categories>
