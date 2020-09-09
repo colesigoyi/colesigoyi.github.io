@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-09-05T10:59:49.370Z</updated>
+  <updated>2020-09-09T01:58:39.019Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Mysql Date_fromat时间函数</title>
+    <link href="http://yoursite.com/2020/09/09/Mysql-Date-fromat%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/"/>
+    <id>http://yoursite.com/2020/09/09/Mysql-Date-fromat%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/</id>
+    <published>2020-09-09T01:57:25.000Z</published>
+    <updated>2020-09-09T01:58:39.019Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;MySQL-DATE-FORMAT-函数&quot;&gt;&lt;a href=&quot;#MySQL-DATE-FORMAT-函数&quot; class=&quot;headerlink&quot; title=&quot;MySQL DATE_FORMAT() 函数&quot;&gt;&lt;/a&gt;MySQL DATE_FORMAT() 函数&lt;/h1&gt;&lt;h2 id=&quot;定义和用法&quot;&gt;&lt;a href=&quot;#定义和用法&quot; class=&quot;headerlink&quot; title=&quot;定义和用法&quot;&gt;&lt;/a&gt;定义和用法&lt;/h2&gt;&lt;p&gt;DATE_FORMAT() 函数用于以不同的格式显示日期/时间数据。&lt;/p&gt;
+&lt;h3 id=&quot;语法&quot;&gt;&lt;a href=&quot;#语法&quot; class=&quot;headerlink&quot; title=&quot;语法&quot;&gt;&lt;/a&gt;语法&lt;/h3&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;DATE_FORMAT(date,format)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;em&gt;date&lt;/em&gt; 参数是合法的日期。&lt;em&gt;format&lt;/em&gt; 规定日期/时间的输出格式。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Mysql" scheme="http://yoursite.com/categories/Mysql/"/>
+    
+    
+      <category term="函数" scheme="http://yoursite.com/tags/%E5%87%BD%E6%95%B0/"/>
+    
+      <category term="时间函数" scheme="http://yoursite.com/tags/%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>实时数仓学习笔记_1</title>
@@ -489,27 +515,6 @@
       <category term="hive" scheme="http://yoursite.com/tags/hive/"/>
     
       <category term="Parquet" scheme="http://yoursite.com/tags/Parquet/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Python时间操作</title>
-    <link href="http://yoursite.com/2020/07/22/python%E6%97%B6%E9%97%B4/"/>
-    <id>http://yoursite.com/2020/07/22/python%E6%97%B6%E9%97%B4/</id>
-    <published>2020-07-22T11:34:19.000Z</published>
-    <updated>2020-07-22T11:37:39.354Z</updated>
-    
-    <summary type="html">
-    
-      &lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; time&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;print&lt;/span&gt; time.time()	&lt;span class=&quot;comment&quot;&gt;#输出的结果是:1279578704.6725271&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-    
-      <category term="语言" scheme="http://yoursite.com/categories/%E8%AF%AD%E8%A8%80/"/>
-    
-    
-      <category term="python" scheme="http://yoursite.com/tags/python/"/>
     
   </entry>
   
