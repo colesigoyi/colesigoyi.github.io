@@ -1868,4 +1868,24 @@ CombineTextInputFormat.setMinInputSplitSize(job, 2097152);</code></pre><p><img s
         <tag>时间函数</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Sequel pro关闭后提示应用错误异常退出的应对方法</title>
+    <url>/2020/09/11/Sequel-pro%E5%85%B3%E9%97%AD%E5%90%8E%E6%8F%90%E7%A4%BA%E5%BA%94%E7%94%A8%E9%94%99%E8%AF%AF%E5%BC%82%E5%B8%B8%E9%80%80%E5%87%BA%E7%9A%84%E5%BA%94%E5%AF%B9%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><p>刚下载mac下的Sequel pro ，关闭会话总是会报错。</p>
+<p>尤其是想关闭一个回话的时候，整个程序退出还弹个错误对话框。</p>
+<p>应该是适配问题.</p>
+<a id="more"></a>
+
+<p>可以使用测试版,亲测无弹窗</p>
+<p><a href="https://sequelpro.com/test-builds" target="_blank" rel="noopener">https://sequelpro.com/test-builds</a></p>
+<p><img src="/2020/09/11/Sequel-pro%E5%85%B3%E9%97%AD%E5%90%8E%E6%8F%90%E7%A4%BA%E5%BA%94%E7%94%A8%E9%94%99%E8%AF%AF%E5%BC%82%E5%B8%B8%E9%80%80%E5%87%BA%E7%9A%84%E5%BA%94%E5%AF%B9%E6%96%B9%E6%B3%95/image-20200911181432758.png" alt="image-20200911181432758"></p>
+<p>终于不用再弹框了。</p>
+]]></content>
+      <categories>
+        <category>Sequel pro</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+      </tags>
+  </entry>
 </search>

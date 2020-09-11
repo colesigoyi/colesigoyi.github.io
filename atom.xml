@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-09-09T01:58:39.019Z</updated>
+  <updated>2020-09-11T10:16:08.504Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Sequel pro关闭后提示应用错误异常退出的应对方法</title>
+    <link href="http://yoursite.com/2020/09/11/Sequel-pro%E5%85%B3%E9%97%AD%E5%90%8E%E6%8F%90%E7%A4%BA%E5%BA%94%E7%94%A8%E9%94%99%E8%AF%AF%E5%BC%82%E5%B8%B8%E9%80%80%E5%87%BA%E7%9A%84%E5%BA%94%E5%AF%B9%E6%96%B9%E6%B3%95/"/>
+    <id>http://yoursite.com/2020/09/11/Sequel-pro%E5%85%B3%E9%97%AD%E5%90%8E%E6%8F%90%E7%A4%BA%E5%BA%94%E7%94%A8%E9%94%99%E8%AF%AF%E5%BC%82%E5%B8%B8%E9%80%80%E5%87%BA%E7%9A%84%E5%BA%94%E5%AF%B9%E6%96%B9%E6%B3%95/</id>
+    <published>2020-09-11T10:13:33.000Z</published>
+    <updated>2020-09-11T10:16:08.504Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;刚下载mac下的Sequel pro ，关闭会话总是会报错。&lt;/p&gt;
+&lt;p&gt;尤其是想关闭一个回话的时候，整个程序退出还弹个错误对话框。&lt;/p&gt;
+&lt;p&gt;应该是适配问题.&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Sequel pro" scheme="http://yoursite.com/categories/Sequel-pro/"/>
+    
+    
+      <category term="工具" scheme="http://yoursite.com/tags/%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
   
   <entry>
     <title>Mysql Date_fromat时间函数</title>
@@ -486,30 +509,6 @@
     
     
       <category term="Parquet" scheme="http://yoursite.com/categories/Parquet/"/>
-    
-    
-      <category term="hive" scheme="http://yoursite.com/tags/hive/"/>
-    
-      <category term="Parquet" scheme="http://yoursite.com/tags/Parquet/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hive中Parquet格式的使用</title>
-    <link href="http://yoursite.com/2020/07/22/Hive%E4%B8%ADParquet%E6%A0%BC%E5%BC%8F%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
-    <id>http://yoursite.com/2020/07/22/Hive%E4%B8%ADParquet%E6%A0%BC%E5%BC%8F%E7%9A%84%E4%BD%BF%E7%94%A8/</id>
-    <published>2020-07-22T11:38:48.000Z</published>
-    <updated>2020-07-22T11:40:19.675Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;Hive中Parquet格式的使用&quot;&gt;&lt;a href=&quot;#Hive中Parquet格式的使用&quot; class=&quot;headerlink&quot; title=&quot;Hive中Parquet格式的使用&quot;&gt;&lt;/a&gt;Hive中Parquet格式的使用&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;#Hive建外部External表（外部表external table）：&lt;/strong&gt;&lt;/p&gt;
-&lt;figure class=&quot;highlight sql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;EXTERNAL&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;`table_name`&lt;/span&gt;(&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;string&quot;&gt;`column1`&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;string&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;string&quot;&gt;`column2`&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;string&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;string&quot;&gt;`column3`&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;string&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;PARTITIONED &lt;span class=&quot;keyword&quot;&gt;BY&lt;/span&gt; (&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;string&quot;&gt;`proc_date`&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;string&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;ROW&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;FORMAT&lt;/span&gt; SERDE&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;string&quot;&gt;&#39;org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe&#39;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;STORED&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;AS&lt;/span&gt; INPUTFORMAT&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;string&quot;&gt;&#39;org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat&#39;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;OUTPUTFORMAT&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;string&quot;&gt;&#39;org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat&#39;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;LOCATION&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;string&quot;&gt;&#39;hdfs://hdfscluster/...&#39;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;TBLPROPERTIES ( &lt;span class=&quot;string&quot;&gt;&#39;orc.compress&#39;&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&#39;snappy&#39;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-    
-      <category term="Hive" scheme="http://yoursite.com/categories/Hive/"/>
     
     
       <category term="hive" scheme="http://yoursite.com/tags/hive/"/>
