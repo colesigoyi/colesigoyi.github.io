@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-09-11T10:19:48.838Z</updated>
+  <updated>2020-09-14T10:39:10.467Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Hive解析json方法</title>
+    <link href="http://yoursite.com/2020/09/14/Hive%E8%A7%A3%E6%9E%90json%E6%96%B9%E6%B3%95/"/>
+    <id>http://yoursite.com/2020/09/14/Hive%E8%A7%A3%E6%9E%90json%E6%96%B9%E6%B3%95/</id>
+    <published>2020-09-14T10:36:53.000Z</published>
+    <updated>2020-09-14T10:39:10.467Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;1-get-json-object&quot;&gt;&lt;a href=&quot;#1-get-json-object&quot; class=&quot;headerlink&quot; title=&quot;1.get_json_object&quot;&gt;&lt;/a&gt;1.get_json_object&lt;/h4&gt;&lt;p&gt;底层日志经常会被储存为json字符串的形式，如果想获得各个维度的值，往往需要这个函数把对应的值取出来，具体用法为：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;get_json_object(action,&amp;#39;$.evt_id&amp;#39;) 取出1111027379533&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;此处假设需要解析的字段叫action，action的值如下：&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;quot;info_json&amp;quot;: &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&amp;quot;a&amp;quot;: &amp;#123;&amp;quot;b&amp;quot;: &amp;quot;300&amp;quot;,&amp;quot;c&amp;quot;: &amp;quot;15000&amp;quot;&amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;quot;d&amp;quot;: &amp;quot;110000&amp;quot;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;quot;e&amp;quot;: &amp;quot;小花&amp;quot;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;quot;f&amp;quot;: &amp;quot;小芳&amp;quot;&amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;quot; token&amp;quot;: &amp;quot;1111027379533&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;同样如果要取出d所对应的110000这个值，可用嵌套的get_json_object方法&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; get_json_object(get_json_object(&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#39;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;quot;info_json&amp;quot;: &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&amp;quot;a&amp;quot;: &amp;#123;&amp;quot;b&amp;quot;: &amp;quot;300&amp;quot;,&amp;quot;c&amp;quot;: &amp;quot;15000&amp;quot;&amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;quot;d&amp;quot;: &amp;quot;110000&amp;quot;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;quot;e&amp;quot;: &amp;quot;小花&amp;quot;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;quot;f&amp;quot;: &amp;quot;小芳&amp;quot;&amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;quot;evt_id&amp;quot;: &amp;quot;1111027379533&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&amp;#39;,&amp;#39;$.info_json&amp;#39;),&amp;#39;$.d&amp;#39;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;1234567891011121314151617181920&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="Hive" scheme="http://yoursite.com/categories/Hive/"/>
+    
+    
+      <category term="hive" scheme="http://yoursite.com/tags/hive/"/>
+    
+      <category term="解析json" scheme="http://yoursite.com/tags/%E8%A7%A3%E6%9E%90json/"/>
+    
+  </entry>
   
   <entry>
     <title>Sequel pro关闭后提示应用错误异常退出的应对方法</title>
@@ -491,29 +515,6 @@
       <category term="hive" scheme="http://yoursite.com/tags/hive/"/>
     
       <category term="函数" scheme="http://yoursite.com/tags/%E5%87%BD%E6%95%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Parquet列式存储格式</title>
-    <link href="http://yoursite.com/2020/07/22/parquet%E5%88%97%E5%BC%8F%E5%AD%98%E5%82%A8%E6%A0%BC%E5%BC%8F/"/>
-    <id>http://yoursite.com/2020/07/22/parquet%E5%88%97%E5%BC%8F%E5%AD%98%E5%82%A8%E6%A0%BC%E5%BC%8F/</id>
-    <published>2020-07-22T11:40:53.000Z</published>
-    <updated>2020-07-22T11:41:15.332Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Parquet是面向分析型业务的列式存储格式，由Twitter和Cloudera合作开发，2015年5月从Apache的孵化器里毕业成为Apache顶级项目，最新的版本是1.8.0。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="Parquet" scheme="http://yoursite.com/categories/Parquet/"/>
-    
-    
-      <category term="hive" scheme="http://yoursite.com/tags/hive/"/>
-    
-      <category term="Parquet" scheme="http://yoursite.com/tags/Parquet/"/>
     
   </entry>
   
