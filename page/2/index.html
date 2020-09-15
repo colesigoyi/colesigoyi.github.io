@@ -115,6 +115,63 @@
     
     
     <article
+  id="post-Hbase学习-2-系统架构与数据结构"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/08/17/Hbase%E5%AD%A6%E4%B9%A0-2-%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"
+    >Hbase学习2-系统架构与数据结构</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/08/17/Hbase%E5%AD%A6%E4%B9%A0-2-%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="article-date">
+  <time datetime="2020-08-17T09:23:29.000Z" itemprop="datePublished">2020-08-17</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Hbase/">Hbase</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="一、基本概念"><a href="#一、基本概念" class="headerlink" title="一、基本概念"></a>一、基本概念</h2><p>一个典型的 Hbase Table 表如下：</p>
+<p><img src="/2020/08/17/Hbase%E5%AD%A6%E4%B9%A0-2-%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/image-20200817172516439.png" alt="image-20200817172516439"></p> 
+      <a class="article-more-link" href="/2020/08/17/Hbase%E5%AD%A6%E4%B9%A0-2-%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"
+        >阅读更多...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hbase/" rel="tag">Hbase</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+   
+</article>
+
+    
+    <article
   id="post-spark-streaming学习1"
   class="article article-type-post"
   itemscope
@@ -625,62 +682,6 @@
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hive-on-spark/" rel="tag">hive on spark</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark-on-hive/" rel="tag">spark on hive</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-   
-</article>
-
-    
-    <article
-  id="post-两个聚合函数计算结果进行拼接"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/07/23/%E4%B8%A4%E4%B8%AA%E8%81%9A%E5%90%88%E5%87%BD%E6%95%B0%E8%AE%A1%E7%AE%97%E7%BB%93%E6%9E%9C%E8%BF%9B%E8%A1%8C%E6%8B%BC%E6%8E%A5/"
-    >hive两个聚合函数的计算结果拼接成表并做进一步计算</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/07/23/%E4%B8%A4%E4%B8%AA%E8%81%9A%E5%90%88%E5%87%BD%E6%95%B0%E8%AE%A1%E7%AE%97%E7%BB%93%E6%9E%9C%E8%BF%9B%E8%A1%8C%E6%8B%BC%E6%8E%A5/" class="article-date">
-  <time datetime="2020-07-23T04:12:57.000Z" itemprop="datePublished">2020-07-23</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Hive/">Hive</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h4 id="hive两个聚合函数的计算结果拼接成表并做进一步计算"><a href="#hive两个聚合函数的计算结果拼接成表并做进一步计算" class="headerlink" title="hive两个聚合函数的计算结果拼接成表并做进一步计算"></a>hive两个聚合函数的计算结果拼接成表并做进一步计算</h4><p>hive两个聚合函数的计算结果拼接成表让LZ头疼了很久，一度想到用python处理，或者新建两张临时表保存聚合函数的结果然后再取出数据进行计算，或者使用UDF, 但总觉得还有其他方法。经过一番探索，发现WITH AS 可以方便快捷解决此问题。</p> 
-      <a class="article-more-link" href="/2020/07/23/%E4%B8%A4%E4%B8%AA%E8%81%9A%E5%90%88%E5%87%BD%E6%95%B0%E8%AE%A1%E7%AE%97%E7%BB%93%E6%9E%9C%E8%BF%9B%E8%A1%8C%E6%8B%BC%E6%8E%A5/"
-        >阅读更多...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hive/" rel="tag">hive</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%87%BD%E6%95%B0/" rel="tag">函数</a></li></ul>
 
     </footer>
   </div>

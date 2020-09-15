@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-09-14T10:39:10.467Z</updated>
+  <updated>2020-09-15T01:49:01.131Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Git远程分支</title>
+    <link href="http://yoursite.com/2020/09/15/Git%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF/"/>
+    <id>http://yoursite.com/2020/09/15/Git%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF/</id>
+    <published>2020-09-15T01:45:29.000Z</published>
+    <updated>2020-09-15T01:49:01.131Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Git-分支-远程分支&quot;&gt;&lt;a href=&quot;#Git-分支-远程分支&quot; class=&quot;headerlink&quot; title=&quot;Git 分支 - 远程分支&quot;&gt;&lt;/a&gt;Git 分支 - 远程分支&lt;/h1&gt;&lt;h2 id=&quot;远程分支&quot;&gt;&lt;a href=&quot;#远程分支&quot; class=&quot;headerlink&quot; title=&quot;远程分支&quot;&gt;&lt;/a&gt;远程分支&lt;/h2&gt;&lt;p&gt;远程引用是对远程仓库的引用（指针），包括分支、标签等等。 你可以通过 &lt;code&gt;git ls-remote &amp;lt;remote&amp;gt;&lt;/code&gt; 来显式地获得远程引用的完整列表， 或者通过 &lt;code&gt;git remote show &amp;lt;remote&amp;gt;&lt;/code&gt; 获得远程分支的更多信息。 然而，一个更常见的做法是利用远程跟踪分支。&lt;/p&gt;
+&lt;p&gt;远程跟踪分支是远程分支状态的引用。它们是你无法移动的本地引用。一旦你进行了网络通信， Git 就会为你移动它们以精确反映远程仓库的状态。请将它们看做书签， 这样可以提醒你该分支在远程仓库中的位置就是你最后一次连接到它们的位置。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Git" scheme="http://yoursite.com/categories/Git/"/>
+    
+    
+      <category term="Git" scheme="http://yoursite.com/tags/Git/"/>
+    
+      <category term="Git分支" scheme="http://yoursite.com/tags/Git%E5%88%86%E6%94%AF/"/>
+    
+      <category term="远程分支" scheme="http://yoursite.com/tags/%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF/"/>
+    
+  </entry>
   
   <entry>
     <title>Hive解析json方法</title>
@@ -492,29 +518,6 @@
       <category term="hive on spark" scheme="http://yoursite.com/tags/hive-on-spark/"/>
     
       <category term="spark on hive" scheme="http://yoursite.com/tags/spark-on-hive/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>hive两个聚合函数的计算结果拼接成表并做进一步计算</title>
-    <link href="http://yoursite.com/2020/07/23/%E4%B8%A4%E4%B8%AA%E8%81%9A%E5%90%88%E5%87%BD%E6%95%B0%E8%AE%A1%E7%AE%97%E7%BB%93%E6%9E%9C%E8%BF%9B%E8%A1%8C%E6%8B%BC%E6%8E%A5/"/>
-    <id>http://yoursite.com/2020/07/23/%E4%B8%A4%E4%B8%AA%E8%81%9A%E5%90%88%E5%87%BD%E6%95%B0%E8%AE%A1%E7%AE%97%E7%BB%93%E6%9E%9C%E8%BF%9B%E8%A1%8C%E6%8B%BC%E6%8E%A5/</id>
-    <published>2020-07-23T04:12:57.000Z</published>
-    <updated>2020-07-23T03:51:12.106Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;hive两个聚合函数的计算结果拼接成表并做进一步计算&quot;&gt;&lt;a href=&quot;#hive两个聚合函数的计算结果拼接成表并做进一步计算&quot; class=&quot;headerlink&quot; title=&quot;hive两个聚合函数的计算结果拼接成表并做进一步计算&quot;&gt;&lt;/a&gt;hive两个聚合函数的计算结果拼接成表并做进一步计算&lt;/h4&gt;&lt;p&gt;hive两个聚合函数的计算结果拼接成表让LZ头疼了很久，一度想到用python处理，或者新建两张临时表保存聚合函数的结果然后再取出数据进行计算，或者使用UDF, 但总觉得还有其他方法。经过一番探索，发现WITH AS 可以方便快捷解决此问题。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="Hive" scheme="http://yoursite.com/categories/Hive/"/>
-    
-    
-      <category term="hive" scheme="http://yoursite.com/tags/hive/"/>
-    
-      <category term="函数" scheme="http://yoursite.com/tags/%E5%87%BD%E6%95%B0/"/>
     
   </entry>
   

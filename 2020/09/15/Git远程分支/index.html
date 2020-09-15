@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="生活,代码" />
+   
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    Git远程分支 |  你当像鸟飞往你的山
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="你当像鸟飞往你的山" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      <canvas class="fireworks"></canvas>
+      <style>
+        .fireworks {
+          position: fixed;
+          left: 0;
+          top: 0;
+          z-index: 99999;
+          pointer-events: none;
+        }
+      </style>
+      
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-Git远程分支"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Git远程分支
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/09/15/Git%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF/" class="article-date">
+  <time datetime="2020-09-15T01:45:29.000Z" itemprop="datePublished">2020-09-15</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Git/">Git</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">3.2k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">12 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="Git-分支-远程分支"><a href="#Git-分支-远程分支" class="headerlink" title="Git 分支 - 远程分支"></a>Git 分支 - 远程分支</h1><h2 id="远程分支"><a href="#远程分支" class="headerlink" title="远程分支"></a>远程分支</h2><p>远程引用是对远程仓库的引用（指针），包括分支、标签等等。 你可以通过 <code>git ls-remote &lt;remote&gt;</code> 来显式地获得远程引用的完整列表， 或者通过 <code>git remote show &lt;remote&gt;</code> 获得远程分支的更多信息。 然而，一个更常见的做法是利用远程跟踪分支。</p>
+<p>远程跟踪分支是远程分支状态的引用。它们是你无法移动的本地引用。一旦你进行了网络通信， Git 就会为你移动它们以精确反映远程仓库的状态。请将它们看做书签， 这样可以提醒你该分支在远程仓库中的位置就是你最后一次连接到它们的位置。</p>
+<a id="more"></a>
+
+<p>它们以 <code>&lt;remote&gt;/&lt;branch&gt;</code> 的形式命名。 例如，如果你想要看你最后一次与远程仓库 <code>origin</code> 通信时 <code>master</code> 分支的状态，你可以查看 <code>origin/master</code> 分支。 你与同事合作解决一个问题并且他们推送了一个 <code>iss53</code> 分支，你可能有自己的本地 <code>iss53</code> 分支， 然而在服务器上的分支会以 <code>origin/iss53</code> 来表示。</p>
+<p>这可能有一点儿难以理解，让我们来看一个例子。 假设你的网络里有一个在 <code>git.ourcompany.com</code> 的 Git 服务器。 如果你从这里克隆，Git 的 <code>clone</code> 命令会为你自动将其命名为 <code>origin</code>，拉取它的所有数据， 创建一个指向它的 <code>master</code> 分支的指针，并且在本地将其命名为 <code>origin/master</code>。 Git 也会给你一个与 origin 的 <code>master</code> 分支在指向同一个地方的本地 <code>master</code> 分支，这样你就有工作的基础。</p>
+<table>
+<thead>
+<tr>
+<th>Note</th>
+<th>“origin” 并无特殊含义远程仓库名字 “origin” 与分支名字 “master” 一样，在 Git 中并没有任何特别的含义一样。 同时 “master” 是当你运行 <code>git init</code> 时默认的起始分支名字，原因仅仅是它的广泛使用， “origin” 是当你运行 <code>git clone</code> 时默认的远程仓库名字。 如果你运行 <code>git clone -o booyah</code>，那么你默认的远程分支名字将会是 <code>booyah/master</code>。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><img src="/2020/09/15/Git%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF/remote-branches-1.png" alt="克隆之后的服务器与本地仓库。"></p>
+<p>Figure 30. 克隆之后的服务器与本地仓库</p>
+<p>如果你在本地的 <code>master</code> 分支做了一些工作，在同一段时间内有其他人推送提交到 <code>git.ourcompany.com</code> 并且更新了它的 <code>master</code> 分支，这就是说你们的提交历史已走向不同的方向。 即便这样，只要你保持不与 <code>origin</code> 服务器连接（并拉取数据），你的 <code>origin/master</code> 指针就不会移动。</p>
+<p><img src="/2020/09/15/Git%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF/remote-branches-2.png" alt="本地与远程的工作可以分叉。"></p>
+<p>Figure 31. 本地与远程的工作可以分叉</p>
+<p>如果要与给定的远程仓库同步数据，运行 <code>git fetch &lt;remote&gt;</code> 命令（在本例中为 <code>git fetch origin</code>）。 这个命令查找 “origin” 是哪一个服务器（在本例中，它是 <code>git.ourcompany.com</code>）， 从中抓取本地没有的数据，并且更新本地数据库，移动 <code>origin/master</code> 指针到更新之后的位置。</p>
+<p><img src="/2020/09/15/Git%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF/remote-branches-3.png" alt="`git fetch` 更新你的远程仓库引用。"></p>
+<p>Figure 32. <code>git fetch</code> 更新你的远程跟踪分支</p>
+<p>为了演示有多个远程仓库与远程分支的情况，我们假定你有另一个内部 Git 服务器，仅服务于你的某个敏捷开发团队。 这个服务器位于 <code>git.team1.ourcompany.com</code>。 你可以运行 <code>git remote add</code> 命令添加一个新的远程仓库引用到当前的项目，这个命令我们会在 <a href="https://git-scm.com/book/zh/v2/ch00/ch02-git-basics-chapter" target="_blank" rel="noopener">Git 基础</a> 中详细说明。 将这个远程仓库命名为 <code>teamone</code>，将其作为完整 URL 的缩写。</p>
+<p><img src="/2020/09/15/Git%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF/remote-branches-4.png" alt="添加另一个远程仓库。"></p>
+<p>Figure 33. 添加另一个远程仓库</p>
+<p>现在，可以运行 <code>git fetch teamone</code> 来抓取远程仓库 <code>teamone</code> 有而本地没有的数据。 因为那台服务器上现有的数据是 <code>origin</code> 服务器上的一个子集， 所以 Git 并不会抓取数据而是会设置远程跟踪分支 <code>teamone/master</code> 指向 <code>teamone</code> 的 <code>master</code> 分支。</p>
+<p><img src="/2020/09/15/Git%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF/remote-branches-5.png" alt="远程跟踪分支 `teamone/master`。"></p>
+<p>Figure 34. 远程跟踪分支 <code>teamone/master</code></p>
+<h3 id="推送"><a href="#推送" class="headerlink" title="推送"></a>推送</h3><p>当你想要公开分享一个分支时，需要将其推送到有写入权限的远程仓库上。 本地的分支并不会自动与远程仓库同步——你必须显式地推送想要分享的分支。 这样，你就可以把不愿意分享的内容放到私人分支上，而将需要和别人协作的内容推送到公开分支。</p>
+<p>如果希望和别人一起在名为 <code>serverfix</code> 的分支上工作，你可以像推送第一个分支那样推送它。 运行 <code>git push &lt;remote&gt; &lt;branch&gt;</code>:</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git push origin serverfix</span></span><br><span class="line">Counting objects: 24, done.</span><br><span class="line">Delta compression using up to 8 threads.</span><br><span class="line">Compressing objects: 100% (15/15), done.</span><br><span class="line">Writing objects: 100% (24/24), 1.91 KiB | 0 bytes/s, done.</span><br><span class="line">Total 24 (delta 2), reused 0 (delta 0)</span><br><span class="line">To https://github.com/schacon/simplegit</span><br><span class="line"> * [new branch]      serverfix -&gt; serverfix</span><br></pre></td></tr></table></figure>
+
+<p>这里有些工作被简化了。 Git 自动将 <code>serverfix</code> 分支名字展开为 <code>refs/heads/serverfix:refs/heads/serverfix</code>， 那意味着，“推送本地的 <code>serverfix</code> 分支来更新远程仓库上的 <code>serverfix</code> 分支。” 我们将会详细学习 <a href="https://git-scm.com/book/zh/v2/ch00/ch10-git-internals" target="_blank" rel="noopener">Git 内部原理</a> 的 <code>refs/heads/</code> 部分， 但是现在可以先把它放在儿。你也可以运行 <code>git push origin serverfix:serverfix</code>， 它会做同样的事——也就是说“推送本地的 <code>serverfix</code> 分支，将其作为远程仓库的 <code>serverfix</code> 分支” 可以通过这种格式来推送本地分支到一个命名不相同的远程分支。 如果并不想让远程仓库上的分支叫做 <code>serverfix</code>，可以运行 <code>git push origin serverfix:awesomebranch</code> 来将本地的 <code>serverfix</code> 分支推送到远程仓库上的 <code>awesomebranch</code> 分支。</p>
+<table>
+<thead>
+<tr>
+<th>Note</th>
+<th>如何避免每次输入密码如果你正在使用 HTTPS URL 来推送，Git 服务器会询问用户名与密码。 默认情况下它会在终端中提示服务器是否允许你进行推送。如果不想在每一次推送时都输入用户名与密码，你可以设置一个 “credential cache”。 最简单的方式就是将其保存在内存中几分钟，可以简单地运行 <code>git config --global credential.helper cache</code> 来设置它。想要了解更多关于不同验证缓存的可用选项，查看 <a href="https://git-scm.com/book/zh/v2/ch00/_credential_caching" target="_blank" rel="noopener">凭证存储</a>。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>下一次其他协作者从服务器上抓取数据时，他们会在本地生成一个远程分支 <code>origin/serverfix</code>，指向服务器的 <code>serverfix</code> 分支的引用：</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git fetch origin</span></span><br><span class="line">remote: Counting objects: 7, done.</span><br><span class="line">remote: Compressing objects: 100% (2/2), done.</span><br><span class="line">remote: Total 3 (delta 0), reused 3 (delta 0)</span><br><span class="line">Unpacking objects: 100% (3/3), done.</span><br><span class="line">From https://github.com/schacon/simplegit</span><br><span class="line"> * [new branch]      serverfix    -&gt; origin/serverfix</span><br></pre></td></tr></table></figure>
+
+<p>要特别注意的一点是当抓取到新的远程跟踪分支时，本地不会自动生成一份可编辑的副本（拷贝）。 换一句话说，这种情况下，不会有一个新的 <code>serverfix</code> 分支——只有一个不可以修改的 <code>origin/serverfix</code> 指针。</p>
+<p>可以运行 <code>git merge origin/serverfix</code> 将这些工作合并到当前所在的分支。 如果想要在自己的 <code>serverfix</code> 分支上工作，可以将其建立在远程跟踪分支之上：</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git checkout -b serverfix origin/serverfix</span></span><br><span class="line">Branch serverfix set up to track remote branch serverfix from origin.</span><br><span class="line">Switched to a new branch 'serverfix'</span><br></pre></td></tr></table></figure>
+
+<p>这会给你一个用于工作的本地分支，并且起点位于 <code>origin/serverfix</code>。</p>
+<h3 id="跟踪分支"><a href="#跟踪分支" class="headerlink" title="跟踪分支"></a>跟踪分支</h3><p>从一个远程跟踪分支检出一个本地分支会自动创建所谓的“跟踪分支”（它跟踪的分支叫做“上游分支”）。 跟踪分支是与远程分支有直接关系的本地分支。 如果在一个跟踪分支上输入 <code>git pull</code>，Git 能自动地识别去哪个服务器上抓取、合并到哪个分支。</p>
+<p>当克隆一个仓库时，它通常会自动地创建一个跟踪 <code>origin/master</code> 的 <code>master</code> 分支。 然而，如果你愿意的话可以设置其他的跟踪分支，或是一个在其他远程仓库上的跟踪分支，又或者不跟踪 <code>master</code> 分支。 最简单的实例就是像之前看到的那样，运行 <code>git checkout -b &lt;branch&gt; &lt;remote&gt;/&lt;branch&gt;</code>。 这是一个十分常用的操作所以 Git 提供了 <code>--track</code> 快捷方式：</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git checkout --track origin/serverfix</span></span><br><span class="line">Branch serverfix set up to track remote branch serverfix from origin.</span><br><span class="line">Switched to a new branch 'serverfix'</span><br></pre></td></tr></table></figure>
+
+<p>由于这个操作太常用了，该捷径本身还有一个捷径。 如果你尝试检出的分支 (a) 不存在且 (b) 刚好只有一个名字与之匹配的远程分支，那么 Git 就会为你创建一个跟踪分支：</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git checkout serverfix</span></span><br><span class="line">Branch serverfix set up to track remote branch serverfix from origin.</span><br><span class="line">Switched to a new branch 'serverfix'</span><br></pre></td></tr></table></figure>
+
+<p>如果想要将本地分支与远程分支设置为不同的名字，你可以轻松地使用上一个命令增加一个不同名字的本地分支：</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git checkout -b sf origin/serverfix</span></span><br><span class="line">Branch sf set up to track remote branch serverfix from origin.</span><br><span class="line">Switched to a new branch 'sf'</span><br></pre></td></tr></table></figure>
+
+<p>现在，本地分支 <code>sf</code> 会自动从 <code>origin/serverfix</code> 拉取。</p>
+<p>设置已有的本地分支跟踪一个刚刚拉取下来的远程分支，或者想要修改正在跟踪的上游分支， 你可以在任意时间使用 <code>-u</code> 或 <code>--set-upstream-to</code> 选项运行 <code>git branch</code> 来显式地设置。</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git branch -u origin/serverfix</span></span><br><span class="line">Branch serverfix set up to track remote branch serverfix from origin.</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>Note</th>
+<th>上游快捷方式当设置好跟踪分支后，可以通过简写 <code>@{upstream}</code> 或 <code>@{u}</code> 来引用它的上游分支。 所以在 <code>master</code> 分支时并且它正在跟踪 <code>origin/master</code> 时，如果愿意的话可以使用 <code>git merge @{u}</code> 来取代 <code>git merge origin/master</code>。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>如果想要查看设置的所有跟踪分支，可以使用 <code>git branch</code> 的 <code>-vv</code> 选项。 这会将所有的本地分支列出来并且包含更多的信息，如每一个分支正在跟踪哪个远程分支与本地分支是否是领先、落后或是都有。</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git branch -vv</span></span><br><span class="line">  iss53     7e424c3 [origin/iss53: ahead 2] forgot the brackets</span><br><span class="line">  master    1ae2a45 [origin/master] deploying index fix</span><br><span class="line">* serverfix f8674d9 [teamone/server-fix-good: ahead 3, behind 1] this should do it</span><br><span class="line">  testing   5ea463a trying something new</span><br></pre></td></tr></table></figure>
+
+<p>这里可以看到 <code>iss53</code> 分支正在跟踪 <code>origin/iss53</code> 并且 “ahead” 是 2，意味着本地有两个提交还没有推送到服务器上。 也能看到 <code>master</code> 分支正在跟踪 <code>origin/master</code> 分支并且是最新的。 接下来可以看到 <code>serverfix</code> 分支正在跟踪 <code>teamone</code> 服务器上的 <code>server-fix-good</code> 分支并且领先 3 落后 1， 意味着服务器上有一次提交还没有合并入同时本地有三次提交还没有推送。 最后看到 <code>testing</code> 分支并没有跟踪任何远程分支。</p>
+<p>需要重点注意的一点是这些数字的值来自于你从每个服务器上最后一次抓取的数据。 这个命令并没有连接服务器，它只会告诉你关于本地缓存的服务器数据。 如果想要统计最新的领先与落后数字，需要在运行此命令前抓取所有的远程仓库。 可以像这样做：</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git fetch --all; git branch -vv</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="拉取"><a href="#拉取" class="headerlink" title="拉取"></a>拉取</h3><p>当 <code>git fetch</code> 命令从服务器上抓取本地没有的数据时，它并不会修改工作目录中的内容。 它只会获取数据然后让你自己合并。 然而，有一个命令叫作 <code>git pull</code> 在大多数情况下它的含义是一个 <code>git fetch</code> 紧接着一个 <code>git merge</code> 命令。 如果有一个像之前章节中演示的设置好的跟踪分支，不管它是显式地设置还是通过 <code>clone</code> 或 <code>checkout</code> 命令为你创建的，<code>git pull</code> 都会查找当前分支所跟踪的服务器与分支， 从服务器上抓取数据然后尝试合并入那个远程分支。</p>
+<p>由于 <code>git pull</code> 的魔法经常令人困惑所以通常单独显式地使用 <code>fetch</code> 与 <code>merge</code> 命令会更好一些。</p>
+<h3 id="删除远程分支"><a href="#删除远程分支" class="headerlink" title="删除远程分支"></a>删除远程分支</h3><p>假设你已经通过远程分支做完所有的工作了——也就是说你和你的协作者已经完成了一个特性， 并且将其合并到了远程仓库的 <code>master</code> 分支（或任何其他稳定代码分支）。 可以运行带有 <code>--delete</code> 选项的 <code>git push</code> 命令来删除一个远程分支。 如果想要从服务器上删除 <code>serverfix</code> 分支，运行下面的命令：</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git push origin --delete serverfix</span></span><br><span class="line">To https://github.com/schacon/simplegit</span><br><span class="line"> - [deleted]         serverfix</span><br></pre></td></tr></table></figure>
+
+<p>基本上这个命令做的只是从服务器上移除这个指针。 Git 服务器通常会保留数据一段时间直到垃圾回收运行，所以如果不小心删除掉了，通常是很容易恢复的。</p>
+ 
+      <!-- reward -->
+      
+      <div id="reward-btn">
+        打赏
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/09/15/Git%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git%E5%88%86%E6%94%AF/" rel="tag">Git分支</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF/" rel="tag">远程分支</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2020/09/14/Hive%E8%A7%A3%E6%9E%90json%E6%96%B9%E6%B3%95/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">Hive解析json方法</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "Dfy9sbO4s9px2dbCyrGKbdLm-gzGzoHsz",
+    app_key: "UL9nHVEnBrVAIePJrdmz9qYr",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2015-2020
+        <i class="ri-heart-fill heart_icon"></i> Xuefeng Tao
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        由 <a href="https://hexo.io" target="_blank">Hexo</a> 强力驱动
+        <span class="division">|</span>
+        主题 - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>访问人数:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>浏览次数:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="你当像鸟飞往你的山"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="https://xuefeng-vip.lofter.com/" target="_blank" rel="noopener">相册</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/2020/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+
+<script src="/js/clickBoom1.js"></script>
+
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="86"
+        src="//music.163.com/outchain/player?type=2&id=1454478388&auto=0&height=66"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+  </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-wanko"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body>
+
+</html>
