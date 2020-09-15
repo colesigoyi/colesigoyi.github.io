@@ -1934,18 +1934,10 @@ CombineTextInputFormat.setMinInputSplitSize(job, 2097152);</code></pre><p><img s
 
 <p>它们以 <code>&lt;remote&gt;/&lt;branch&gt;</code> 的形式命名。 例如，如果你想要看你最后一次与远程仓库 <code>origin</code> 通信时 <code>master</code> 分支的状态，你可以查看 <code>origin/master</code> 分支。 你与同事合作解决一个问题并且他们推送了一个 <code>iss53</code> 分支，你可能有自己的本地 <code>iss53</code> 分支， 然而在服务器上的分支会以 <code>origin/iss53</code> 来表示。</p>
 <p>这可能有一点儿难以理解，让我们来看一个例子。 假设你的网络里有一个在 <code>git.ourcompany.com</code> 的 Git 服务器。 如果你从这里克隆，Git 的 <code>clone</code> 命令会为你自动将其命名为 <code>origin</code>，拉取它的所有数据， 创建一个指向它的 <code>master</code> 分支的指针，并且在本地将其命名为 <code>origin/master</code>。 Git 也会给你一个与 origin 的 <code>master</code> 分支在指向同一个地方的本地 <code>master</code> 分支，这样你就有工作的基础。</p>
-<table>
-<thead>
-<tr>
-<th>Note</th>
-<th>“origin” 并无特殊含义远程仓库名字 “origin” 与分支名字 “master” 一样，在 Git 中并没有任何特别的含义一样。 同时 “master” 是当你运行 <code>git init</code> 时默认的起始分支名字，原因仅仅是它的广泛使用， “origin” 是当你运行 <code>git clone</code> 时默认的远程仓库名字。 如果你运行 <code>git clone -o booyah</code>，那么你默认的远程分支名字将会是 <code>booyah/master</code>。</th>
-</tr>
-</thead>
-<tbody><tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Note:</span><br><span class="line"></span><br><span class="line">“origin” 并无特殊含义</span><br><span class="line"></span><br><span class="line">远程仓库名字 “origin” 与分支名字 “master” 一样，在 Git 中并没有任何特别的含义一样。 同时 “master” 是当你运行 git init 时默认的起始分支名字，原因仅仅是它的广泛使用， “origin” 是当你运行 git clone 时默认的远程仓库名字。 如果你运行 git clone -o booyah，那么你默认的远程分支名字将会是 booyah&#x2F;master。</span><br></pre></td></tr></table></figure>
+
+
+
 <p><img src="/2020/09/15/Git%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF/remote-branches-1.png" alt="克隆之后的服务器与本地仓库。"></p>
 <p>Figure 30. 克隆之后的服务器与本地仓库</p>
 <p>如果你在本地的 <code>master</code> 分支做了一些工作，在同一段时间内有其他人推送提交到 <code>git.ourcompany.com</code> 并且更新了它的 <code>master</code> 分支，这就是说你们的提交历史已走向不同的方向。 即便这样，只要你保持不与 <code>origin</code> 服务器连接（并拉取数据），你的 <code>origin/master</code> 指针就不会移动。</p>
@@ -1965,18 +1957,10 @@ CombineTextInputFormat.setMinInputSplitSize(job, 2097152);</code></pre><p><img s
 <figure class="highlight console"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git push origin serverfix</span></span><br><span class="line">Counting objects: 24, done.</span><br><span class="line">Delta compression using up to 8 threads.</span><br><span class="line">Compressing objects: 100% (15/15), done.</span><br><span class="line">Writing objects: 100% (24/24), 1.91 KiB | 0 bytes/s, done.</span><br><span class="line">Total 24 (delta 2), reused 0 (delta 0)</span><br><span class="line">To https://github.com/schacon/simplegit</span><br><span class="line"> * [new branch]      serverfix -&gt; serverfix</span><br></pre></td></tr></table></figure>
 
 <p>这里有些工作被简化了。 Git 自动将 <code>serverfix</code> 分支名字展开为 <code>refs/heads/serverfix:refs/heads/serverfix</code>， 那意味着，“推送本地的 <code>serverfix</code> 分支来更新远程仓库上的 <code>serverfix</code> 分支。” 我们将会详细学习 <a href="https://git-scm.com/book/zh/v2/ch00/ch10-git-internals" target="_blank" rel="noopener">Git 内部原理</a> 的 <code>refs/heads/</code> 部分， 但是现在可以先把它放在儿。你也可以运行 <code>git push origin serverfix:serverfix</code>， 它会做同样的事——也就是说“推送本地的 <code>serverfix</code> 分支，将其作为远程仓库的 <code>serverfix</code> 分支” 可以通过这种格式来推送本地分支到一个命名不相同的远程分支。 如果并不想让远程仓库上的分支叫做 <code>serverfix</code>，可以运行 <code>git push origin serverfix:awesomebranch</code> 来将本地的 <code>serverfix</code> 分支推送到远程仓库上的 <code>awesomebranch</code> 分支。</p>
-<table>
-<thead>
-<tr>
-<th>Note</th>
-<th>如何避免每次输入密码如果你正在使用 HTTPS URL 来推送，Git 服务器会询问用户名与密码。 默认情况下它会在终端中提示服务器是否允许你进行推送。如果不想在每一次推送时都输入用户名与密码，你可以设置一个 “credential cache”。 最简单的方式就是将其保存在内存中几分钟，可以简单地运行 <code>git config --global credential.helper cache</code> 来设置它。想要了解更多关于不同验证缓存的可用选项，查看 <a href="https://git-scm.com/book/zh/v2/ch00/_credential_caching" target="_blank" rel="noopener">凭证存储</a>。</th>
-</tr>
-</thead>
-<tbody><tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Note:</span><br><span class="line">如何避免每次输入密码如果你正在使用 HTTPS URL 来推送，Git 服务器会询问用户名与密码。 默认情况下它会在终端中提示服务器是否允许你进行推送。如果不想在每一次推送时都输入用户名与密码，你可以设置一个 “credential cache”。 最简单的方式就是将其保存在内存中几分钟，可以简单地运行 git config --global credential.helper cache 来设置它。想要了解更多关于不同验证缓存的可用选项，查看 凭证存储。</span><br></pre></td></tr></table></figure>
+
+
+
 <p>下一次其他协作者从服务器上抓取数据时，他们会在本地生成一个远程分支 <code>origin/serverfix</code>，指向服务器的 <code>serverfix</code> 分支的引用：</p>
 <figure class="highlight console"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git fetch origin</span></span><br><span class="line">remote: Counting objects: 7, done.</span><br><span class="line">remote: Compressing objects: 100% (2/2), done.</span><br><span class="line">remote: Total 3 (delta 0), reused 3 (delta 0)</span><br><span class="line">Unpacking objects: 100% (3/3), done.</span><br><span class="line">From https://github.com/schacon/simplegit</span><br><span class="line"> * [new branch]      serverfix    -&gt; origin/serverfix</span><br></pre></td></tr></table></figure>
 
@@ -1999,18 +1983,10 @@ CombineTextInputFormat.setMinInputSplitSize(job, 2097152);</code></pre><p><img s
 <p>设置已有的本地分支跟踪一个刚刚拉取下来的远程分支，或者想要修改正在跟踪的上游分支， 你可以在任意时间使用 <code>-u</code> 或 <code>--set-upstream-to</code> 选项运行 <code>git branch</code> 来显式地设置。</p>
 <figure class="highlight console"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git branch -u origin/serverfix</span></span><br><span class="line">Branch serverfix set up to track remote branch serverfix from origin.</span><br></pre></td></tr></table></figure>
 
-<table>
-<thead>
-<tr>
-<th>Note</th>
-<th>上游快捷方式当设置好跟踪分支后，可以通过简写 <code>@{upstream}</code> 或 <code>@{u}</code> 来引用它的上游分支。 所以在 <code>master</code> 分支时并且它正在跟踪 <code>origin/master</code> 时，如果愿意的话可以使用 <code>git merge @{u}</code> 来取代 <code>git merge origin/master</code>。</th>
-</tr>
-</thead>
-<tbody><tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Note:</span><br><span class="line">上游快捷方式当设置好跟踪分支后，可以通过简写 @&#123;upstream&#125; 或 @&#123;u&#125; 来引用它的上游分支。 所以在 master 分支时并且它正在跟踪 origin&#x2F;master 时，如果愿意的话可以使用 git merge @&#123;u&#125; 来取代 git merge origin&#x2F;master。</span><br></pre></td></tr></table></figure>
+
+
+
 <p>如果想要查看设置的所有跟踪分支，可以使用 <code>git branch</code> 的 <code>-vv</code> 选项。 这会将所有的本地分支列出来并且包含更多的信息，如每一个分支正在跟踪哪个远程分支与本地分支是否是领先、落后或是都有。</p>
 <figure class="highlight console"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git branch -vv</span></span><br><span class="line">  iss53     7e424c3 [origin/iss53: ahead 2] forgot the brackets</span><br><span class="line">  master    1ae2a45 [origin/master] deploying index fix</span><br><span class="line">* serverfix f8674d9 [teamone/server-fix-good: ahead 3, behind 1] this should do it</span><br><span class="line">  testing   5ea463a trying something new</span><br></pre></td></tr></table></figure>
 
