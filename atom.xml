@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-09-15T02:05:20.157Z</updated>
+  <updated>2020-09-16T09:34:47.282Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>go 运行错误expected &#39;package&#39;, found &#39;EOF&#39;解决</title>
+    <link href="http://yoursite.com/2020/09/16/go-%E8%BF%90%E8%A1%8C%E9%94%99%E8%AF%AFexpected-package-found-EOF-%E8%A7%A3%E5%86%B3/"/>
+    <id>http://yoursite.com/2020/09/16/go-%E8%BF%90%E8%A1%8C%E9%94%99%E8%AF%AFexpected-package-found-EOF-%E8%A7%A3%E5%86%B3/</id>
+    <published>2020-09-16T09:33:51.000Z</published>
+    <updated>2020-09-16T09:34:47.282Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Go" scheme="http://yoursite.com/categories/Go/"/>
+    
+    
+      <category term="Go" scheme="http://yoursite.com/tags/Go/"/>
+    
+      <category term="语言" scheme="http://yoursite.com/tags/%E8%AF%AD%E8%A8%80/"/>
+    
+  </entry>
   
   <entry>
     <title>Git远程分支</title>
@@ -495,29 +524,6 @@
       <category term="远程访问" scheme="http://yoursite.com/tags/%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AE/"/>
     
       <category term="公司vpn" scheme="http://yoursite.com/tags/%E5%85%AC%E5%8F%B8vpn/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>hive on spark与spark on hive的区别</title>
-    <link href="http://yoursite.com/2020/07/23/Hive-on-Spark%E4%B8%8ESparkSql%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
-    <id>http://yoursite.com/2020/07/23/Hive-on-Spark%E4%B8%8ESparkSql%E7%9A%84%E5%8C%BA%E5%88%AB/</id>
-    <published>2020-07-23T09:12:57.000Z</published>
-    <updated>2020-07-24T11:15:36.500Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;SparkSQL简介&quot;&gt;&lt;a href=&quot;#SparkSQL简介&quot; class=&quot;headerlink&quot; title=&quot;SparkSQL简介&quot;&gt;&lt;/a&gt;SparkSQL简介&lt;/h3&gt;&lt;p&gt;SparkSQL的前身是Shark，给熟悉RDBMS但又不理解MapReduce的技术人员提供快速上手的工具，hive应运而生，它是当时唯一运行在Hadoop上的SQL-on-hadoop工具。但是MapReduce计算过程中大量的中间磁盘落地过程消耗了大量的I/O，降低的运行效率，为了提高SQL-on-Hadoop的效率，Shark应运而生，但又因为Shark对于Hive的太多依赖（如采用Hive的语法解析器、查询优化器等等),2014年spark团队停止对Shark的开发，将所有资源放SparkSQL项目上&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="Hive" scheme="http://yoursite.com/categories/Hive/"/>
-    
-    
-      <category term="hive on spark" scheme="http://yoursite.com/tags/hive-on-spark/"/>
-    
-      <category term="spark on hive" scheme="http://yoursite.com/tags/spark-on-hive/"/>
     
   </entry>
   

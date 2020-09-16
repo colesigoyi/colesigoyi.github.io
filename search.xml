@@ -2010,4 +2010,17 @@ CombineTextInputFormat.setMinInputSplitSize(job, 2097152);</code></pre><p><img s
         <tag>远程分支</tag>
       </tags>
   </entry>
+  <entry>
+    <title>go 运行错误expected &#39;package&#39;, found &#39;EOF&#39;解决</title>
+    <url>/2020/09/16/go-%E8%BF%90%E8%A1%8C%E9%94%99%E8%AF%AFexpected-package-found-EOF-%E8%A7%A3%E5%86%B3/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><p>一句话:只要把文件保存一下,再运行就可以了</p>
+]]></content>
+      <categories>
+        <category>Go</category>
+      </categories>
+      <tags>
+        <tag>Go</tag>
+        <tag>语言</tag>
+      </tags>
+  </entry>
 </search>
