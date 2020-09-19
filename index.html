@@ -115,6 +115,59 @@
     
     
     <article
+  id="post-数学基础1-随机梯度下降法SGD"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/09/19/%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%801-%E9%9A%8F%E6%9C%BA%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95SGD/"
+    >数学基础1:随机梯度下降法SGD</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/09/19/%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%801-%E9%9A%8F%E6%9C%BA%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95SGD/" class="article-date">
+  <time datetime="2020-09-19T01:28:15.000Z" itemprop="datePublished">2020-09-19</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>随机梯度下降（通常缩短为SGD），也称为增量梯度下降，是用于优化可微分目标函数的迭代方法，梯度下降优化的随机近似。</p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%9F%BA%E7%A1%80/" rel="tag">数据基础</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+   
+</article>
+
+    
+    <article
   id="post-go-运行错误expected-package-found-EOF-解决"
   class="article article-type-post"
   itemscope
@@ -612,65 +665,6 @@
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-   
-</article>
-
-    
-    <article
-  id="post-Spark结构化流-窗口操作与水印"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/08/20/Spark%E7%BB%93%E6%9E%84%E5%8C%96%E6%B5%81-%E7%AA%97%E5%8F%A3%E6%93%8D%E4%BD%9C%E4%B8%8E%E6%B0%B4%E5%8D%B0/"
-    >Spark结构化流-窗口操作与水印</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/08/20/Spark%E7%BB%93%E6%9E%84%E5%8C%96%E6%B5%81-%E7%AA%97%E5%8F%A3%E6%93%8D%E4%BD%9C%E4%B8%8E%E6%B0%B4%E5%8D%B0/" class="article-date">
-  <time datetime="2020-08-20T08:32:22.000Z" itemprop="datePublished">2020-08-20</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/spark-structured-streaming/">spark-structured-streaming</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h3 id="事件时间窗口操作"><a href="#事件时间窗口操作" class="headerlink" title="事件时间窗口操作"></a>事件时间窗口操作</h3><p>滑动事件时间窗口上的聚合对于结构化流而言非常简单，并且与分组聚合非常相似。在分组聚合中，在用户指定的分组列中为每个唯一值维护聚合值（例如，计数）。在基于窗口的聚合的情况下，行事件时间所属的每个窗口都会维护聚合值。让我们通过插图来了解这一点。</p>
-<p>想象一下我们的<a href="https://spark.apache.org/docs/2.2.0/structured-streaming-programming-guide.html#quick-example" target="_blank" rel="noopener">快速示例</a>已被修改，并且流现在包含行以及生成行的时间。而不是运行字数统计，我们希望在10分钟的窗口内对字数进行计数，每5分钟更新一次。也就是说，在10分钟窗口12:00-12：10、12：05-12：15、12：10-12:20等之间接收的单词中的单词计数。请注意，12：00-12:10表示数据12:00之后但12:10之前到达。现在，考虑在12:07收到的单词。此字应增加对应于两个窗口12:00-12:10和12:05-12:15的计数。因此，计数将通过分组键（即单词）和窗口（可以从事件时间计算）来索引。</p>
-<p>结果表如下所示。</p>
-<p><img src="/2020/08/20/Spark%E7%BB%93%E6%9E%84%E5%8C%96%E6%B5%81-%E7%AA%97%E5%8F%A3%E6%93%8D%E4%BD%9C%E4%B8%8E%E6%B0%B4%E5%8D%B0/structured-streaming-window.png" alt="窗口操作"></p> 
-      <a class="article-more-link" href="/2020/08/20/Spark%E7%BB%93%E6%9E%84%E5%8C%96%E6%B5%81-%E7%AA%97%E5%8F%A3%E6%93%8D%E4%BD%9C%E4%B8%8E%E6%B0%B4%E5%8D%B0/"
-        >阅读更多...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/" rel="tag">spark</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B0%B4%E5%8D%B0%E6%93%8D%E4%BD%9C/" rel="tag">水印操作</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B5%81%E5%A4%84%E7%90%86/" rel="tag">流处理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AA%97%E5%8F%A3%E6%93%8D%E4%BD%9C/" rel="tag">窗口操作</a></li></ul>
 
     </footer>
   </div>

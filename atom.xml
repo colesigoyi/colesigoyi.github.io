@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-09-16T09:34:47.282Z</updated>
+  <updated>2020-09-19T10:21:47.348Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>数学基础1:随机梯度下降法SGD</title>
+    <link href="http://yoursite.com/2020/09/19/%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%801-%E9%9A%8F%E6%9C%BA%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95SGD/"/>
+    <id>http://yoursite.com/2020/09/19/%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%801-%E9%9A%8F%E6%9C%BA%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95SGD/</id>
+    <published>2020-09-19T01:28:15.000Z</published>
+    <updated>2020-09-19T10:21:47.348Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="机器学习" scheme="http://yoursite.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="机器学习" scheme="http://yoursite.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+      <category term="数据基础" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E5%9F%BA%E7%A1%80/"/>
+    
+  </entry>
   
   <entry>
     <title>go 运行错误expected &#39;package&#39;, found &#39;EOF&#39;解决</title>
@@ -500,30 +529,6 @@
     
     
       <category term="同比/环比" scheme="http://yoursite.com/tags/%E5%90%8C%E6%AF%94-%E7%8E%AF%E6%AF%94/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>mac连接公司vpn的坑</title>
-    <link href="http://yoursite.com/2020/07/24/mac%E8%BF%9E%E6%8E%A5%E5%85%AC%E5%8F%B8VPN%E7%9A%84%E5%9D%91/"/>
-    <id>http://yoursite.com/2020/07/24/mac%E8%BF%9E%E6%8E%A5%E5%85%AC%E5%8F%B8VPN%E7%9A%84%E5%9D%91/</id>
-    <published>2020-07-24T09:12:57.000Z</published>
-    <updated>2020-07-24T11:18:28.001Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;问题&quot;&gt;&lt;a href=&quot;#问题&quot; class=&quot;headerlink&quot; title=&quot;问题&quot;&gt;&lt;/a&gt;问题&lt;/h3&gt;&lt;p&gt;1.出现IPSec共享密匙丢失&lt;/p&gt;
-&lt;p&gt;2.能访问公司内网,无法访问公网&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="公司vpn" scheme="http://yoursite.com/categories/%E5%85%AC%E5%8F%B8vpn/"/>
-    
-    
-      <category term="远程访问" scheme="http://yoursite.com/tags/%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AE/"/>
-    
-      <category term="公司vpn" scheme="http://yoursite.com/tags/%E5%85%AC%E5%8F%B8vpn/"/>
     
   </entry>
   

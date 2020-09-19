@@ -2023,4 +2023,17 @@ CombineTextInputFormat.setMinInputSplitSize(job, 2097152);</code></pre><p><img s
         <tag>语言</tag>
       </tags>
   </entry>
+  <entry>
+    <title>数学基础1:随机梯度下降法SGD</title>
+    <url>/2020/09/19/%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%801-%E9%9A%8F%E6%9C%BA%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95SGD/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><p>随机梯度下降（通常缩短为SGD），也称为增量梯度下降，是用于优化可微分目标函数的迭代方法，梯度下降优化的随机近似。</p>
+]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+        <tag>数据基础</tag>
+      </tags>
+  </entry>
 </search>
