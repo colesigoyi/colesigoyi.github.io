@@ -2036,4 +2036,73 @@ CombineTextInputFormat.setMinInputSplitSize(job, 2097152);</code></pre><p><img s
         <tag>数据基础</tag>
       </tags>
   </entry>
+  <entry>
+    <title>spark结构化流与streaming的区别</title>
+    <url>/2020/09/30/spark%E7%BB%93%E6%9E%84%E5%8C%96%E6%B5%81%E4%B8%8Estreaming%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><h2 id="Spark-Streaming-DStreaming-VS-Spark-Structured-Streaming-区别比较-优劣势"><a href="#Spark-Streaming-DStreaming-VS-Spark-Structured-Streaming-区别比较-优劣势" class="headerlink" title="Spark Streaming(DStreaming) VS Spark Structured Streaming 区别比较 优劣势"></a>Spark Streaming(DStreaming) VS Spark Structured Streaming 区别比较 优劣势</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>这篇博客主要记录Spark Streaming(DStreaming) 与 Spark Structured Streaming 之间的差别与优劣势。</p>
+<p>Apache Spark 在 2016 年的时候启动了 Structured Streaming 项目，一个基于 Spark SQL 的全新流计算引擎 Structured Streaming，让用户像编写批处理程序一样简单地编写高性能的流处理程序。经过一年多的改进和完善，目前 Structured Streaming 已经在 Databricks 内部和客户广泛使用。</p>
+<p>引用Spark commiter(gatorsmile)的话：“从Spark-2.X版本后，Spark streaming就进入维护模式，Spark streaming是低阶API，给码农用的，各种坑；Structured streaming是给人设计的API，简单易用。由于太忙，所以一直没有在官方文档上 更新说明信息”。而且可能 Spark 团队之后对 Spark Streaming 的维护可能越来越少。</p>
+<a id="more"></a>
+
+<h3 id="1-Spark-Streaming-不足"><a href="#1-Spark-Streaming-不足" class="headerlink" title="1. Spark Streaming 不足"></a>1. Spark Streaming 不足</h3><ul>
+<li><p>Processing Time 而不是 Event Time</p>
+<p>首先解释一下，Processing Time 是数据到达 Spark 被处理的时间，而 Event Time 是数据自带的属性，一般表示数据产生于数据源的时间。比如 IoT 中，传感器在 12:00:00 产生一条数据，然后在 12:00:05 数据传送到 Spark，那么 Event Time 就是 12:00:00，而 Processing Time 就是 12:00:05。我们知道 Spark Streaming 是基于 DStream 模型的 micro-batch 模式，简单来说就是将一个微小时间段，比如说 1s，的流数据当前批数据来处理。如果我们要统计某个时间段的一些数据统计，毫无疑问应该使用 Event Time，但是因为 Spark Streaming 的数据切割是基于 Processing Time，这样就导致使用 Event Time 特别的困难。</p>
+</li>
+<li><p>Complex, low-level api</p>
+<p>这点比较好理解，DStream （Spark Streaming 的数据模型）提供的 API 类似 RDD 的 API 的，非常的 low level。当我们编写 Spark Streaming 程序的时候，本质上就是要去构造 RDD 的 DAG 执行图，然后通过 Spark Engine 运行。这样导致一个问题是，DAG 可能会因为开发者的水平参差不齐而导致执行效率上的天壤之别。这样导致开发者的体验非常不好，也是任何一个基础框架不想看到的（基础框架的口号一般都是：你们专注于自己的业务逻辑就好，其他的交给我）。这也是很多基础系统强调 Declarative 的一个原因。</p>
+</li>
+<li><p>reason about end-to-end application</p>
+<p>这里的 end-to-end 指的是直接 input 到 out，比如 Kafka 接入 Spark Streaming 然后再导出到 HDFS 中。DStream 只能保证自己的一致性语义是 exactly-once 的，而 input 接入 Spark Streaming 和 Spark Straming 输出到外部存储的语义往往需要用户自己来保证。而这个语义保证写起来也是非常有挑战性，比如为了保证 output 的语义是 exactly-once 语义需要 output 的存储系统具有幂等的特性，或者支持事务性写入，这个对于开发者来说都不是一件容易的事情。</p>
+</li>
+<li><p>批流代码不统一</p>
+<p>尽管批流本是两套系统，但是这两套系统统一起来确实很有必要，我们有时候确实需要将我们的流处理逻辑运行到批数据上面。关于这一点，最早在 2014 年 Google 提出 Dataflow 计算服务的时候就批判了 streaming/batch 这种叫法，而是提出了 unbounded/bounded data 的说法。DStream 尽管是对 RDD 的封装，但是我们要将 DStream 代码完全转换成 RDD 还是有一点工作量的，更何况现在 Spark 的批处理都用 DataSet/DataFrame API 了。</p>
+</li>
+</ul>
+<h3 id="2-Structured-Streaming-优势"><a href="#2-Structured-Streaming-优势" class="headerlink" title="2. Structured Streaming 优势"></a>2. Structured Streaming 优势</h3><p>相对的，来看下Structured Streaming优势(虽然上面已经看出来了)：</p>
+<ul>
+<li>简洁的模型。Structured Streaming 的模型很简洁，易于理解。用户可以直接把一个流想象成是无限增长的表格。</li>
+<li>一致的 API。由于和 Spark SQL 共用大部分 API，对 Spaprk SQL 熟悉的用户很容易上手，代码也十分简洁。同时批处理和流处理程序还可以共用代码，不需要开发两套不同的代码，显著提高了开发效率。</li>
+<li>卓越的性能。Structured Streaming 在与 Spark SQL 共用 API 的同时，也直接使用了 Spark SQL 的 Catalyst 优化器和 Tungsten，数据处理性能十分出色。此外，Structured Streaming 还可以直接从未来 Spark SQL 的各种性能优化中受益。</li>
+<li>多语言支持。Structured Streaming 直接支持目前 Spark SQL 支持的语言，包括 Scala，Java，Python，R 和 SQL。用户可以选择自己喜欢的语言进行开发。</li>
+</ul>
+<h3 id="3-Structured-Streaming-核心设计"><a href="#3-Structured-Streaming-核心设计" class="headerlink" title="3. Structured Streaming 核心设计"></a>3. Structured Streaming 核心设计</h3><p>下面我们看一下 Structured Streaming 的核心设计。</p>
+<p>Structured Streaming 的关键思想是将持续不断的数据当做一个<strong>不断追加的表</strong>。这使得流式计算模型与批处理计算引擎十分相似。使用类似对于静态表的批处理方式来表达流计算，然后 Spark 以在无限表上的增量计算来运行。</p>
+<p><img src="/2020/09/30/spark%E7%BB%93%E6%9E%84%E5%8C%96%E6%B5%81%E4%B8%8Estreaming%E7%9A%84%E5%8C%BA%E5%88%AB/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzZDEzNjkxMg==,size_16,color_FFFFFF,t_70-20200930150855731.png" alt="img"></p>
+<ul>
+<li><strong>Input and Output</strong>: Structured Streaming 内置了很多 connector 来保证 input 数据源和 output sink 保证 exactly-once 语义。而实现 exactly-once 语义的前提是：<br>Input 数据源必须是可以 replay 的，比如 Kafka，这样节点 crash 的时候就可以重新读取 input 数据。常见的数据源包括 Amazon Kinesis, Apache Kafka 和文件系统。</li>
+<li><strong>Output sink</strong> 必须要支持写入是幂等的。这个很好理解，如果 output 不支持幂等写入，那么一致性语义就是 at-least-once 了。另外对于某些 sink, Structured Streaming 还提供了原子写入来保证 exactly-once 语义。</li>
+<li><strong>API</strong>: Structured Streaming 代码编写完全复用 Spark SQL 的 batch API，也就是对一个或者多个 stream 或者 table 进行 query。query 的结果是 result table，可以以多种不同的模式（append, update, complete）输出到外部存储中。另外，Structured Streaming 还提供了一些 Streaming 处理特有的 API：Trigger, watermark, stateful operator。<br>Execution: 复用 Spark SQL 的执行引擎。Structured Streaming 默认使用类似 Spark Streaming 的 micro-batch 模式，有很多好处，比如动态负载均衡、再扩展、错误恢复以及 straggler （straggler 指的是哪些执行明显慢于其他 task 的 task）重试。除了 micro-batch 模式，Structured Streaming 还提供了基于传统的 long-running operator 的 continuous 处理模式。</li>
+<li><strong>Operational Features</strong>: 利用 wal 和状态存储，开发者可以做到集中形式的 rollback 和错误恢复。还有一些其他 Operational 上的 feature，这里就不细说了。</li>
+</ul>
+<p>具体详细介绍与使用可以参考前两篇博客：</p>
+<ol>
+<li><a href="https://blog.csdn.net/asd136912/article/details/82147657" target="_blank" rel="noopener">https://blog.csdn.net/asd136912/article/details/82147657</a></li>
+<li><a href="https://blog.csdn.net/asd136912/article/details/82913264" target="_blank" rel="noopener">https://blog.csdn.net/asd136912/article/details/82913264</a></li>
+</ol>
+<h3 id="3-Continuous-Processing-Mode"><a href="#3-Continuous-Processing-Mode" class="headerlink" title="3. Continuous Processing Mode"></a>3. Continuous Processing Mode</h3><p>好，终于要介绍到“真正”的流处理了，我之所以说“真正”是因为 continuous mode 是传统的流处理模式，通过运行一个 long-running 的 operator 用来处理数据。之前 Spark Streaming是基于 <strong>micro-batch</strong> 模式的，就被很多人诟病不是“真正的”流式处理。continuous mode 这种处理模式只要一有数据可用就会进行处理，如下图所示。</p>
+<p>epoch 是 input 中数据被发送给 operator 处理的最小单位，在处理过程中，epoch 的 offset 会被记录到 wal 中。另外 continuous 模式下的 snapshot 存储使用的一致性算法是 Chandy-Lamport 算法。<br><img src="/2020/09/30/spark%E7%BB%93%E6%9E%84%E5%8C%96%E6%B5%81%E4%B8%8Estreaming%E7%9A%84%E5%8C%BA%E5%88%AB/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzZDEzNjkxMg==,size_16,color_FFFFFF,t_70-20200930150855548.png" alt="img"></p>
+<p>这种模式相比与 micro-batch 模式缺点和优点都很明显。</p>
+<ul>
+<li>缺点是不容易做扩展</li>
+<li>优点是延迟更低</li>
+</ul>
+<p>关于为什么延迟更低，下面两幅图可以做到一目了然。</p>
+<p><img src="/2020/09/30/spark%E7%BB%93%E6%9E%84%E5%8C%96%E6%B5%81%E4%B8%8Estreaming%E7%9A%84%E5%8C%BA%E5%88%AB/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzZDEzNjkxMg==,size_16,color_FFFFFF,t_70-20200930150855737.png" alt="img"><br><img src="/2020/09/30/spark%E7%BB%93%E6%9E%84%E5%8C%96%E6%B5%81%E4%B8%8Estreaming%E7%9A%84%E5%8C%BA%E5%88%AB/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzZDEzNjkxMg==,size_16,color_FFFFFF,t_70.png" alt="img"></p>
+<h3 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h3><ol>
+<li><a href="https://zhuanlan.zhihu.com/p/51883927" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/51883927</a></li>
+<li><a href="https://infoq.cn/article/2018/02/spark-structured-streaming" target="_blank" rel="noopener">https://infoq.cn/article/2018/02/spark-structured-streaming</a></li>
+<li>Structured Streaming: A Declarative API for Real-Time Applications in Apache Spark</li>
+<li><a href="https://www.slidestalk.com/s/FromSparkStreamingtoStructuredStreaming58639" target="_blank" rel="noopener">https://www.slidestalk.com/s/FromSparkStreamingtoStructuredStreaming58639</a></li>
+<li><a href="https://spark.apache.org/docs/latest/streaming-programming-guide.html" target="_blank" rel="noopener">https://spark.apache.org/docs/latest/streaming-programming-guide.html</a></li>
+<li><a href="https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html" target="_blank" rel="noopener">https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>Structured Streaming</category>
+      </categories>
+      <tags>
+        <tag>spark</tag>
+        <tag>结构化流</tag>
+      </tags>
+  </entry>
 </search>
