@@ -11,7 +11,7 @@
    
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    spark结构化流与streaming的区别 |  你当像鸟飞往你的山
+    RDD,DataFrame和DataSet的区别 |  你当像鸟飞往你的山
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -58,7 +58,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-spark结构化流与streaming的区别"
+  id="post-RDD-DataFrame和DataSet的区别"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -69,18 +69,18 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  spark结构化流与streaming的区别
+  RDD,DataFrame和DataSet的区别
 </h1>
  
 
     </header>
      
     <div class="article-meta">
-      <a href="/2020/09/30/spark%E7%BB%93%E6%9E%84%E5%8C%96%E6%B5%81%E4%B8%8Estreaming%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-date">
-  <time datetime="2020-09-30T07:07:51.000Z" itemprop="datePublished">2020-09-30</time>
+      <a href="/2020/10/22/RDD-DataFrame%E5%92%8CDataSet%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-date">
+  <time datetime="2020-10-22T06:14:47.000Z" itemprop="datePublished">2020-10-22</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Structured-Streaming/">Structured Streaming</a>
+    <a class="article-category-link" href="/categories/RDD/">RDD</a> / <a class="article-category-link" href="/categories/RDD/DataFrame/">DataFrame</a> / <a class="article-category-link" href="/categories/RDD/DataFrame/DataSet/">DataSet</a>
   </div>
   
 <div class="word_count">
@@ -88,7 +88,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">2k</span>
+            <span class="post-count">1.5k</span>
         </span>
     </span>
 
@@ -97,7 +97,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">7 分钟</span>
+            <span class="post-count">5 分钟</span>
         </span>
     </span>
 </div>
@@ -112,63 +112,59 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h2 id="Spark-Streaming-DStreaming-VS-Spark-Structured-Streaming-区别比较-优劣势"><a href="#Spark-Streaming-DStreaming-VS-Spark-Structured-Streaming-区别比较-优劣势" class="headerlink" title="Spark Streaming(DStreaming) VS Spark Structured Streaming 区别比较 优劣势"></a>Spark Streaming(DStreaming) VS Spark Structured Streaming 区别比较 优劣势</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>这篇博客主要记录Spark Streaming(DStreaming) 与 Spark Structured Streaming 之间的差别与优劣势。</p>
-<p>Apache Spark 在 2016 年的时候启动了 Structured Streaming 项目，一个基于 Spark SQL 的全新流计算引擎 Structured Streaming，让用户像编写批处理程序一样简单地编写高性能的流处理程序。经过一年多的改进和完善，目前 Structured Streaming 已经在 Databricks 内部和客户广泛使用。</p>
-<p>引用Spark commiter(gatorsmile)的话：“从Spark-2.X版本后，Spark streaming就进入维护模式，Spark streaming是低阶API，给码农用的，各种坑；Structured streaming是给人设计的API，简单易用。由于太忙，所以一直没有在官方文档上 更新说明信息”。而且可能 Spark 团队之后对 Spark Streaming 的维护可能越来越少。</p>
+  <blockquote>
+<p>  RDD、DataFrame和DataSet是容易产生混淆的概念，必须对其相互之间对比，才可以知道其中异同。</p>
+</blockquote>
+<h2 id="RDD和DataFrame"><a href="#RDD和DataFrame" class="headerlink" title="RDD和DataFrame"></a>RDD和DataFrame</h2><p><img src="/2020/10/22/RDD-DataFrame%E5%92%8CDataSet%E7%9A%84%E5%8C%BA%E5%88%AB/image-20201022141655888.png" alt="image-20201022141655888"></p>
 <a id="more"></a>
 
-<h3 id="1-Spark-Streaming-不足"><a href="#1-Spark-Streaming-不足" class="headerlink" title="1. Spark Streaming 不足"></a>1. Spark Streaming 不足</h3><ul>
-<li><p>Processing Time 而不是 Event Time</p>
-<p>首先解释一下，Processing Time 是数据到达 Spark 被处理的时间，而 Event Time 是数据自带的属性，一般表示数据产生于数据源的时间。比如 IoT 中，传感器在 12:00:00 产生一条数据，然后在 12:00:05 数据传送到 Spark，那么 Event Time 就是 12:00:00，而 Processing Time 就是 12:00:05。我们知道 Spark Streaming 是基于 DStream 模型的 micro-batch 模式，简单来说就是将一个微小时间段，比如说 1s，的流数据当前批数据来处理。如果我们要统计某个时间段的一些数据统计，毫无疑问应该使用 Event Time，但是因为 Spark Streaming 的数据切割是基于 Processing Time，这样就导致使用 Event Time 特别的困难。</p>
+<p>RDD-DataFrame</p>
+<p>上图直观地体现了DataFrame和RDD的区别。左侧的RDD[Person]虽然以Person为类型参数，但Spark框架本身不了解Person类的内部结构。而右侧的DataFrame却提供了详细的结构信息，使得Spark SQL可以清楚地知道该数据集中包含哪些列，每列的名称和类型各是什么。DataFrame多了数据的结构信息，即schema。RDD是分布式的Java对象的集合。DataFrame是分布式的Row对象的集合。DataFrame除了提供了比RDD更丰富的算子以外，更重要的特点是提升执行效率、减少数据读取以及执行计划的优化，比如filter下推、裁剪等。</p>
+<h3 id="提升执行效率"><a href="#提升执行效率" class="headerlink" title="提升执行效率"></a>提升执行效率</h3><p>RDD API是函数式的，强调不变性，在大部分场景下倾向于创建新对象而不是修改老对象。这一特点虽然带来了干净整洁的API，却也使得Spark应用程序在运行期倾向于创建大量临时对象，对GC造成压力。在现有RDD API的基础之上，我们固然可以利用mapPartitions方法来重载RDD单个分片内的数据创建方式，用复用可变对象的方式来减小对象分配和GC的开销，但这牺牲了代码的可读性，而且要求开发者对Spark运行时机制有一定的了解，门槛较高。另一方面，Spark SQL在框架内部已经在各种可能的情况下尽量重用对象，这样做虽然在内部会打破了不变性，但在将数据返回给用户时，还会重新转为不可变数据。利用 DataFrame API进行开发，可以免费地享受到这些优化效果。</p>
+<h3 id="减少数据读取"><a href="#减少数据读取" class="headerlink" title="减少数据读取"></a>减少数据读取</h3><p>分析大数据，最快的方法就是 ——忽略它。这里的“忽略”并不是熟视无睹，而是根据查询条件进行恰当的剪枝。</p>
+<p>上文讨论分区表时提到的分区剪 枝便是其中一种——当查询的过滤条件中涉及到分区列时，我们可以根据查询条件剪掉肯定不包含目标数据的分区目录，从而减少IO。</p>
+<p>对于一些“智能”数据格 式，Spark SQL还可以根据数据文件中附带的统计信息来进行剪枝。简单来说，在这类数据格式中，数据是分段保存的，每段数据都带有最大值、最小值、null值数量等 一些基本的统计信息。当统计信息表名某一数据段肯定不包括符合查询条件的目标数据时，该数据段就可以直接跳过（例如某整数列a某段的最大值为100，而查询条件要求a &gt; 200）。</p>
+<p>此外，Spark SQL也可以充分利用RCFile、ORC、Parquet等列式存储格式的优势，仅扫描查询真正涉及的列，忽略其余列的数据。</p>
+<h3 id="执行优化"><a href="#执行优化" class="headerlink" title="执行优化"></a>执行优化</h3><p><img src="/2020/10/22/RDD-DataFrame%E5%92%8CDataSet%E7%9A%84%E5%8C%BA%E5%88%AB/image-20201022141800306.png" alt="image-20201022141800306"></p>
+<p>人口数据分析示例</p>
+<p>为了说明查询优化，我们来看上图展示的人口数据分析的示例。图中构造了两个DataFrame，将它们join之后又做了一次filter操作。如果原封不动地执行这个执行计划，最终的执行效率是不高的。因为join是一个代价较大的操作，也可能会产生一个较大的数据集。如果我们能将filter下推到 join下方，先对DataFrame进行过滤，再join过滤后的较小的结果集，便可以有效缩短执行时间。而Spark SQL的查询优化器正是这样做的。简而言之，逻辑查询计划优化就是一个利用基于关系代数的等价变换，将高成本的操作替换为低成本操作的过程。</p>
+<p>得到的优化执行计划在转换成物 理执行计划的过程中，还可以根据具体的数据源的特性将过滤条件下推至数据源内。最右侧的物理执行计划中Filter之所以消失不见，就是因为溶入了用于执行最终的读取操作的表扫描节点内。</p>
+<p>对于普通开发者而言，查询优化 器的意义在于，即便是经验并不丰富的程序员写出的次优的查询，也可以被尽量转换为高效的形式予以执行。</p>
+<h2 id="RDD和DataSet"><a href="#RDD和DataSet" class="headerlink" title="RDD和DataSet"></a>RDD和DataSet</h2><ul>
+<li><blockquote>
+<p>  DataSet以Catalyst逻辑执行计划表示，并且数据以编码的二进制形式被存储，不需要反序列化就可以执行sorting、shuffle等操作。</p>
+</blockquote>
 </li>
-<li><p>Complex, low-level api</p>
-<p>这点比较好理解，DStream （Spark Streaming 的数据模型）提供的 API 类似 RDD 的 API 的，非常的 low level。当我们编写 Spark Streaming 程序的时候，本质上就是要去构造 RDD 的 DAG 执行图，然后通过 Spark Engine 运行。这样导致一个问题是，DAG 可能会因为开发者的水平参差不齐而导致执行效率上的天壤之别。这样导致开发者的体验非常不好，也是任何一个基础框架不想看到的（基础框架的口号一般都是：你们专注于自己的业务逻辑就好，其他的交给我）。这也是很多基础系统强调 Declarative 的一个原因。</p>
-</li>
-<li><p>reason about end-to-end application</p>
-<p>这里的 end-to-end 指的是直接 input 到 out，比如 Kafka 接入 Spark Streaming 然后再导出到 HDFS 中。DStream 只能保证自己的一致性语义是 exactly-once 的，而 input 接入 Spark Streaming 和 Spark Straming 输出到外部存储的语义往往需要用户自己来保证。而这个语义保证写起来也是非常有挑战性，比如为了保证 output 的语义是 exactly-once 语义需要 output 的存储系统具有幂等的特性，或者支持事务性写入，这个对于开发者来说都不是一件容易的事情。</p>
-</li>
-<li><p>批流代码不统一</p>
-<p>尽管批流本是两套系统，但是这两套系统统一起来确实很有必要，我们有时候确实需要将我们的流处理逻辑运行到批数据上面。关于这一点，最早在 2014 年 Google 提出 Dataflow 计算服务的时候就批判了 streaming/batch 这种叫法，而是提出了 unbounded/bounded data 的说法。DStream 尽管是对 RDD 的封装，但是我们要将 DStream 代码完全转换成 RDD 还是有一点工作量的，更何况现在 Spark 的批处理都用 DataSet/DataFrame API 了。</p>
+<li><blockquote>
+<p>  DataSet创立需要一个显式的Encoder，把对象序列化为二进制，可以把对象的scheme映射为Spark<br>   SQl类型，然而RDD依赖于运行时反射机制。</p>
+</blockquote>
 </li>
 </ul>
-<h3 id="2-Structured-Streaming-优势"><a href="#2-Structured-Streaming-优势" class="headerlink" title="2. Structured Streaming 优势"></a>2. Structured Streaming 优势</h3><p>相对的，来看下Structured Streaming优势(虽然上面已经看出来了)：</p>
+<p>通过上面两点，DataSet的性能比RDD的要好很多，可以参见[3]</p>
+<h2 id="DataFrame和DataSet"><a href="#DataFrame和DataSet" class="headerlink" title="DataFrame和DataSet"></a>DataFrame和DataSet</h2><p>Dataset可以认为是DataFrame的一个特例，主要区别是Dataset每一个record存储的是一个强类型值而不是一个Row。因此具有如下三个特点：</p>
 <ul>
-<li>简洁的模型。Structured Streaming 的模型很简洁，易于理解。用户可以直接把一个流想象成是无限增长的表格。</li>
-<li>一致的 API。由于和 Spark SQL 共用大部分 API，对 Spaprk SQL 熟悉的用户很容易上手，代码也十分简洁。同时批处理和流处理程序还可以共用代码，不需要开发两套不同的代码，显著提高了开发效率。</li>
-<li>卓越的性能。Structured Streaming 在与 Spark SQL 共用 API 的同时，也直接使用了 Spark SQL 的 Catalyst 优化器和 Tungsten，数据处理性能十分出色。此外，Structured Streaming 还可以直接从未来 Spark SQL 的各种性能优化中受益。</li>
-<li>多语言支持。Structured Streaming 直接支持目前 Spark SQL 支持的语言，包括 Scala，Java，Python，R 和 SQL。用户可以选择自己喜欢的语言进行开发。</li>
+<li><blockquote>
+<p>  DataSet可以在编译时检查类型</p>
+</blockquote>
+</li>
+<li><blockquote>
+<p>  并且是面向对象的编程接口。用wordcount举例：</p>
+</blockquote>
+</li>
 </ul>
-<h3 id="3-Structured-Streaming-核心设计"><a href="#3-Structured-Streaming-核心设计" class="headerlink" title="3. Structured Streaming 核心设计"></a>3. Structured Streaming 核心设计</h3><p>下面我们看一下 Structured Streaming 的核心设计。</p>
-<p>Structured Streaming 的关键思想是将持续不断的数据当做一个<strong>不断追加的表</strong>。这使得流式计算模型与批处理计算引擎十分相似。使用类似对于静态表的批处理方式来表达流计算，然后 Spark 以在无限表上的增量计算来运行。</p>
-<p><img src="/2020/09/30/spark%E7%BB%93%E6%9E%84%E5%8C%96%E6%B5%81%E4%B8%8Estreaming%E7%9A%84%E5%8C%BA%E5%88%AB/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzZDEzNjkxMg==,size_16,color_FFFFFF,t_70-20200930150855731.png" alt="img"></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//DataFrame</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Load a text file and interpret each line as a java.lang.String</span></span><br><span class="line"><span class="keyword">val</span> ds = sqlContext.read.text(<span class="string">"/home/spark/1.6/lines"</span>).as[<span class="type">String</span>]</span><br><span class="line"><span class="keyword">val</span> result = ds</span><br><span class="line">  .flatMap(_.split(<span class="string">" "</span>))               <span class="comment">// Split on whitespace</span></span><br><span class="line">  .filter(_ != <span class="string">""</span>)                     <span class="comment">// Filter empty words</span></span><br><span class="line">  .toDF()                              <span class="comment">// Convert to DataFrame to perform aggregation / sorting</span></span><br><span class="line">  .groupBy($<span class="string">"value"</span>)                   <span class="comment">// Count number of occurences of each word</span></span><br><span class="line">  .agg(count(<span class="string">"*"</span>) as <span class="string">"numOccurances"</span>)</span><br><span class="line">  .orderBy($<span class="string">"numOccurances"</span> desc)      <span class="comment">// Show most common words first</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//DataSet,完全使用scala编程，不要切换到DataFrame</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> wordCount = </span><br><span class="line">  ds.flatMap(_.split(<span class="string">" "</span>))</span><br><span class="line">    .filter(_ != <span class="string">""</span>)</span><br><span class="line">    .groupBy(_.toLowerCase()) <span class="comment">// Instead of grouping on a column expression (i.e. $"value") we pass a lambda function</span></span><br><span class="line">    .count()</span><br></pre></td></tr></table></figure>
+
 <ul>
-<li><strong>Input and Output</strong>: Structured Streaming 内置了很多 connector 来保证 input 数据源和 output sink 保证 exactly-once 语义。而实现 exactly-once 语义的前提是：<br>Input 数据源必须是可以 replay 的，比如 Kafka，这样节点 crash 的时候就可以重新读取 input 数据。常见的数据源包括 Amazon Kinesis, Apache Kafka 和文件系统。</li>
-<li><strong>Output sink</strong> 必须要支持写入是幂等的。这个很好理解，如果 output 不支持幂等写入，那么一致性语义就是 at-least-once 了。另外对于某些 sink, Structured Streaming 还提供了原子写入来保证 exactly-once 语义。</li>
-<li><strong>API</strong>: Structured Streaming 代码编写完全复用 Spark SQL 的 batch API，也就是对一个或者多个 stream 或者 table 进行 query。query 的结果是 result table，可以以多种不同的模式（append, update, complete）输出到外部存储中。另外，Structured Streaming 还提供了一些 Streaming 处理特有的 API：Trigger, watermark, stateful operator。<br>Execution: 复用 Spark SQL 的执行引擎。Structured Streaming 默认使用类似 Spark Streaming 的 micro-batch 模式，有很多好处，比如动态负载均衡、再扩展、错误恢复以及 straggler （straggler 指的是哪些执行明显慢于其他 task 的 task）重试。除了 micro-batch 模式，Structured Streaming 还提供了基于传统的 long-running operator 的 continuous 处理模式。</li>
-<li><strong>Operational Features</strong>: 利用 wal 和状态存储，开发者可以做到集中形式的 rollback 和错误恢复。还有一些其他 Operational 上的 feature，这里就不细说了。</li>
+<li><blockquote>
+<p>  后面版本DataFrame会继承DataSet，DataFrame是面向Spark SQL的接口。</p>
+</blockquote>
+</li>
 </ul>
-<p>具体详细介绍与使用可以参考前两篇博客：</p>
-<ol>
-<li><a href="https://blog.csdn.net/asd136912/article/details/82147657" target="_blank" rel="noopener">https://blog.csdn.net/asd136912/article/details/82147657</a></li>
-<li><a href="https://blog.csdn.net/asd136912/article/details/82913264" target="_blank" rel="noopener">https://blog.csdn.net/asd136912/article/details/82913264</a></li>
-</ol>
-<h3 id="3-Continuous-Processing-Mode"><a href="#3-Continuous-Processing-Mode" class="headerlink" title="3. Continuous Processing Mode"></a>3. Continuous Processing Mode</h3><p>好，终于要介绍到“真正”的流处理了，我之所以说“真正”是因为 continuous mode 是传统的流处理模式，通过运行一个 long-running 的 operator 用来处理数据。之前 Spark Streaming是基于 <strong>micro-batch</strong> 模式的，就被很多人诟病不是“真正的”流式处理。continuous mode 这种处理模式只要一有数据可用就会进行处理，如下图所示。</p>
-<p>epoch 是 input 中数据被发送给 operator 处理的最小单位，在处理过程中，epoch 的 offset 会被记录到 wal 中。另外 continuous 模式下的 snapshot 存储使用的一致性算法是 Chandy-Lamport 算法。<br><img src="/2020/09/30/spark%E7%BB%93%E6%9E%84%E5%8C%96%E6%B5%81%E4%B8%8Estreaming%E7%9A%84%E5%8C%BA%E5%88%AB/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzZDEzNjkxMg==,size_16,color_FFFFFF,t_70-20200930150855548.png" alt="img"></p>
-<p>这种模式相比与 micro-batch 模式缺点和优点都很明显。</p>
-<ul>
-<li>缺点是不容易做扩展</li>
-<li>优点是延迟更低</li>
-</ul>
-<p>关于为什么延迟更低，下面两幅图可以做到一目了然。</p>
-<p><img src="/2020/09/30/spark%E7%BB%93%E6%9E%84%E5%8C%96%E6%B5%81%E4%B8%8Estreaming%E7%9A%84%E5%8C%BA%E5%88%AB/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzZDEzNjkxMg==,size_16,color_FFFFFF,t_70-20200930150855737.png" alt="img"><br><img src="/2020/09/30/spark%E7%BB%93%E6%9E%84%E5%8C%96%E6%B5%81%E4%B8%8Estreaming%E7%9A%84%E5%8C%BA%E5%88%AB/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzZDEzNjkxMg==,size_16,color_FFFFFF,t_70.png" alt="img"></p>
-<h3 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h3><ol>
-<li><a href="https://zhuanlan.zhihu.com/p/51883927" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/51883927</a></li>
-<li><a href="https://infoq.cn/article/2018/02/spark-structured-streaming" target="_blank" rel="noopener">https://infoq.cn/article/2018/02/spark-structured-streaming</a></li>
-<li>Structured Streaming: A Declarative API for Real-Time Applications in Apache Spark</li>
-<li><a href="https://www.slidestalk.com/s/FromSparkStreamingtoStructuredStreaming58639" target="_blank" rel="noopener">https://www.slidestalk.com/s/FromSparkStreamingtoStructuredStreaming58639</a></li>
-<li><a href="https://spark.apache.org/docs/latest/streaming-programming-guide.html" target="_blank" rel="noopener">https://spark.apache.org/docs/latest/streaming-programming-guide.html</a></li>
-<li><a href="https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html" target="_blank" rel="noopener">https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html</a></li>
-</ol>
+<p>DataFrame和DataSet可以相互转化，<code>df.as[ElementType]</code>这样可以把DataFrame转化为DataSet，<code>ds.toDF()</code>这样可以把DataSet转化为DataFrame。</p>
  
       <!-- reward -->
       
@@ -235,12 +231,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/09/30/spark%E7%BB%93%E6%9E%84%E5%8C%96%E6%B5%81%E4%B8%8Estreaming%E7%9A%84%E5%8C%BA%E5%88%AB/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/10/22/RDD-DataFrame%E5%92%8CDataSet%E7%9A%84%E5%8C%BA%E5%88%AB/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/" rel="tag">spark</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BB%93%E6%9E%84%E5%8C%96%E6%B5%81/" rel="tag">结构化流</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DataFrame/" rel="tag">DataFrame</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DataSet/" rel="tag">DataSet</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RDD/" rel="tag">RDD</a></li></ul>
 
     </footer>
   </div>
@@ -248,19 +244,10 @@
    
   <nav class="article-nav">
     
-      <a href="/2020/10/22/RDD-DataFrame%E5%92%8CDataSet%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            RDD,DataFrame和DataSet的区别
-          
-        </div>
-      </a>
     
-    
-      <a href="/2020/09/19/%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%801-%E9%9A%8F%E6%9C%BA%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95SGD/" class="article-nav-link">
+      <a href="/2020/09/30/spark%E7%BB%93%E6%9E%84%E5%8C%96%E6%B5%81%E4%B8%8Estreaming%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">数学基础1:随机梯度下降法SGD</div>
+        <div class="article-nav-title">spark结构化流与streaming的区别</div>
       </a>
     
   </nav>
