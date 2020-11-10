@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-10-22T06:18:49.892Z</updated>
+  <updated>2020-11-10T08:20:34.353Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>PyTorch入门</title>
+    <link href="http://yoursite.com/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/"/>
+    <id>http://yoursite.com/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/</id>
+    <published>2020-11-10T08:15:22.000Z</published>
+    <updated>2020-11-10T08:20:34.353Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="机器学习" scheme="http://yoursite.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="机器学习" scheme="http://yoursite.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+      <category term="Notebook" scheme="http://yoursite.com/tags/Notebook/"/>
+    
+      <category term="PyTorch" scheme="http://yoursite.com/tags/PyTorch/"/>
+    
+  </entry>
   
   <entry>
     <title>RDD,DataFrame和DataSet的区别</title>
@@ -514,27 +545,6 @@
       <category term="Hbase" scheme="http://yoursite.com/tags/Hbase/"/>
     
       <category term="学习笔记" scheme="http://yoursite.com/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MapReduce小文件优化问题</title>
-    <link href="http://yoursite.com/2020/08/04/MapReduce%E5%B0%8F%E6%96%87%E4%BB%B6%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/"/>
-    <id>http://yoursite.com/2020/08/04/MapReduce%E5%B0%8F%E6%96%87%E4%BB%B6%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/</id>
-    <published>2020-08-04T11:42:41.000Z</published>
-    <updated>2020-08-04T11:45:19.506Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;默认情况下，TextInputformat对任务的切片机智是按文件规划切片，不管文件多小，都会是一个单独的切片，都是交给一个maptask，如果有多个小文件，就会产生大量的maptask，处理效率底下。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="MapReduce" scheme="http://yoursite.com/categories/MapReduce/"/>
-    
-    
-      <category term="优化" scheme="http://yoursite.com/tags/%E4%BC%98%E5%8C%96/"/>
     
   </entry>
   

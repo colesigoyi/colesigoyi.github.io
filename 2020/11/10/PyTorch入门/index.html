@@ -11,7 +11,7 @@
    
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    RDD,DataFrame和DataSet的区别 |  你当像鸟飞往你的山
+    PyTorch入门 |  你当像鸟飞往你的山
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -58,7 +58,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-RDD-DataFrame和DataSet的区别"
+  id="post-PyTorch入门"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -69,18 +69,18 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  RDD,DataFrame和DataSet的区别
+  PyTorch入门
 </h1>
  
 
     </header>
      
     <div class="article-meta">
-      <a href="/2020/10/22/RDD-DataFrame%E5%92%8CDataSet%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-date">
-  <time datetime="2020-10-22T06:14:47.000Z" itemprop="datePublished">2020-10-22</time>
+      <a href="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/" class="article-date">
+  <time datetime="2020-11-10T08:15:22.000Z" itemprop="datePublished">2020-11-10</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/RDD/">RDD</a> / <a class="article-category-link" href="/categories/RDD/DataFrame/">DataFrame</a> / <a class="article-category-link" href="/categories/RDD/DataFrame/DataSet/">DataSet</a>
+    <a class="article-category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
   </div>
   
 <div class="word_count">
@@ -88,7 +88,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.5k</span>
+            <span class="post-count">893</span>
         </span>
     </span>
 
@@ -97,7 +97,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">5 分钟</span>
+            <span class="post-count">3 分钟</span>
         </span>
     </span>
 </div>
@@ -112,59 +112,77 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <blockquote>
-<p>  RDD、DataFrame和DataSet是容易产生混淆的概念，必须对其相互之间对比，才可以知道其中异同。</p>
-</blockquote>
-<h2 id="RDD和DataFrame"><a href="#RDD和DataFrame" class="headerlink" title="RDD和DataFrame"></a>RDD和DataFrame</h2><p><img src="/2020/10/22/RDD-DataFrame%E5%92%8CDataSet%E7%9A%84%E5%8C%BA%E5%88%AB/image-20201022141655888.png" alt="image-20201022141655888"></p>
-<a id="more"></a>
-
-<p>RDD-DataFrame</p>
-<p>上图直观地体现了DataFrame和RDD的区别。左侧的RDD[Person]虽然以Person为类型参数，但Spark框架本身不了解Person类的内部结构。而右侧的DataFrame却提供了详细的结构信息，使得Spark SQL可以清楚地知道该数据集中包含哪些列，每列的名称和类型各是什么。DataFrame多了数据的结构信息，即schema。RDD是分布式的Java对象的集合。DataFrame是分布式的Row对象的集合。DataFrame除了提供了比RDD更丰富的算子以外，更重要的特点是提升执行效率、减少数据读取以及执行计划的优化，比如filter下推、裁剪等。</p>
-<h3 id="提升执行效率"><a href="#提升执行效率" class="headerlink" title="提升执行效率"></a>提升执行效率</h3><p>RDD API是函数式的，强调不变性，在大部分场景下倾向于创建新对象而不是修改老对象。这一特点虽然带来了干净整洁的API，却也使得Spark应用程序在运行期倾向于创建大量临时对象，对GC造成压力。在现有RDD API的基础之上，我们固然可以利用mapPartitions方法来重载RDD单个分片内的数据创建方式，用复用可变对象的方式来减小对象分配和GC的开销，但这牺牲了代码的可读性，而且要求开发者对Spark运行时机制有一定的了解，门槛较高。另一方面，Spark SQL在框架内部已经在各种可能的情况下尽量重用对象，这样做虽然在内部会打破了不变性，但在将数据返回给用户时，还会重新转为不可变数据。利用 DataFrame API进行开发，可以免费地享受到这些优化效果。</p>
-<h3 id="减少数据读取"><a href="#减少数据读取" class="headerlink" title="减少数据读取"></a>减少数据读取</h3><p>分析大数据，最快的方法就是 ——忽略它。这里的“忽略”并不是熟视无睹，而是根据查询条件进行恰当的剪枝。</p>
-<p>上文讨论分区表时提到的分区剪 枝便是其中一种——当查询的过滤条件中涉及到分区列时，我们可以根据查询条件剪掉肯定不包含目标数据的分区目录，从而减少IO。</p>
-<p>对于一些“智能”数据格 式，Spark SQL还可以根据数据文件中附带的统计信息来进行剪枝。简单来说，在这类数据格式中，数据是分段保存的，每段数据都带有最大值、最小值、null值数量等 一些基本的统计信息。当统计信息表名某一数据段肯定不包括符合查询条件的目标数据时，该数据段就可以直接跳过（例如某整数列a某段的最大值为100，而查询条件要求a &gt; 200）。</p>
-<p>此外，Spark SQL也可以充分利用RCFile、ORC、Parquet等列式存储格式的优势，仅扫描查询真正涉及的列，忽略其余列的数据。</p>
-<h3 id="执行优化"><a href="#执行优化" class="headerlink" title="执行优化"></a>执行优化</h3><p><img src="/2020/10/22/RDD-DataFrame%E5%92%8CDataSet%E7%9A%84%E5%8C%BA%E5%88%AB/image-20201022141800306.png" alt="image-20201022141800306"></p>
-<p>人口数据分析示例</p>
-<p>为了说明查询优化，我们来看上图展示的人口数据分析的示例。图中构造了两个DataFrame，将它们join之后又做了一次filter操作。如果原封不动地执行这个执行计划，最终的执行效率是不高的。因为join是一个代价较大的操作，也可能会产生一个较大的数据集。如果我们能将filter下推到 join下方，先对DataFrame进行过滤，再join过滤后的较小的结果集，便可以有效缩短执行时间。而Spark SQL的查询优化器正是这样做的。简而言之，逻辑查询计划优化就是一个利用基于关系代数的等价变换，将高成本的操作替换为低成本操作的过程。</p>
-<p>得到的优化执行计划在转换成物 理执行计划的过程中，还可以根据具体的数据源的特性将过滤条件下推至数据源内。最右侧的物理执行计划中Filter之所以消失不见，就是因为溶入了用于执行最终的读取操作的表扫描节点内。</p>
-<p>对于普通开发者而言，查询优化 器的意义在于，即便是经验并不丰富的程序员写出的次优的查询，也可以被尽量转换为高效的形式予以执行。</p>
-<h2 id="RDD和DataSet"><a href="#RDD和DataSet" class="headerlink" title="RDD和DataSet"></a>RDD和DataSet</h2><ul>
-<li><blockquote>
-<p>  DataSet以Catalyst逻辑执行计划表示，并且数据以编码的二进制形式被存储，不需要反序列化就可以执行sorting、shuffle等操作。</p>
-</blockquote>
-</li>
-<li><blockquote>
-<p>  DataSet创立需要一个显式的Encoder，把对象序列化为二进制，可以把对象的scheme映射为Spark<br>   SQl类型，然而RDD依赖于运行时反射机制。</p>
-</blockquote>
-</li>
-</ul>
-<p>通过上面两点，DataSet的性能比RDD的要好很多，可以参见[3]</p>
-<h2 id="DataFrame和DataSet"><a href="#DataFrame和DataSet" class="headerlink" title="DataFrame和DataSet"></a>DataFrame和DataSet</h2><p>Dataset可以认为是DataFrame的一个特例，主要区别是Dataset每一个record存储的是一个强类型值而不是一个Row。因此具有如下三个特点：</p>
+  <p>-PyTorch: 动态计算图 Dynamic Computation Graph</p>
+<p>-Tensorflow: 静态计算图 Static Computation Graph</p>
+<p>语言模型可以被归至分类问题。<strong>给一句话，能预测出来结果：inference</strong></p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-7983a75070367a4b31b0beab99182a94_1440w.jpg" alt="img"></p>
+<h2 id="什么是深度学习？"><a href="#什么是深度学习？" class="headerlink" title="什么是深度学习？"></a>什么是深度学习？</h2><p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-2e137bc363f49449e1d1183f4336f3bc_1440w.jpg" alt="img"></p>
+<p>每一层weighted sum（加权平均），最终出来哪个概率高用哪个。</p>
 <ul>
-<li><blockquote>
-<p>  DataSet可以在编译时检查类型</p>
-</blockquote>
-</li>
-<li><blockquote>
-<p>  并且是面向对象的编程接口。用wordcount举例：</p>
-</blockquote>
-</li>
+<li><strong><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/image-20201110161739761.png" alt="image-20201110161739761"> #激活函数sigmoid</strong></li>
 </ul>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//DataFrame</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Load a text file and interpret each line as a java.lang.String</span></span><br><span class="line"><span class="keyword">val</span> ds = sqlContext.read.text(<span class="string">"/home/spark/1.6/lines"</span>).as[<span class="type">String</span>]</span><br><span class="line"><span class="keyword">val</span> result = ds</span><br><span class="line">  .flatMap(_.split(<span class="string">" "</span>))               <span class="comment">// Split on whitespace</span></span><br><span class="line">  .filter(_ != <span class="string">""</span>)                     <span class="comment">// Filter empty words</span></span><br><span class="line">  .toDF()                              <span class="comment">// Convert to DataFrame to perform aggregation / sorting</span></span><br><span class="line">  .groupBy($<span class="string">"value"</span>)                   <span class="comment">// Count number of occurences of each word</span></span><br><span class="line">  .agg(count(<span class="string">"*"</span>) as <span class="string">"numOccurances"</span>)</span><br><span class="line">  .orderBy($<span class="string">"numOccurances"</span> desc)      <span class="comment">// Show most common words first</span></span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//DataSet,完全使用scala编程，不要切换到DataFrame</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> wordCount = </span><br><span class="line">  ds.flatMap(_.split(<span class="string">" "</span>))</span><br><span class="line">    .filter(_ != <span class="string">""</span>)</span><br><span class="line">    .groupBy(_.toLowerCase()) <span class="comment">// Instead of grouping on a column expression (i.e. $"value") we pass a lambda function</span></span><br><span class="line">    .count()</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><blockquote>
-<p>  后面版本DataFrame会继承DataSet，DataFrame是面向Spark SQL的接口。</p>
-</blockquote>
-</li>
-</ul>
-<p>DataFrame和DataSet可以相互转化，<code>df.as[ElementType]</code>这样可以把DataFrame转化为DataSet，<code>ds.toDF()</code>这样可以把DataSet转化为DataFrame。</p>
+<h2 id="这是一个逻辑回归的模型，加权平均-激活函数就得到了一个输出。"><a href="#这是一个逻辑回归的模型，加权平均-激活函数就得到了一个输出。" class="headerlink" title="这是一个逻辑回归的模型，加权平均+激活函数就得到了一个输出。"></a><strong>这是一个逻辑回归的模型，加权平均+激活函数就得到了一个输出。</strong></h2><p><strong>—–&gt; 逻辑回归多套几层，就成一个神经网络了。</strong></p>
+<p><strong>每个神经元，都是所有前面神经元的加权平均。-》过一个激活层，再往后传，一层一层地就剩一个神经元了，就能做一个二分类或回归问题。</strong></p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-44a1df3960d58b50ac48e4d932a66e5a_1440w.jpg" alt="img"></p>
+<p>T是一个byes的项。这是一个ReLu激活函数。</p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-31502d971b958fce6e81740ce6cac2be_1440w.jpg" alt="img"></p>
+<h2 id="常见激活函数："><a href="#常见激活函数：" class="headerlink" title="常见激活函数："></a>常见激活函数：</h2><p>sigmoid：是突然变换的函数，高度非线性的函数。</p>
+<p>如果函数里带这些激活函数，函数的拟合效果会提升很多。本质是一个拟合函数和优化的过程。红色是一个ReLu。</p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-4771c54b1d79e9a854529e7a8b98d80b_1440w.jpg" alt="img"></p>
+<h2 id="前向神经网络"><a href="#前向神经网络" class="headerlink" title="前向神经网络"></a><strong>前向神经网络</strong></h2><p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-7ae2ec6c80252afee007ff4903588c74_1440w.jpg" alt="img"></p>
+<p><strong>Convolutional NN（卷积神经网络）</strong></p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-2e337267e02dc1fcb5964f394872c88f_1440w.jpg" alt="img"></p>
+<h2 id="Recurrent-Neural-Networks（循环-递归神经网络）"><a href="#Recurrent-Neural-Networks（循环-递归神经网络）" class="headerlink" title="Recurrent Neural Networks（循环/递归神经网络）"></a><strong>Recurrent Neural Networks（循环/递归神经网络）</strong></h2><p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-7c9b195d2025f409394eef5cd3424740_1440w.jpg" alt="img"></p>
+<p><strong>Seq2Seq with Attention，如果做语音可以看到最下面abcd还有一些conclusion的layer套娃。一层套一层再拿去直接训练就能用了。</strong></p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-ffd67f0ae105fc7fa60cf5b9827055fd_1440w.jpg" alt="img"></p>
+<hr>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-a5ddefaeb2832d885f99b053dcaf9b9f_1440w.jpg" alt="img"></p>
+<p>pytorch做的主要是model部分，1 定义神经网络的architecture。2 之后还有一些参数需要自己调整。</p>
+<p>参数怎么优化？用训练数据来优化，拿到模型输出之后和真正标准输出作对比，计算loss function 。看预测到底好不好。如果不好，参数有问题需要优化。</p>
+<p>深度学习的一个标准优化方法是gradients decent（梯度下降），先通过这个loss计算每个parameter的梯度，再做这个梯度的下降，把loss降下来表示模型效果有了提升。</p>
+<hr>
+<h2 id="pytorch精彩项目："><a href="#pytorch精彩项目：" class="headerlink" title="pytorch精彩项目："></a>pytorch精彩项目：</h2><p><strong>1 图像分类 resnet</strong></p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-0e50ad6be05a815e701d61a637d3d29a_1440w.jpg" alt="img"><a href="https://github.com/floydhub/imagenet" target="_blank" rel="noopener">https://github.com/floydhub/imagenet</a></p>
+<p>2 <strong>Object Detection（物体检测）</strong></p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-c04e4ad1f6c0e8ba4b63755d35bf61e2_1440w.jpg" alt="img"><a href="https://github.com/amdegroot/ssd.pytorch" target="_blank" rel="noopener">https://github.com/amdegroot/ssd.pytorch</a></p>
+<p><strong>3 Image Style Transfer（风格迁移）</strong></p>
+<p><a href="https://link.zhihu.com/?target=https%3A//github.com/zhanghang1989/PyTorch-Multi-Style-Transfer">https://github.com/zhanghang1989/PyTorch-Multi-Style-Transfer</a></p>
+<p><strong>4 CycleGAN</strong></p>
+<p><strong>5 Image Captioning</strong></p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-4ab4d69805fedbe7694d340a25fd4c18_1440w.jpg" alt="img"><a href="https://github.com/ruotianluo/ImageCaptioning.pytorch" target="_blank" rel="noopener">https://github.com/ruotianluo/ImageCaptioning.pytorch</a></p>
+<p>看起来非常高级，实际上定义一个CNN框架套上language generation的recurrent network就可以返回这样一句话。</p>
+<p>用ImageNet来pretrain过，pretrain一个resnet的picture detector，把encode过的image来生成language就能做到。</p>
+<p><strong>6 NLP：</strong></p>
+<ol>
+<li><strong>问答系统</strong></li>
+<li><strong>翻译 OpenNMT-py</strong></li>
+</ol>
+<p><strong>OpenNMT-py</strong></p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-b1e577108dad919ddbd46b2847171e53_1440w.jpg" alt="img"><a href="https://github.com/OpenNMT/OpenNMT-py" target="_blank" rel="noopener">https://github.com/OpenNMT/OpenNMT-py</a></p>
+<p><strong>ChatBot</strong></p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-0d916222a9080fdd930d4cb568a8606f_1440w.jpg" alt="img"><a href="https://github.com/czs0x55aa/pytorch-chatbot" target="_blank" rel="noopener">https://github.com/czs0x55aa/pytorch-chatbot</a></p>
+<p><strong>Deep Reinforcement Learning（深度强化学习）</strong></p>
+<p>alphaGo就是一个Deep Reinforcement Learning的应用。</p>
+<p>Atari Game（比如Breakout 打砖块）: pytorch &amp; visdom</p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-da3df09b5c054cf27f1d43e310ee614f_1440w.jpg" alt="img"><a href="https://github.com/jingweiz/pytorch-rl" target="_blank" rel="noopener">https://github.com/jingweiz/pytorch-rl</a></p>
+<p>打砖块游戏输出只有两个，要么把板往左移要么往右移。所以就是根据当前的图像决定往左往右移动。</p>
+<p>还有两个挡板和平衡车的游戏。都是判断游戏，不断地玩就能把效果玩的越来越好。</p>
+<p><a href="https://zhuanlan.zhihu.com/p/25473646" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/25473646</a></p>
+<p><strong>预训练语言模型GPT2——一本正经地继续帮你编故事，像ImageNet一样。</strong></p>
+<p><strong>当可以很好地模拟一套语言，就可以把底下的一些层提取出来做别的任务。比如命名实体识别，指代（*coreference*）</strong></p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-81d4ad0ee2c96a811a3d413dc7008a6c_1440w.jpg" alt="img"></p>
+<p><strong>NLP预训练模型</strong></p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-0ac4d6ec5ef9ecc41b428473d2948c47_1440w.jpg" alt="img"></p>
+<ol>
+<li><strong>学好深度学习的基础知识</strong></li>
+<li><strong>学习PyTorch官方tutorial</strong></li>
+<li><strong>学习GitHub以及各种博客上的教程(别人创建好的list)</strong></li>
+<li><strong>一定要熟读documentation\，使用论坛<a href="https://link.zhihu.com/?target=https%3A//discuss.pytorch.org/">https://discuss.pytorch.org/</a></strong></li>
+<li><strong>跑通以及学习开源PyTorch项目</strong></li>
+<li><strong>阅读深度学习模型paper，学习别人的模型实现</strong></li>
+<li><strong>通过阅读paper，自己实现模型</strong></li>
+<li><strong>自己创造模型(也可以写paper)</strong></li>
+</ol>
  
       <!-- reward -->
       
@@ -231,12 +249,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/10/22/RDD-DataFrame%E5%92%8CDataSet%E7%9A%84%E5%8C%BA%E5%88%AB/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DataFrame/" rel="tag">DataFrame</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DataSet/" rel="tag">DataSet</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RDD/" rel="tag">RDD</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notebook/" rel="tag">Notebook</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PyTorch/" rel="tag">PyTorch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li></ul>
 
     </footer>
   </div>
@@ -244,19 +262,10 @@
    
   <nav class="article-nav">
     
-      <a href="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            PyTorch入门
-          
-        </div>
-      </a>
     
-    
-      <a href="/2020/09/30/spark%E7%BB%93%E6%9E%84%E5%8C%96%E6%B5%81%E4%B8%8Estreaming%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-nav-link">
+      <a href="/2020/10/22/RDD-DataFrame%E5%92%8CDataSet%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">spark结构化流与streaming的区别</div>
+        <div class="article-nav-title">RDD,DataFrame和DataSet的区别</div>
       </a>
     
   </nav>

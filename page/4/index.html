@@ -115,6 +115,78 @@
     
     
     <article
+  id="post-逻辑主键,业务主键和复合主键"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/07/21/%E9%80%BB%E8%BE%91%E4%B8%BB%E9%94%AE,%E4%B8%9A%E5%8A%A1%E4%B8%BB%E9%94%AE%E5%92%8C%E5%A4%8D%E5%90%88%E4%B8%BB%E9%94%AE/"
+    >逻辑主键,业务主键和复合主键</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/07/21/%E9%80%BB%E8%BE%91%E4%B8%BB%E9%94%AE,%E4%B8%9A%E5%8A%A1%E4%B8%BB%E9%94%AE%E5%92%8C%E5%A4%8D%E5%90%88%E4%B8%BB%E9%94%AE/" class="article-date">
+  <time datetime="2020-07-21T14:40:53.000Z" itemprop="datePublished">2020-07-21</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E4%BB%93/">数仓</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p><strong>1.概念定义</strong></p>
+<ul>
+<li><p><a href="http://msdn.microsoft.com/zh-cn/library/ms191236(v=SQL.100).aspx" target="_blank" rel="noopener">主键(PRIMARY KEY)</a>：表通常具有包含唯一标识表中每一行的值的一列或一组列。这样的一列或多列称为表的主键 (PK)，用于强制表的实体完整性。</p>
+</li>
+<li><p><a href="http://msdn.microsoft.com/zh-cn/library/ms175464(v=SQL.100).aspx" target="_blank" rel="noopener">外键(FOREIGN KEY)</a>：外键 (FK) 是用于建立和加强两个表数据之间的链接的一列或多列。在外键引用中，当一个表的列被引用作为另一个表的主键值的列时，就在两表之间创建了链接。这个列就成为第二个表的外键。</p>
+</li>
+<li><p><a href="http://msdn.microsoft.com/zh-cn/library/ms190639(v=SQL.100).aspx" target="_blank" rel="noopener">聚集索引</a>：聚集索引基于数据行的键值在表内排序和存储这些数据行。每个表只能有一个聚集索引，因为数据行本身只能按一个顺序存储。</p>
+</li>
+<li><p><a href="http://msdn.microsoft.com/zh-cn/library/ms179325(v=SQL.100).aspx" target="_blank" rel="noopener">非聚集索引</a>：非聚集索引包含索引键值和指向表数据存储位置的行定位器。可以对表或索引视图创建多个非聚集索引。通常，设计非聚集索引是为改善经常使用的、没有建立聚集索引的查询的性能。</p>
+</li>
+<li><p><a href="http://msdn.microsoft.com/zh-cn/library/ms179413(v=SQL.100).aspx" target="_blank" rel="noopener">自动编号列和标识符列</a>：对于每个表，均可创建一个包含系统生成的序号值的标识符列，该序号值以唯一方式标识表中的每一行。</p>
+</li>
+<li><p>业务主键（自然主键）：在数据库表中把具有业务逻辑含义的字段作为主键，称为“自然主键(Natural Key)”。</p>
+</li>
+<li><p>逻辑主键（代理主键）：在数据库表中采用一个与当前表中逻辑信息无关的字段作为其主键，称为“代理主键”。</p>
+</li>
+<li><p>复合主键（联合主键）：通过两个或者多个字段的组合作为主键。</p></li></ul> 
+      <a class="article-more-link" href="/2020/07/21/%E9%80%BB%E8%BE%91%E4%B8%BB%E9%94%AE,%E4%B8%9A%E5%8A%A1%E4%B8%BB%E9%94%AE%E5%92%8C%E5%A4%8D%E5%90%88%E4%B8%BB%E9%94%AE/"
+        >阅读更多...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hive/" rel="tag">hive</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%B8%BB%E9%94%AE/" rel="tag">主键</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+   
+</article>
+
+    
+    <article
   id="post-数据质量检查"
   class="article article-type-post"
   itemscope

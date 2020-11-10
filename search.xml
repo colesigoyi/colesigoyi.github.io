@@ -2173,4 +2173,88 @@ CombineTextInputFormat.setMinInputSplitSize(job, 2097152);</code></pre><p><img s
         <tag>DataSet</tag>
       </tags>
   </entry>
+  <entry>
+    <title>PyTorch入门</title>
+    <url>/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><p>-PyTorch: 动态计算图 Dynamic Computation Graph</p>
+<p>-Tensorflow: 静态计算图 Static Computation Graph</p>
+<p>语言模型可以被归至分类问题。<strong>给一句话，能预测出来结果：inference</strong></p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-7983a75070367a4b31b0beab99182a94_1440w.jpg" alt="img"></p>
+<h2 id="什么是深度学习？"><a href="#什么是深度学习？" class="headerlink" title="什么是深度学习？"></a>什么是深度学习？</h2><p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-2e137bc363f49449e1d1183f4336f3bc_1440w.jpg" alt="img"></p>
+<p>每一层weighted sum（加权平均），最终出来哪个概率高用哪个。</p>
+<ul>
+<li><strong><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/image-20201110161739761.png" alt="image-20201110161739761"> #激活函数sigmoid</strong></li>
+</ul>
+<h2 id="这是一个逻辑回归的模型，加权平均-激活函数就得到了一个输出。"><a href="#这是一个逻辑回归的模型，加权平均-激活函数就得到了一个输出。" class="headerlink" title="这是一个逻辑回归的模型，加权平均+激活函数就得到了一个输出。"></a><strong>这是一个逻辑回归的模型，加权平均+激活函数就得到了一个输出。</strong></h2><p><strong>—–&gt; 逻辑回归多套几层，就成一个神经网络了。</strong></p>
+<p><strong>每个神经元，都是所有前面神经元的加权平均。-》过一个激活层，再往后传，一层一层地就剩一个神经元了，就能做一个二分类或回归问题。</strong></p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-44a1df3960d58b50ac48e4d932a66e5a_1440w.jpg" alt="img"></p>
+<p>T是一个byes的项。这是一个ReLu激活函数。</p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-31502d971b958fce6e81740ce6cac2be_1440w.jpg" alt="img"></p>
+<h2 id="常见激活函数："><a href="#常见激活函数：" class="headerlink" title="常见激活函数："></a>常见激活函数：</h2><p>sigmoid：是突然变换的函数，高度非线性的函数。</p>
+<p>如果函数里带这些激活函数，函数的拟合效果会提升很多。本质是一个拟合函数和优化的过程。红色是一个ReLu。</p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-4771c54b1d79e9a854529e7a8b98d80b_1440w.jpg" alt="img"></p>
+<h2 id="前向神经网络"><a href="#前向神经网络" class="headerlink" title="前向神经网络"></a><strong>前向神经网络</strong></h2><p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-7ae2ec6c80252afee007ff4903588c74_1440w.jpg" alt="img"></p>
+<p><strong>Convolutional NN（卷积神经网络）</strong></p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-2e337267e02dc1fcb5964f394872c88f_1440w.jpg" alt="img"></p>
+<h2 id="Recurrent-Neural-Networks（循环-递归神经网络）"><a href="#Recurrent-Neural-Networks（循环-递归神经网络）" class="headerlink" title="Recurrent Neural Networks（循环/递归神经网络）"></a><strong>Recurrent Neural Networks（循环/递归神经网络）</strong></h2><p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-7c9b195d2025f409394eef5cd3424740_1440w.jpg" alt="img"></p>
+<p><strong>Seq2Seq with Attention，如果做语音可以看到最下面abcd还有一些conclusion的layer套娃。一层套一层再拿去直接训练就能用了。</strong></p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-ffd67f0ae105fc7fa60cf5b9827055fd_1440w.jpg" alt="img"></p>
+<hr>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-a5ddefaeb2832d885f99b053dcaf9b9f_1440w.jpg" alt="img"></p>
+<p>pytorch做的主要是model部分，1 定义神经网络的architecture。2 之后还有一些参数需要自己调整。</p>
+<p>参数怎么优化？用训练数据来优化，拿到模型输出之后和真正标准输出作对比，计算loss function 。看预测到底好不好。如果不好，参数有问题需要优化。</p>
+<p>深度学习的一个标准优化方法是gradients decent（梯度下降），先通过这个loss计算每个parameter的梯度，再做这个梯度的下降，把loss降下来表示模型效果有了提升。</p>
+<hr>
+<h2 id="pytorch精彩项目："><a href="#pytorch精彩项目：" class="headerlink" title="pytorch精彩项目："></a>pytorch精彩项目：</h2><p><strong>1 图像分类 resnet</strong></p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-0e50ad6be05a815e701d61a637d3d29a_1440w.jpg" alt="img"><a href="https://github.com/floydhub/imagenet" target="_blank" rel="noopener">https://github.com/floydhub/imagenet</a></p>
+<p>2 <strong>Object Detection（物体检测）</strong></p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-c04e4ad1f6c0e8ba4b63755d35bf61e2_1440w.jpg" alt="img"><a href="https://github.com/amdegroot/ssd.pytorch" target="_blank" rel="noopener">https://github.com/amdegroot/ssd.pytorch</a></p>
+<p><strong>3 Image Style Transfer（风格迁移）</strong></p>
+<p><a href="https://link.zhihu.com/?target=https%3A//github.com/zhanghang1989/PyTorch-Multi-Style-Transfer">https://github.com/zhanghang1989/PyTorch-Multi-Style-Transfer</a></p>
+<p><strong>4 CycleGAN</strong></p>
+<p><strong>5 Image Captioning</strong></p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-4ab4d69805fedbe7694d340a25fd4c18_1440w.jpg" alt="img"><a href="https://github.com/ruotianluo/ImageCaptioning.pytorch" target="_blank" rel="noopener">https://github.com/ruotianluo/ImageCaptioning.pytorch</a></p>
+<p>看起来非常高级，实际上定义一个CNN框架套上language generation的recurrent network就可以返回这样一句话。</p>
+<p>用ImageNet来pretrain过，pretrain一个resnet的picture detector，把encode过的image来生成language就能做到。</p>
+<p><strong>6 NLP：</strong></p>
+<ol>
+<li><strong>问答系统</strong></li>
+<li><strong>翻译 OpenNMT-py</strong></li>
+</ol>
+<p><strong>OpenNMT-py</strong></p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-b1e577108dad919ddbd46b2847171e53_1440w.jpg" alt="img"><a href="https://github.com/OpenNMT/OpenNMT-py" target="_blank" rel="noopener">https://github.com/OpenNMT/OpenNMT-py</a></p>
+<p><strong>ChatBot</strong></p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-0d916222a9080fdd930d4cb568a8606f_1440w.jpg" alt="img"><a href="https://github.com/czs0x55aa/pytorch-chatbot" target="_blank" rel="noopener">https://github.com/czs0x55aa/pytorch-chatbot</a></p>
+<p><strong>Deep Reinforcement Learning（深度强化学习）</strong></p>
+<p>alphaGo就是一个Deep Reinforcement Learning的应用。</p>
+<p>Atari Game（比如Breakout 打砖块）: pytorch &amp; visdom</p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-da3df09b5c054cf27f1d43e310ee614f_1440w.jpg" alt="img"><a href="https://github.com/jingweiz/pytorch-rl" target="_blank" rel="noopener">https://github.com/jingweiz/pytorch-rl</a></p>
+<p>打砖块游戏输出只有两个，要么把板往左移要么往右移。所以就是根据当前的图像决定往左往右移动。</p>
+<p>还有两个挡板和平衡车的游戏。都是判断游戏，不断地玩就能把效果玩的越来越好。</p>
+<p><a href="https://zhuanlan.zhihu.com/p/25473646" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/25473646</a></p>
+<p><strong>预训练语言模型GPT2——一本正经地继续帮你编故事，像ImageNet一样。</strong></p>
+<p><strong>当可以很好地模拟一套语言，就可以把底下的一些层提取出来做别的任务。比如命名实体识别，指代（*coreference*）</strong></p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-81d4ad0ee2c96a811a3d413dc7008a6c_1440w.jpg" alt="img"></p>
+<p><strong>NLP预训练模型</strong></p>
+<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-0ac4d6ec5ef9ecc41b428473d2948c47_1440w.jpg" alt="img"></p>
+<ol>
+<li><strong>学好深度学习的基础知识</strong></li>
+<li><strong>学习PyTorch官方tutorial</strong></li>
+<li><strong>学习GitHub以及各种博客上的教程(别人创建好的list)</strong></li>
+<li><strong>一定要熟读documentation\，使用论坛<a href="https://link.zhihu.com/?target=https%3A//discuss.pytorch.org/">https://discuss.pytorch.org/</a></strong></li>
+<li><strong>跑通以及学习开源PyTorch项目</strong></li>
+<li><strong>阅读深度学习模型paper，学习别人的模型实现</strong></li>
+<li><strong>通过阅读paper，自己实现模型</strong></li>
+<li><strong>自己创造模型(也可以写paper)</strong></li>
+</ol>
+]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+        <tag>Notebook</tag>
+        <tag>PyTorch</tag>
+      </tags>
+  </entry>
 </search>
