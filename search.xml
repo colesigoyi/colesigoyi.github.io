@@ -2180,6 +2180,8 @@ CombineTextInputFormat.setMinInputSplitSize(job, 2097152);</code></pre><p><img s
 <p>-Tensorflow: 静态计算图 Static Computation Graph</p>
 <p>语言模型可以被归至分类问题。<strong>给一句话，能预测出来结果：inference</strong></p>
 <p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-7983a75070367a4b31b0beab99182a94_1440w.jpg" alt="img"></p>
+<a id="more"></a>
+
 <h2 id="什么是深度学习？"><a href="#什么是深度学习？" class="headerlink" title="什么是深度学习？"></a>什么是深度学习？</h2><p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-2e137bc363f49449e1d1183f4336f3bc_1440w.jpg" alt="img"></p>
 <p>每一层weighted sum（加权平均），最终出来哪个概率高用哪个。</p>
 <ul>
