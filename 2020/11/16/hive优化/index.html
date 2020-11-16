@@ -11,7 +11,7 @@
    
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    PyTorch入门 |  你当像鸟飞往你的山
+    hive优化 |  你当像鸟飞往你的山
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -58,7 +58,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-PyTorch入门"
+  id="post-hive优化"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -69,18 +69,18 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  PyTorch入门
+  hive优化
 </h1>
  
 
     </header>
      
     <div class="article-meta">
-      <a href="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/" class="article-date">
-  <time datetime="2020-11-10T08:15:22.000Z" itemprop="datePublished">2020-11-10</time>
+      <a href="/2020/11/16/hive%E4%BC%98%E5%8C%96/" class="article-date">
+  <time datetime="2020-11-16T08:46:15.000Z" itemprop="datePublished">2020-11-16</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+    <a class="article-category-link" href="/categories/hive%E4%BC%98%E5%8C%96/">hive优化</a>
   </div>
   
 <div class="word_count">
@@ -88,7 +88,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">893</span>
+            <span class="post-count">2.5k</span>
         </span>
     </span>
 
@@ -97,7 +97,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">3 分钟</span>
+            <span class="post-count">9 分钟</span>
         </span>
     </span>
 </div>
@@ -112,77 +112,97 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>-PyTorch: 动态计算图 Dynamic Computation Graph</p>
-<p>-Tensorflow: 静态计算图 Static Computation Graph</p>
-<p>语言模型可以被归至分类问题。<strong>给一句话，能预测出来结果：inference</strong></p>
-<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-7983a75070367a4b31b0beab99182a94_1440w.jpg" alt="img"></p>
-<h2 id="什么是深度学习？"><a href="#什么是深度学习？" class="headerlink" title="什么是深度学习？"></a>什么是深度学习？</h2><p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-2e137bc363f49449e1d1183f4336f3bc_1440w.jpg" alt="img"></p>
-<p>每一层weighted sum（加权平均），最终出来哪个概率高用哪个。</p>
+  <p>Apache <strong>Hive</strong>是建立在Apache <strong>Hadoop</strong>之上的数据仓库软件项目，用于提供数据查询和分析。Hive是Hadoop在HDFS上的SQL接口，它提供了类似于SQL的接口来查询存储在与<strong>Hadoop</strong>集成的各种数据库和文件系统中的数据。可以说从事数据开发工作，无论是在平时的工作中，还是在面试中，Hive具有举足轻重的地位，尤其是Hive的性能调优方面，不仅能够在工作中提升效率而且还可以在面试中脱颖而出。</p>
+<a id="more"></a>
+
+<h1 id="1-多次INSERT单次扫描表"><a href="#1-多次INSERT单次扫描表" class="headerlink" title="1.多次INSERT单次扫描表"></a>1.多次INSERT单次扫描表</h1><p>默认情况下，Hive会执行多次表扫描。因此，如果要在某张hive表中执行多个操作，建议使用一次扫描并使用该扫描来执行多个操作。</p>
+<p>比如将一张表的数据多次查询出来装载到另外一张表中。如下面的示例，表<strong>my_table</strong>是一个分区表，分区字段为<strong>dt</strong>，如果需要在表中查询2个特定的分区日期数据，并将记录装载到2个不同的表中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO temp_table_20201115 SELECT * FROM my_table WHERE dt &#x3D;&#39;2020-11-15&#39;;</span><br><span class="line">INSERT INTO temp_table_20201116 SELECT * FROM my_table WHERE dt &#x3D;&#39;2020-11-16&#39;;</span><br></pre></td></tr></table></figure>
+
+<p>在以上查询中，Hive将扫描表2次，为了避免这种情况，我们可以使用下面的方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FROM my_table</span><br><span class="line">INSERT INTO temp_table_20201115 SELECT * WHERE dt &#x3D;&#39;2020-11-15&#39;</span><br><span class="line">INSERT INTO temp_table_20201116 SELECT * WHERE dt &#x3D;&#39;2020-11-16&#39;</span><br></pre></td></tr></table></figure>
+
+<p>这样可以确保只对<strong>my_table</strong>表执行一次扫描，从而可以大大减少执行的时间和资源。</p>
+<h1 id="2-分区表"><a href="#2-分区表" class="headerlink" title="2.分区表"></a>2.分区表</h1><p>对于一张比较大的表，将其设计成分区表可以提升查询的性能，对于一个特定分区的查询，只会加载对应分区路径的文件数据，因此，当用户使用特定分区列值执行选择查询时，将仅针对该特定分区执行查询，由于将针对较少的数据量进行扫描，所以可以提供更好的性能。值得注意的是，分区字段的选择是影响查询性能的重要因素，尽量避免层级较深的分区，这样会造成太多的子文件夹。</p>
+<p>现在问题来了，该使用哪些列进行分区呢？一条基本的法则是：<strong>选择低基数属性作为“分区键”</strong>，比如“地区”或“日期”等。</p>
+<p>一些常见的分区字段可以是：</p>
 <ul>
-<li><strong><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/image-20201110161739761.png" alt="image-20201110161739761"> #激活函数sigmoid</strong></li>
+<li>日期或者时间</li>
 </ul>
-<h2 id="这是一个逻辑回归的模型，加权平均-激活函数就得到了一个输出。"><a href="#这是一个逻辑回归的模型，加权平均-激活函数就得到了一个输出。" class="headerlink" title="这是一个逻辑回归的模型，加权平均+激活函数就得到了一个输出。"></a><strong>这是一个逻辑回归的模型，加权平均+激活函数就得到了一个输出。</strong></h2><p><strong>—–&gt; 逻辑回归多套几层，就成一个神经网络了。</strong></p>
-<p><strong>每个神经元，都是所有前面神经元的加权平均。-》过一个激活层，再往后传，一层一层地就剩一个神经元了，就能做一个二分类或回归问题。</strong></p>
-<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-44a1df3960d58b50ac48e4d932a66e5a_1440w.jpg" alt="img"></p>
-<p>T是一个byes的项。这是一个ReLu激活函数。</p>
-<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-31502d971b958fce6e81740ce6cac2be_1440w.jpg" alt="img"></p>
-<h2 id="常见激活函数："><a href="#常见激活函数：" class="headerlink" title="常见激活函数："></a>常见激活函数：</h2><p>sigmoid：是突然变换的函数，高度非线性的函数。</p>
-<p>如果函数里带这些激活函数，函数的拟合效果会提升很多。本质是一个拟合函数和优化的过程。红色是一个ReLu。</p>
-<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-4771c54b1d79e9a854529e7a8b98d80b_1440w.jpg" alt="img"></p>
-<h2 id="前向神经网络"><a href="#前向神经网络" class="headerlink" title="前向神经网络"></a><strong>前向神经网络</strong></h2><p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-7ae2ec6c80252afee007ff4903588c74_1440w.jpg" alt="img"></p>
-<p><strong>Convolutional NN（卷积神经网络）</strong></p>
-<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-2e337267e02dc1fcb5964f394872c88f_1440w.jpg" alt="img"></p>
-<h2 id="Recurrent-Neural-Networks（循环-递归神经网络）"><a href="#Recurrent-Neural-Networks（循环-递归神经网络）" class="headerlink" title="Recurrent Neural Networks（循环/递归神经网络）"></a><strong>Recurrent Neural Networks（循环/递归神经网络）</strong></h2><p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-7c9b195d2025f409394eef5cd3424740_1440w.jpg" alt="img"></p>
-<p><strong>Seq2Seq with Attention，如果做语音可以看到最下面abcd还有一些conclusion的layer套娃。一层套一层再拿去直接训练就能用了。</strong></p>
-<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-ffd67f0ae105fc7fa60cf5b9827055fd_1440w.jpg" alt="img"></p>
-<hr>
-<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-a5ddefaeb2832d885f99b053dcaf9b9f_1440w.jpg" alt="img"></p>
-<p>pytorch做的主要是model部分，1 定义神经网络的architecture。2 之后还有一些参数需要自己调整。</p>
-<p>参数怎么优化？用训练数据来优化，拿到模型输出之后和真正标准输出作对比，计算loss function 。看预测到底好不好。如果不好，参数有问题需要优化。</p>
-<p>深度学习的一个标准优化方法是gradients decent（梯度下降），先通过这个loss计算每个parameter的梯度，再做这个梯度的下降，把loss降下来表示模型效果有了提升。</p>
-<hr>
-<h2 id="pytorch精彩项目："><a href="#pytorch精彩项目：" class="headerlink" title="pytorch精彩项目："></a>pytorch精彩项目：</h2><p><strong>1 图像分类 resnet</strong></p>
-<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-0e50ad6be05a815e701d61a637d3d29a_1440w.jpg" alt="img"><a href="https://github.com/floydhub/imagenet" target="_blank" rel="noopener">https://github.com/floydhub/imagenet</a></p>
-<p>2 <strong>Object Detection（物体检测）</strong></p>
-<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-c04e4ad1f6c0e8ba4b63755d35bf61e2_1440w.jpg" alt="img"><a href="https://github.com/amdegroot/ssd.pytorch" target="_blank" rel="noopener">https://github.com/amdegroot/ssd.pytorch</a></p>
-<p><strong>3 Image Style Transfer（风格迁移）</strong></p>
-<p><a href="https://link.zhihu.com/?target=https%3A//github.com/zhanghang1989/PyTorch-Multi-Style-Transfer">https://github.com/zhanghang1989/PyTorch-Multi-Style-Transfer</a></p>
-<p><strong>4 CycleGAN</strong></p>
-<p><strong>5 Image Captioning</strong></p>
-<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-4ab4d69805fedbe7694d340a25fd4c18_1440w.jpg" alt="img"><a href="https://github.com/ruotianluo/ImageCaptioning.pytorch" target="_blank" rel="noopener">https://github.com/ruotianluo/ImageCaptioning.pytorch</a></p>
-<p>看起来非常高级，实际上定义一个CNN框架套上language generation的recurrent network就可以返回这样一句话。</p>
-<p>用ImageNet来pretrain过，pretrain一个resnet的picture detector，把encode过的image来生成language就能做到。</p>
-<p><strong>6 NLP：</strong></p>
-<ol>
-<li><strong>问答系统</strong></li>
-<li><strong>翻译 OpenNMT-py</strong></li>
-</ol>
-<p><strong>OpenNMT-py</strong></p>
-<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-b1e577108dad919ddbd46b2847171e53_1440w.jpg" alt="img"><a href="https://github.com/OpenNMT/OpenNMT-py" target="_blank" rel="noopener">https://github.com/OpenNMT/OpenNMT-py</a></p>
-<p><strong>ChatBot</strong></p>
-<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-0d916222a9080fdd930d4cb568a8606f_1440w.jpg" alt="img"><a href="https://github.com/czs0x55aa/pytorch-chatbot" target="_blank" rel="noopener">https://github.com/czs0x55aa/pytorch-chatbot</a></p>
-<p><strong>Deep Reinforcement Learning（深度强化学习）</strong></p>
-<p>alphaGo就是一个Deep Reinforcement Learning的应用。</p>
-<p>Atari Game（比如Breakout 打砖块）: pytorch &amp; visdom</p>
-<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-da3df09b5c054cf27f1d43e310ee614f_1440w.jpg" alt="img"><a href="https://github.com/jingweiz/pytorch-rl" target="_blank" rel="noopener">https://github.com/jingweiz/pytorch-rl</a></p>
-<p>打砖块游戏输出只有两个，要么把板往左移要么往右移。所以就是根据当前的图像决定往左往右移动。</p>
-<p>还有两个挡板和平衡车的游戏。都是判断游戏，不断地玩就能把效果玩的越来越好。</p>
-<p><a href="https://zhuanlan.zhihu.com/p/25473646" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/25473646</a></p>
-<p><strong>预训练语言模型GPT2——一本正经地继续帮你编故事，像ImageNet一样。</strong></p>
-<p><strong>当可以很好地模拟一套语言，就可以把底下的一些层提取出来做别的任务。比如命名实体识别，指代（*coreference*）</strong></p>
-<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-81d4ad0ee2c96a811a3d413dc7008a6c_1440w.jpg" alt="img"></p>
-<p><strong>NLP预训练模型</strong></p>
-<p><img src="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/v2-0ac4d6ec5ef9ecc41b428473d2948c47_1440w.jpg" alt="img"></p>
-<ol>
-<li><strong>学好深度学习的基础知识</strong></li>
-<li><strong>学习PyTorch官方tutorial</strong></li>
-<li><strong>学习GitHub以及各种博客上的教程(别人创建好的list)</strong></li>
-<li><strong>一定要熟读documentation\，使用论坛<a href="https://link.zhihu.com/?target=https%3A//discuss.pytorch.org/">https://discuss.pytorch.org/</a></strong></li>
-<li><strong>跑通以及学习开源PyTorch项目</strong></li>
-<li><strong>阅读深度学习模型paper，学习别人的模型实现</strong></li>
-<li><strong>通过阅读paper，自己实现模型</strong></li>
-<li><strong>自己创造模型(也可以写paper)</strong></li>
-</ol>
+<p>比如year、month、day或者hour，当表中存在时间或者日期字段时，可以使用些字段。</p>
+<ul>
+<li>地理位置</li>
+</ul>
+<p>比如国家、省份、城市等</p>
+<ul>
+<li>业务逻辑</li>
+</ul>
+<p>比如部门、销售区域、客户等等</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE table_name (</span><br><span class="line">    col1 data_type,</span><br><span class="line">    col2 data_type)</span><br><span class="line">PARTITIONED BY (partition1 data_type, partition2 data_type,….);</span><br></pre></td></tr></table></figure>
+
+<h1 id="3-分桶表"><a href="#3-分桶表" class="headerlink" title="3.分桶表"></a>3.分桶表</h1><p>通常，当很难在列上创建分区时，我们会使用分桶，比如某个经常被筛选的字段，如果将其作为分区字段，会造成大量的分区。在Hive中，会对分桶字段进行哈希，从而提供了中额外的数据结构，进行提升查询效率。</p>
+<p>与分区表类似，分桶表的组织方式是将HDFS上的文件分割成多个文件。分桶可以加快数据采样，也可以提升join的性能(join的字段是分桶字段)，因为分桶可以确保某个key对应的数据在一个特定的桶内(文件)，所以巧妙地选择分桶字段可以大幅度提升join的性能。通常情况下，分桶字段可以选择经常用在过滤操作或者join操作的字段。</p>
+<p>我们可以使用<strong>set.hive.enforce.bucketing = true</strong>启用分桶设置。</p>
+<p>当使用分桶表时，最好将<strong>bucketmapjoin</strong>标志设置为true，具体配置参数为：</p>
+<p><strong>SET hive.optimize.bucketmapjoin = true</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE table_name </span><br><span class="line">PARTITIONED BY (partition1 data_type, partition2 data_type,….) CLUSTERED BY (column_name1, column_name2, …) </span><br><span class="line">SORTED BY (column_name [ASC|DESC], …)] </span><br><span class="line">INTO num_buckets BUCKETS;</span><br></pre></td></tr></table></figure>
+
+<h1 id="4-对中间数据启用压缩"><a href="#4-对中间数据启用压缩" class="headerlink" title="4.对中间数据启用压缩"></a>4.对中间数据启用压缩</h1><p>复杂的Hive查询通常会转换为一系列多阶段的MapReduce作业，并且这些作业将由Hive引擎链接起来以完成整个查询。因此，此处的“中间输出”是指上一个MapReduce作业的输出，它将用作下一个MapReduce作业的输入数据。</p>
+<p>压缩可以显著减少中间数据量，从而在内部减少了Map和Reduce之间的数据传输量。</p>
+<p>我们可以使用以下属性在中间输出上启用压缩。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">set hive.exec.compress.intermediate&#x3D;true;</span><br><span class="line">set hive.intermediate.compression.codec&#x3D;org.apache.hadoop.io.compress.SnappyCodec;</span><br><span class="line">set hive.intermediate.compression.type&#x3D;BLOCK;</span><br></pre></td></tr></table></figure>
+
+<p>为了将最终输出到HDFS的数据进行压缩，可以使用以下属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set hive.exec.compress.output&#x3D;true;</span><br></pre></td></tr></table></figure>
+
+<p>下面是一些可以使用的压缩编解码器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">org.apache.hadoop.io.compress.DefaultCodec</span><br><span class="line">org.apache.hadoop.io.compress.GzipCodec</span><br><span class="line">org.apache.hadoop.io.compress.BZip2Codec</span><br><span class="line">com.hadoop.compression.lzo.LzopCodec</span><br><span class="line">org.apache.hadoop.io.compress.Lz4Codec</span><br><span class="line">org.apache.hadoop.io.compress.SnappyCodec</span><br></pre></td></tr></table></figure>
+
+<h1 id="5-Map端JOIN"><a href="#5-Map端JOIN" class="headerlink" title="5.Map端JOIN"></a>5.Map端JOIN</h1><p>map端join适用于当一张表很小(可以存在内存中)的情况，即可以将小表加载至内存。Hive从0.7开始支持自动转为map端join，具体配置如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SET hive.auto.convert.join&#x3D;true; --  hivev0.11.0之后默认true</span><br><span class="line">SET hive.mapjoin.smalltable.filesize&#x3D;600000000; -- 默认 25m</span><br><span class="line">SET hive.auto.convert.join.noconditionaltask&#x3D;true; -- 默认true，所以不需要指定map join hint</span><br><span class="line">SET hive.auto.convert.join.noconditionaltask.size&#x3D;10000000; -- 控制加载到内存的表的大小</span><br></pre></td></tr></table></figure>
+
+<p>一旦开启map端join配置，Hive会自动检查小表是否大于<code>hive.mapjoin.smalltable.filesize</code>配置的大小，如果大于则转为普通的join，如果小于则转为map端join。</p>
+<p>关于map端join的原理，如下图所示：</p>
+<p><img src="/2020/11/16/hive%E4%BC%98%E5%8C%96/../../Desktop/640.png" alt="img"></p>
+<p>首先，Task A(客户端本地执行的task)负责读取小表a，并将其转成一个HashTable的数据结构，写入到本地文件，之后将其加载至分布式缓存。</p>
+<p>然后，Task B任务会启动map任务读取大表b，在Map阶段，根据每条记录与分布式缓存中的a表对应的hashtable关联，并输出结果</p>
+<p>注意：map端join没有reduce任务，所以map直接输出结果，即有多少个map任务就会产生多少个结果文件。</p>
+<h1 id="6-向量化"><a href="#6-向量化" class="headerlink" title="6.向量化"></a>6.向量化</h1><p>Hive中的向量化查询执行大大减少了典型查询操作（如扫描，过滤器，聚合和连接）的CPU使用率。</p>
+<p>标准查询执行系统一次处理一行，在处理下一行之前，单行数据会被查询中的所有运算符进行处理，导致CPU使用效率非常低。在向量化查询执行中，数据行被批处理在一起（默认=&gt; 1024行），表示为一组列向量。</p>
+<p>要使用向量化查询执行，必须以ORC格式（CDH 5）存储数据，并设置以下变量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET hive.vectorized.execution.enabled&#x3D;true</span><br></pre></td></tr></table></figure>
+
+<p>在CDH 6中默认启用Hive查询向量化，启用查询向量化后，还可以设置其他属性来调整查询向量化的方式，具体可以参考cloudera官网。</p>
+<h1 id="7-谓词下推"><a href="#7-谓词下推" class="headerlink" title="7.谓词下推"></a>7.谓词下推</h1><p>默认生成的执行计划会在可见的位置执行过滤器，但在某些情况下，某些过滤器表达式可以被推到更接近首次看到此特定数据的运算符的位置。</p>
+<p>比如下面的查询：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">select</span><br><span class="line">    a.*,</span><br><span class="line">    b.* </span><br><span class="line">from </span><br><span class="line">    a join b on (a.col1 &#x3D; b.col1)</span><br><span class="line">where a.col1 &gt; 15 and b.col2 &gt; 16</span><br></pre></td></tr></table></figure>
+
+<p><strong>如果没有谓词下推</strong>，则在完成JOIN处理之后将执行过滤条件<strong>(a.col1&gt; 15和b.col2&gt; 16)</strong>。因此，在这种情况下，JOIN将首先发生，并且可能产生更多的行，然后在进行过滤操作。</p>
+<p><strong>使用谓词下推</strong>，这两个谓词<strong>(a.col1&gt; 15和b.col2&gt; 16)</strong>将在JOIN之前被处理，因此它可能会从a和b中过滤掉连接中较早处理的大部分数据行，因此，建议启用谓词下推。</p>
+<p>通过将hive.optimize.ppd设置为true可以启用谓词下推。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET hive.optimize.ppd&#x3D;true</span><br></pre></td></tr></table></figure>
+
+<h1 id="8-输入格式选择"><a href="#8-输入格式选择" class="headerlink" title="8.输入格式选择"></a>8.输入格式选择</h1><p>Hive支持TEXTFILE, SEQUENCEFILE, AVRO, RCFILE, ORC,以及PARQUET文件格式，可以通过两种方式指定表的文件格式：</p>
+<ul>
+<li>CREATE TABLE … STORE AS :即在建表时指定文件格式，默认是TEXTFILE</li>
+<li>ALTER TABLE … [PARTITION partition_spec] SET FILEFORMAT :修改具体表的文件格式</li>
+</ul>
+<p>如果未指定文件存储格式，则默认使用的是参数<strong>hive.default.fileformat</strong>设定的格式。</p>
+<p>如果数据存储在小于块大小的小文件中，则可以使用<strong>SEQUENCE</strong>文件格式。如果要以减少存储空间并提高性能的优化方式存储数据，则可以使用<strong>ORC文件</strong>格式，而当列中嵌套的数据过多时，<strong>Parquet</strong>格式会很有用。因此，需要根据拥有的数据确定输入文件格式。</p>
+<h1 id="9-启动严格模式"><a href="#9-启动严格模式" class="headerlink" title="9.启动严格模式"></a>9.启动严格模式</h1><p>如果要查询分区的Hive表，但不提供分区谓词（分区列条件），则在这种情况下，将针对该表的所有分区发出查询，这可能会非常耗时且占用资源。因此，我们将下面的属性定义为<strong>strict</strong>，以指示在分区表上未提供分区谓词的情况下编译器将引发错误。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET hive.partition.pruning&#x3D;strict</span><br></pre></td></tr></table></figure>
+
+<h1 id="10-基于成本的优化"><a href="#10-基于成本的优化" class="headerlink" title="10.基于成本的优化"></a>10.基于成本的优化</h1><p>Hive在提交最终执行之前会优化每个查询的逻辑和物理执行计划。基于成本的优化会根据查询成本进行进一步的优化，从而可能产生不同的决策：比如如何决定JOIN的顺序，执行哪种类型的JOIN以及并行度等。</p>
+<p>可以通过设置以下参数来启用基于成本的优化。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">set hive.cbo.enable&#x3D;true;</span><br><span class="line">set hive.compute.query.using.stats&#x3D;true;</span><br><span class="line">set hive.stats.fetch.column.stats&#x3D;true;</span><br><span class="line">set hive.stats.fetch.partition.stats&#x3D;true;</span><br></pre></td></tr></table></figure>
+
+<p>可以使用统计信息来优化查询以提高性能。基于成本的优化器（CBO）还使用统计信息来比较查询计划并选择最佳计划。通过查看统计信息而不是运行查询，效率会很高。</p>
+<p>收集表的列统计信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ANALYZE TABLE mytable COMPUTE STATISTICS FOR COLUMNS;</span><br></pre></td></tr></table></figure>
+
+<p>查看my_db数据库中my_table中<strong>my_id</strong>列的列统计信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DESCRIBE FORMATTED my_db.my_table my_id</span><br></pre></td></tr></table></figure>
+
  
       <!-- reward -->
       
@@ -249,12 +269,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/11/16/hive%E4%BC%98%E5%8C%96/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notebook/" rel="tag">Notebook</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PyTorch/" rel="tag">PyTorch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hive/" rel="tag">hive</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a></li></ul>
 
     </footer>
   </div>
@@ -262,19 +282,10 @@
    
   <nav class="article-nav">
     
-      <a href="/2020/11/16/hive%E4%BC%98%E5%8C%96/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            hive优化
-          
-        </div>
-      </a>
     
-    
-      <a href="/2020/10/22/RDD-DataFrame%E5%92%8CDataSet%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-nav-link">
+      <a href="/2020/11/10/PyTorch%E5%85%A5%E9%97%A8/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">RDD,DataFrame和DataSet的区别</div>
+        <div class="article-nav-title">PyTorch入门</div>
       </a>
     
   </nav>

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-11-10T08:20:34.353Z</updated>
+  <updated>2020-11-16T08:47:11.265Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>hive优化</title>
+    <link href="http://yoursite.com/2020/11/16/hive%E4%BC%98%E5%8C%96/"/>
+    <id>http://yoursite.com/2020/11/16/hive%E4%BC%98%E5%8C%96/</id>
+    <published>2020-11-16T08:46:15.000Z</published>
+    <updated>2020-11-16T08:47:11.265Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Apache &lt;strong&gt;Hive&lt;/strong&gt;是建立在Apache &lt;strong&gt;Hadoop&lt;/strong&gt;之上的数据仓库软件项目，用于提供数据查询和分析。Hive是Hadoop在HDFS上的SQL接口，它提供了类似于SQL的接口来查询存储在与&lt;strong&gt;Hadoop&lt;/strong&gt;集成的各种数据库和文件系统中的数据。可以说从事数据开发工作，无论是在平时的工作中，还是在面试中，Hive具有举足轻重的地位，尤其是Hive的性能调优方面，不仅能够在工作中提升效率而且还可以在面试中脱颖而出。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="hive优化" scheme="http://yoursite.com/categories/hive%E4%BC%98%E5%8C%96/"/>
+    
+    
+      <category term="hive" scheme="http://yoursite.com/tags/hive/"/>
+    
+      <category term="优化" scheme="http://yoursite.com/tags/%E4%BC%98%E5%8C%96/"/>
+    
+  </entry>
   
   <entry>
     <title>PyTorch入门</title>
@@ -521,30 +544,6 @@
       <category term="数仓" scheme="http://yoursite.com/tags/%E6%95%B0%E4%BB%93/"/>
     
       <category term="实时" scheme="http://yoursite.com/tags/%E5%AE%9E%E6%97%B6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hbase学习笔记-1</title>
-    <link href="http://yoursite.com/2020/08/04/Hbase%E7%AC%94%E8%AE%B0-1/"/>
-    <id>http://yoursite.com/2020/08/04/Hbase%E7%AC%94%E8%AE%B0-1/</id>
-    <published>2020-08-04T11:47:45.000Z</published>
-    <updated>2020-08-07T10:30:45.607Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;一-Hadoop的局限性&quot;&gt;&lt;a href=&quot;#一-Hadoop的局限性&quot; class=&quot;headerlink&quot; title=&quot;一.Hadoop的局限性&quot;&gt;&lt;/a&gt;一.Hadoop的局限性&lt;/h2&gt;&lt;p&gt;Hbase是一个构建在Hadoop文件系统之上的面向列(列族)的数据库管理系统&lt;/p&gt;
-&lt;img src=&quot;/2020/08/04/Hbase%E7%AC%94%E8%AE%B0-1/image-20200804194929543.png&quot; alt=&quot;image-20200804194929543&quot; style=&quot;zoom:50%;&quot;&gt;
-    
-    </summary>
-    
-    
-      <category term="Hbase" scheme="http://yoursite.com/categories/Hbase/"/>
-    
-    
-      <category term="Hbase" scheme="http://yoursite.com/tags/Hbase/"/>
-    
-      <category term="学习笔记" scheme="http://yoursite.com/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
