@@ -116,6 +116,8 @@
 
 <p>分析函数用于计算基于组的某种聚合值，它和聚合函数的不同之处是：<strong>对于每个组返回多行，而聚合函数对于每个组只返回一行</strong>。</p>
 <p>开窗函数指定了分析函数工作的<strong>数据窗口</strong>大小，这个数据窗口大小可能会随着行的变化而变化！到底什么是数据窗口？后面举例会详细讲到！</p>
+<a id="more"></a>
+
 <p><strong>1. 基础结构：</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">分析函数（如:sum(),max(),row_number()...） + 窗口子句（over函数）</span><br></pre></td></tr></table></figure>
 

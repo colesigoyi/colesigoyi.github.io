@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2021-01-26T02:14:06.011Z</updated>
+  <updated>2021-01-26T02:15:44.791Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,17 +21,14 @@
     <link href="http://yoursite.com/2021/01/26/%E5%BC%80%E7%AA%97%E5%87%BD%E6%95%B0/"/>
     <id>http://yoursite.com/2021/01/26/%E5%BC%80%E7%AA%97%E5%87%BD%E6%95%B0/</id>
     <published>2021-01-26T02:04:45.000Z</published>
-    <updated>2021-01-26T02:14:06.011Z</updated>
+    <updated>2021-01-26T02:15:44.791Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;
-        
-      
+      &lt;h2 id=&quot;一、介绍&quot;&gt;&lt;a href=&quot;#一、介绍&quot; class=&quot;headerlink&quot; title=&quot;一、介绍&quot;&gt;&lt;/a&gt;一、介绍&lt;/h2&gt;&lt;figure class=&quot;highlight sql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;--数据准备&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;create&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;table&lt;/span&gt; test1(&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;cookieid &lt;span class=&quot;built_in&quot;&gt;int&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;createtime &lt;span class=&quot;keyword&quot;&gt;string&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;pv &lt;span class=&quot;built_in&quot;&gt;int&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;) &lt;span class=&quot;keyword&quot;&gt;row&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;format&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;delimited&lt;/span&gt; &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;field&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;terminated&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;by&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&#39;\t&#39;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;; &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;数据： &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;a 2017-12-01 3 &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;b 2017-12-00 3 &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;cookie1 2017-12-10 1 &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;cookie1 2017-12-11 5 &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;cookie1 2017-12-12 7 &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;cookie1 2017-12-13 3 &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;cookie1 2017-12-14 2 &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;cookie1 2017-12-15 4 &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;cookie1 2017-12-16 4 &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;cookie2 2017-12-12 7 &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;cookie2 2017-12-16 6 &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;cookie2 2017-12-24 1 &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;cookie3 2017-12-22 5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;分析函数用于计算基于组的某种聚合值，它和聚合函数的不同之处是：&lt;strong&gt;对于每个组返回多行，而聚合函数对于每个组只返回一行&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;开窗函数指定了分析函数工作的&lt;strong&gt;数据窗口&lt;/strong&gt;大小，这个数据窗口大小可能会随着行的变化而变化！到底什么是数据窗口？后面举例会详细讲到！&lt;/p&gt;
     
     </summary>
     
