@@ -115,6 +115,63 @@
     
     
     <article
+  id="post-Hive中Parquet格式的使用"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/07/22/Hive%E4%B8%ADParquet%E6%A0%BC%E5%BC%8F%E7%9A%84%E4%BD%BF%E7%94%A8/"
+    >Hive中Parquet格式的使用</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/07/22/Hive%E4%B8%ADParquet%E6%A0%BC%E5%BC%8F%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-date">
+  <time datetime="2020-07-22T11:38:48.000Z" itemprop="datePublished">2020-07-22</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Hive/">Hive</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="Hive中Parquet格式的使用"><a href="#Hive中Parquet格式的使用" class="headerlink" title="Hive中Parquet格式的使用"></a>Hive中Parquet格式的使用</h1><p><strong>#Hive建外部External表（外部表external table）：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">EXTERNAL</span> <span class="keyword">TABLE</span> <span class="string">`table_name`</span>(</span><br><span class="line">  <span class="string">`column1`</span> <span class="keyword">string</span>,</span><br><span class="line">  <span class="string">`column2`</span> <span class="keyword">string</span>,</span><br><span class="line">  <span class="string">`column3`</span> <span class="keyword">string</span>)</span><br><span class="line">PARTITIONED <span class="keyword">BY</span> (</span><br><span class="line">  <span class="string">`proc_date`</span> <span class="keyword">string</span>)</span><br><span class="line"><span class="keyword">ROW</span> <span class="keyword">FORMAT</span> SERDE</span><br><span class="line">  <span class="string">'org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe'</span></span><br><span class="line"><span class="keyword">STORED</span> <span class="keyword">AS</span> INPUTFORMAT</span><br><span class="line">  <span class="string">'org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat'</span></span><br><span class="line">OUTPUTFORMAT</span><br><span class="line">  <span class="string">'org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat'</span></span><br><span class="line">LOCATION</span><br><span class="line">  <span class="string">'hdfs://hdfscluster/...'</span></span><br><span class="line">TBLPROPERTIES ( <span class="string">'orc.compress'</span>=<span class="string">'snappy'</span>);</span><br></pre></td></tr></table></figure> 
+      <a class="article-more-link" href="/2020/07/22/Hive%E4%B8%ADParquet%E6%A0%BC%E5%BC%8F%E7%9A%84%E4%BD%BF%E7%94%A8/"
+        >阅读更多...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Parquet/" rel="tag">Parquet</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hive/" rel="tag">hive</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+   
+</article>
+
+    
+    <article
   id="post-python时间"
   class="article article-type-post"
   itemscope
@@ -438,7 +495,7 @@
     <ul>
       <li>
         Copyrights &copy;
-        2015-2020
+        2015-2021
         <i class="ri-heart-fill heart_icon"></i> Xuefeng Tao
       </li>
     </ul>

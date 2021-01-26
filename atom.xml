@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-12-16T10:41:31.531Z</updated>
+  <updated>2021-01-26T02:14:06.011Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>开窗函数%</title>
+    <link href="http://yoursite.com/2021/01/26/%E5%BC%80%E7%AA%97%E5%87%BD%E6%95%B0/"/>
+    <id>http://yoursite.com/2021/01/26/%E5%BC%80%E7%AA%97%E5%87%BD%E6%95%B0/</id>
+    <published>2021-01-26T02:04:45.000Z</published>
+    <updated>2021-01-26T02:14:06.011Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Hive" scheme="http://yoursite.com/categories/Hive/"/>
+    
+    
+      <category term="hive" scheme="http://yoursite.com/tags/hive/"/>
+    
+      <category term="开窗函数" scheme="http://yoursite.com/tags/%E5%BC%80%E7%AA%97%E5%87%BD%E6%95%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>阿里架构升级</title>
@@ -505,38 +534,6 @@
       <category term="流处理" scheme="http://yoursite.com/tags/%E6%B5%81%E5%A4%84%E7%90%86/"/>
     
       <category term="spark" scheme="http://yoursite.com/tags/spark/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>学习知乎实时数仓实践及架构演进</title>
-    <link href="http://yoursite.com/2020/08/12/%E5%AD%A6%E4%B9%A0%E7%9F%A5%E4%B9%8E%E5%AE%9E%E6%97%B6%E6%95%B0%E4%BB%93%E5%AE%9E%E8%B7%B5%E5%8F%8A%E6%9E%B6%E6%9E%84%E6%BC%94%E8%BF%9B/"/>
-    <id>http://yoursite.com/2020/08/12/%E5%AD%A6%E4%B9%A0%E7%9F%A5%E4%B9%8E%E5%AE%9E%E6%97%B6%E6%95%B0%E4%BB%93%E5%AE%9E%E8%B7%B5%E5%8F%8A%E6%9E%B6%E6%9E%84%E6%BC%94%E8%BF%9B/</id>
-    <published>2020-08-12T02:49:20.000Z</published>
-    <updated>2020-08-12T03:29:14.864Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;“数据智能” (Data Intelligence) 有一个必须且基础的环节，就是数据仓库的建设，同时，数据仓库也是公司数据发展到一定规模后必然会提供的一种基础服务。从智能商业的角度来讲，数据的结果代表了用户的反馈，获取结果的及时性就显得尤为重要，快速的获取数据反馈能够帮助公司更快的做出决策，更好的进行产品迭代，实时数仓在这一过程中起到了不可替代的作用。&lt;/p&gt;
-&lt;p&gt;本文主要讲述知乎的实时数仓实践以及架构的演进，这包括以下几个方面&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;实时数仓 1.0 版本，主题： ETL 逻辑实时化，技术方案：Spark Streaming。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;实时数仓 2.0 版本，主题：数据分层，指标计算实时化，技术方案：Flink Streaming。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;实时数仓未来展望：Streaming SQL 平台化，元信息管理系统化，结果验收自动化。&lt;/p&gt;&lt;/li&gt;&lt;/ol&gt;
-    
-    </summary>
-    
-    
-      <category term="实时数仓" scheme="http://yoursite.com/categories/%E5%AE%9E%E6%97%B6%E6%95%B0%E4%BB%93/"/>
-    
-    
-      <category term="学习笔记" scheme="http://yoursite.com/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
-    
-      <category term="实时计算" scheme="http://yoursite.com/tags/%E5%AE%9E%E6%97%B6%E8%AE%A1%E7%AE%97/"/>
-    
-      <category term="实时数仓" scheme="http://yoursite.com/tags/%E5%AE%9E%E6%97%B6%E6%95%B0%E4%BB%93/"/>
     
   </entry>
   

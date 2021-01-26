@@ -115,6 +115,136 @@
     
     
     <article
+  id="post-开窗函数"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/01/26/%E5%BC%80%E7%AA%97%E5%87%BD%E6%95%B0/"
+    >开窗函数%</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/01/26/%E5%BC%80%E7%AA%97%E5%87%BD%E6%95%B0/" class="article-date">
+  <time datetime="2021-01-26T02:04:45.000Z" itemprop="datePublished">2021-01-26</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Hive/">Hive</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--数据准备</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> test1(</span><br><span class="line">cookieid <span class="built_in">int</span>,</span><br><span class="line">createtime <span class="keyword">string</span>,</span><br><span class="line">pv <span class="built_in">int</span></span><br><span class="line">) <span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> </span><br><span class="line"><span class="keyword">field</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">'\t'</span></span><br><span class="line">; </span><br><span class="line">数据： </span><br><span class="line">a 2017-12-01 3 </span><br><span class="line">b 2017-12-00 3 </span><br><span class="line">cookie1 2017-12-10 1 </span><br><span class="line">cookie1 2017-12-11 5 </span><br><span class="line">cookie1 2017-12-12 7 </span><br><span class="line">cookie1 2017-12-13 3 </span><br><span class="line">cookie1 2017-12-14 2 </span><br><span class="line">cookie1 2017-12-15 4 </span><br><span class="line">cookie1 2017-12-16 4 </span><br><span class="line">cookie2 2017-12-12 7 </span><br><span class="line">cookie2 2017-12-16 6 </span><br><span class="line">cookie2 2017-12-24 1 </span><br><span class="line">cookie3 2017-12-22 5</span><br></pre></td></tr></table></figure>
+
+<p>分析函数用于计算基于组的某种聚合值，它和聚合函数的不同之处是：<strong>对于每个组返回多行，而聚合函数对于每个组只返回一行</strong>。</p>
+<p>开窗函数指定了分析函数工作的<strong>数据窗口</strong>大小，这个数据窗口大小可能会随着行的变化而变化！到底什么是数据窗口？后面举例会详细讲到！</p>
+<p><strong>1. 基础结构：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">分析函数（如:sum(),max(),row_number()...） + 窗口子句（over函数）</span><br></pre></td></tr></table></figure>
+
+<p><strong>2. over函数写法：</strong><br>　　<code>over（partition by cookieid order by createtime）</code> 先根据cookieid字段分区，相同的cookieid分为一区，每个分区内根据createtime字段排序（默认升序）<br>　　<br><em>注：不加 <code>partition by</code> 的话则把整个数据集当作一个分区，不加 <code>order by</code>的话会对某些函数统计结果产生影响，如sum()</em></p>
+<p><strong>3. 测试数据：</strong><br><img src="/2021/01/26/%E5%BC%80%E7%AA%97%E5%87%BD%E6%95%B0/70.png" alt="这里写图片描述"><br>测试表<code>test1</code>只有三个字段 <code>cookieid</code>、<code>createtime</code>、<code>pv</code></p>
+<p><strong>4. 窗口含义：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SELECT cookieid,createtime,pv,</span><br><span class="line">SUM(pv) OVER(PARTITION BY cookieid ORDER BY createtime) AS pv1, -- 默认为从起点到当前行</span><br><span class="line">SUM(pv) OVER(PARTITION BY cookieid ORDER BY createtime ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS pv2, --从起点到当前行，结果同pv1 </span><br><span class="line">SUM(pv) OVER(PARTITION BY cookieid ORDER BY createtime ROWS BETWEEN 3 PRECEDING AND CURRENT ROW) AS pv3,   --当前行+往前3行</span><br><span class="line">SUM(pv) OVER(PARTITION BY cookieid ORDER BY createtime ROWS BETWEEN 3 PRECEDING AND 1 FOLLOWING) AS pv4,    --当前行+往前3行+往后1行</span><br><span class="line">SUM(pv) OVER(PARTITION BY cookieid ORDER BY createtime ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) AS pv5   ---当前行+往后所有行  </span><br><span class="line">FROM test1;</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">cookieid	createtime	pv	pv1  pv2    pv3  pv4  pv5</span><br><span class="line">a			2017-12-01	3	 3	  3	     3	  3    3</span><br><span class="line">b			2017-12-00	3	 3	  3	     3	  3    3</span><br><span class="line">cookie1		2017-12-10	1	 1	  1	     1	  6    26</span><br><span class="line">cookie1		2017-12-11	5	 6	  6	     6	  13   25</span><br><span class="line">cookie1		2017-12-12	7	 13  13	     13   16   20</span><br><span class="line">cookie1		2017-12-13	3	 16  16	     16   18   13</span><br><span class="line">cookie1		2017-12-14	2	 18  18	     17   21   10</span><br><span class="line">cookie1		2017-12-15	4	 22  22	     16   20   8</span><br><span class="line">cookie1		2017-12-16	4	 26  26	     13   13   4</span><br><span class="line">cookie2		2017-12-12	7	 7	  7	     7	  13   14</span><br><span class="line">cookie2		2017-12-16	6	 13  13	     13   14   7</span><br><span class="line">cookie2		2017-12-24	1	 14  14	     14   14   1</span><br><span class="line">cookie3		2017-12-22	5	 5	  5	     5	   5   5</span><br></pre></td></tr></table></figure>
+
+<p><em>注：这些窗口的划分都是在分区内部！超过分区大小就无效了</em></p>
+<p>相信大家看了后就会明白，<strong>如果不指定ROWS BETWEEN,默认统计窗口为从起点到当前行</strong>;<strong>如果不指定ORDER BY，则将分组内所有值累加</strong>;</p>
+<p>关键是理解 <code>ROWS BETWEEN</code> 含义,也叫做<strong>window子句</strong>：<br><code>PRECEDING</code>：往前<br><code>FOLLOWING</code>：往后<br><code>CURRENT ROW</code>：当前行<br><code>UNBOUNDED</code>：无边界，UNBOUNDED PRECEDING 表示从最前面的起点开始， UNBOUNDED FOLLOWING：表示到最后面的终点<br>–其他AVG，MIN，MAX，和SUM用法一样</p>
+<hr>
+<h2 id="二、SUM-函数"><a href="#二、SUM-函数" class="headerlink" title="二、SUM 函数"></a>二、SUM 函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select cookieid,createtime,pv,</span><br><span class="line">sum(pv) over(PARTITION BY cookieid ORDER BY createtime) as pv1 </span><br><span class="line">FROM test1</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/01/26/%E5%BC%80%E7%AA%97%E5%87%BD%E6%95%B0/70-20210126100536861.png" alt="这里写图片描述"><br>首先 <code>PARTITION BY cookieid</code>，根据cookieid分区，<strong>各分区之间默认根据字典顺序排序</strong>，<code>ORDER BY createtime</code>，指定的是分区内部的排序，默认为升序</p>
+<p>我们可以清晰地看到，窗口函数和聚合函数的不同，sum()函数可以根据每一行的窗口返回各自行对应的值，有多少行记录就有多少个sum值，而group by只能计算每一组的sum，每组只有一个值！</p>
+<p>其中sum()计算的是分区内排序后一个个叠加的值，<strong>和order by有关</strong>！</p>
+<p><em>如果不加 order by会咋样：</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select cookieid,createtime,pv,</span><br><span class="line">sum(pv) over(PARTITION BY cookieid) as pv1 </span><br><span class="line">FROM test1</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/01/26/%E5%BC%80%E7%AA%97%E5%87%BD%E6%95%B0/70-20210126100536864.png" alt="这里写图片描述"><br>可以看到，如果没有order by，<strong>不仅分区内没有排序，sum()计算的pv也是整个分区的pv</strong></p>
+<p>注：max()函数无论有没有order by 都是计算整个分区的最大值</p>
+<hr>
+<h2 id="三、NTILE-函数"><a href="#三、NTILE-函数" class="headerlink" title="三、NTILE 函数"></a>三、NTILE 函数</h2><p>NTILE(n)，用于将分组数据按照顺序切分成n片，返回当前切片值</p>
+<p><em>注1：如果切片不均匀，<strong>默认增加第一个切片的分布*</strong><br>*注2：NTILE不支持ROWS BETWEEN</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT cookieid,createtime,pv,</span><br><span class="line">NTILE(2) OVER(PARTITION BY cookieid ORDER BY createtime) AS ntile1,	--分组内将数据分成2片</span><br><span class="line">NTILE(3) OVER(PARTITION BY cookieid ORDER BY createtime) AS ntile2,  --分组内将数据分成3片</span><br><span class="line">NTILE(4) OVER(PARTITION BY cookieid ORDER BY createtime) AS ntile3   --将所有数据分成4片</span><br><span class="line">FROM test1</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/01/26/%E5%BC%80%E7%AA%97%E5%87%BD%E6%95%B0/70-20210126100536876.png" alt="这里写图片描述"></p>
+<p><strong>用法举例：</strong><br>统计一个cookie，pv数最多的前1/3的天：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT cookieid,createtime,pv,</span><br><span class="line">NTILE(3) OVER(PARTITION BY cookieid ORDER BY pv DESC) AS ntile </span><br><span class="line">FROM test1;</span><br></pre></td></tr></table></figure>
+
+<p>取 <code>ntile = 1</code> 的记录，就是我们想要的结果！</p>
+<hr>
+<h2 id="四、ROW-NUMBER-函数"><a href="#四、ROW-NUMBER-函数" class="headerlink" title="四、ROW_NUMBER 函数"></a>四、ROW_NUMBER 函数</h2><p>ROW_NUMBER() 从1开始，按照顺序，生成分组内记录的序列</p>
+<p><strong>ROW_NUMBER() 的应用场景非常多</strong>，比如获取分组内排序第一的记录、获取一个session中的第一条refer等。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT cookieid,createtime,pv,</span><br><span class="line">ROW_NUMBER() OVER(PARTITION BY cookieid ORDER BY pv desc) AS rn  </span><br><span class="line">FROM test1;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/01/26/%E5%BC%80%E7%AA%97%E5%87%BD%E6%95%B0/70-20210126100536877.png" alt="这里写图片描述"></p>
+<hr>
+<h2 id="五、RANK-和-DENSE-RANK-函数"><a href="#五、RANK-和-DENSE-RANK-函数" class="headerlink" title="五、RANK 和 DENSE_RANK 函数"></a>五、RANK 和 DENSE_RANK 函数</h2><p><code>RANK()</code> 生成数据项在分组中的排名，<strong>排名相等会在名次中留下空位</strong><br><code>DENSE_RANK()</code> 生成数据项在分组中的排名，<strong>排名相等会在名次中不会留下空位</strong></p>
+<p>我们把 <strong>rank</strong>、<strong>dense_rank</strong>、<strong>row_number</strong>三者对比，这样比较清晰：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT cookieid,createtime,pv,</span><br><span class="line">RANK() OVER(PARTITION BY cookieid ORDER BY pv desc) AS rank1,</span><br><span class="line">DENSE_RANK() OVER(PARTITION BY cookieid ORDER BY pv desc) AS d_rank2,</span><br><span class="line">ROW_NUMBER() OVER(PARTITION BY cookieid ORDER BY pv DESC) AS rn3 </span><br><span class="line">FROM test1</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/01/26/%E5%BC%80%E7%AA%97%E5%87%BD%E6%95%B0/70-20210126100536866.png" alt="这里写图片描述"></p>
+<hr>
+<h2 id="六、CUME-DIST-函数"><a href="#六、CUME-DIST-函数" class="headerlink" title="六、CUME_DIST 函数"></a>六、CUME_DIST 函数</h2><p><code>cume_dist</code> 返回小于等于当前值的行数<code>/</code>分组内总行数</p>
+<p>比如，我们可以统计小于等于当前薪水的人数，所占总人数的比例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT cookieid,createtime,pv,</span><br><span class="line">round(CUME_DIST() OVER(ORDER BY pv),2) AS cd1,</span><br><span class="line">round(CUME_DIST() OVER(PARTITION BY cookieid ORDER BY pv),2) AS cd2  </span><br><span class="line">FROM test1;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/01/26/%E5%BC%80%E7%AA%97%E5%87%BD%E6%95%B0/70-20210126100536874.png" alt="这里写图片描述"><br><em>注：cd1没有partition,所有数据均为1组！</em></p>
+<hr>
+<h2 id="七、PERCENT-RANK-函数"><a href="#七、PERCENT-RANK-函数" class="headerlink" title="七、PERCENT_RANK 函数"></a>七、PERCENT_RANK 函数</h2><p><code>percent_rank</code> 分组内当前行的RANK值-1/分组内总行数-1</p>
+<p><em>注：一般不会用到该函数，可能在一些特殊算法的实现中可以用到吧</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT  cookieid,createtime,pv,</span><br><span class="line">PERCENT_RANK() OVER(ORDER BY pv) AS rn1 </span><br><span class="line">from test1</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/01/26/%E5%BC%80%E7%AA%97%E5%87%BD%E6%95%B0/70-20210126101235890.png" alt="这里写图片描述"></p>
+<hr>
+<h2 id="八、LAG-和-LEAD-函数"><a href="#八、LAG-和-LEAD-函数" class="headerlink" title="八、LAG 和 LEAD 函数"></a>八、LAG 和 LEAD 函数</h2><p><code>LAG(col,n,DEFAULT)</code> 用于统计窗口内往上第n行值</p>
+<p>第一个参数为列名，第二个参数为往上第n行（可选，默认为1），第三个参数为默认值（当往上第n行为NULL时候，取默认值，如不指定，则为NULL）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT cookieid,createtime,pv,</span><br><span class="line">ROW_NUMBER() OVER(PARTITION BY cookieid ORDER BY createtime) AS rn,</span><br><span class="line">LAG(createtime,1,&#39;1970-01-01&#39;) OVER(PARTITION BY cookieid ORDER BY createtime) AS lag1,</span><br><span class="line">LAG(createtime,2) OVER(PARTITION BY cookieid ORDER BY createtime) AS lag2 </span><br><span class="line">FROM test1;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/01/26/%E5%BC%80%E7%AA%97%E5%87%BD%E6%95%B0/70-20210126101220312.png" alt="这里写图片描述"></p>
+<p><strong>LEAD 函数则与 LAG 相反：</strong><br><code>LEAD(col,n,DEFAULT)</code> 用于统计窗口内往下第n行值</p>
+<p>第一个参数为列名，第二个参数为往下第n行（可选，默认为1），第三个参数为默认值（当往下第n行为NULL时候，取默认值，如不指定，则为NULL）</p>
+<hr>
+<h2 id="九、FIRST-VALUE-和-LAST-VALUE-函数"><a href="#九、FIRST-VALUE-和-LAST-VALUE-函数" class="headerlink" title="九、FIRST_VALUE 和 LAST_VALUE 函数"></a>九、FIRST_VALUE 和 LAST_VALUE 函数</h2><p><code>FIRST_VALUE</code> 取分组内排序后，截止到当前行，第一个值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT cookieid,createtime,pv,</span><br><span class="line">ROW_NUMBER() OVER(PARTITION BY cookieid ORDER BY createtime) AS rn,</span><br><span class="line">FIRST_VALUE(pv) OVER(PARTITION BY cookieid ORDER BY createtime) AS first  </span><br><span class="line">FROM test1;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/01/26/%E5%BC%80%E7%AA%97%E5%87%BD%E6%95%B0/70-20210126100536922.png" alt="这里写图片描述"></p>
+<p><strong>LAST_VALUE 函数则相反：</strong><br><code>LAST_VALUE</code> 取分组内排序后，截止到当前行，最后一个值</p>
+<p>这两个函数还是经常用到的（往往和排序配合使用），比较实用！</p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hive/" rel="tag">hive</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BC%80%E7%AA%97%E5%87%BD%E6%95%B0/" rel="tag">开窗函数</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+   
+</article>
+
+    
+    <article
   id="post-阿里架构升级"
   class="article article-type-post"
   itemscope
@@ -622,64 +752,6 @@
 </article>
 
     
-    <article
-  id="post-Sequel-pro关闭后提示应用错误异常退出的应对方法"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/09/11/Sequel-pro%E5%85%B3%E9%97%AD%E5%90%8E%E6%8F%90%E7%A4%BA%E5%BA%94%E7%94%A8%E9%94%99%E8%AF%AF%E5%BC%82%E5%B8%B8%E9%80%80%E5%87%BA%E7%9A%84%E5%BA%94%E5%AF%B9%E6%96%B9%E6%B3%95/"
-    >Sequel pro关闭后提示应用错误异常退出的应对方法</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/09/11/Sequel-pro%E5%85%B3%E9%97%AD%E5%90%8E%E6%8F%90%E7%A4%BA%E5%BA%94%E7%94%A8%E9%94%99%E8%AF%AF%E5%BC%82%E5%B8%B8%E9%80%80%E5%87%BA%E7%9A%84%E5%BA%94%E5%AF%B9%E6%96%B9%E6%B3%95/" class="article-date">
-  <time datetime="2020-09-11T10:13:33.000Z" itemprop="datePublished">2020-09-11</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Sequel-pro/">Sequel pro</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <p>刚下载mac下的Sequel pro ，关闭会话总是会报错。</p>
-<p>尤其是想关闭一个回话的时候，整个程序退出还弹个错误对话框。</p>
-<p>应该是适配问题.</p> 
-      <a class="article-more-link" href="/2020/09/11/Sequel-pro%E5%85%B3%E9%97%AD%E5%90%8E%E6%8F%90%E7%A4%BA%E5%BA%94%E7%94%A8%E9%94%99%E8%AF%AF%E5%BC%82%E5%B8%B8%E9%80%80%E5%87%BA%E7%9A%84%E5%BA%94%E5%AF%B9%E6%96%B9%E6%B3%95/"
-        >阅读更多...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-   
-</article>
-
-    
   </article>
   
 
@@ -697,7 +769,7 @@
     <ul>
       <li>
         Copyrights &copy;
-        2015-2020
+        2015-2021
         <i class="ri-heart-fill heart_icon"></i> Xuefeng Tao
       </li>
     </ul>
