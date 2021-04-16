@@ -11,7 +11,7 @@
    
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    categories |  你当像鸟飞往你的山
+    docker环境下试验clickhouse |  你当像鸟飞往你的山
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -57,12 +57,230 @@
       
     <main class="content on">
       <section class="outer">
+  <article
+  id="post-docker环境下试验clickhouse"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  docker环境下试验clickhouse
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/" class="article-date">
+  <time datetime="2021-04-16T03:20:44.000Z" itemprop="datePublished">2021-04-16</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/clickhouse/">clickhouse</a>
+  </div>
   
-    <h1 class="page-type-title">分类</h1>
-    <div class="categories-box">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ClickHouse/">ClickHouse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hbase/">Hbase</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hive/">Hive</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MapReduce/">MapReduce</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mysql/">Mysql</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Parquet/">Parquet</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/RDD/">RDD</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/RDD/DataFrame/">DataFrame</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/RDD/DataFrame/DataSet/">DataSet</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Sequel-pro/">Sequel pro</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spark/">Spark</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Sqoop/">Sqoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Structured-Streaming/">Structured Streaming</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/clickhouse/">clickhouse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hive%E4%BC%98%E5%8C%96/">hive优化</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/spark-streaming/">spark streaming</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/spark-structured-streaming/">spark-structured-streaming</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%AC%E5%8F%B8vpn/">公司vpn</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AE%9E%E6%97%B6%E6%95%B0%E4%BB%93/">实时数仓</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E4%BB%93/">数仓</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE/">数据</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%AD%E8%A8%80/">语言</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%B5%84%E6%96%99/">资料</a><span class="category-list-count">1</span></li></ul>
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">232</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">1 分钟</span>
+        </span>
+    </span>
+</div>
+ 
     </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
   
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="docker环境下搭建clickhouse环境"><a href="#docker环境下搭建clickhouse环境" class="headerlink" title="docker环境下搭建clickhouse环境"></a>docker环境下搭建clickhouse环境</h2><h4 id="00x1-使用docker安装clickhouse"><a href="#00x1-使用docker安装clickhouse" class="headerlink" title="00x1:使用docker安装clickhouse"></a>00x1:使用docker安装clickhouse</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull yandex/clickhouse-server</span><br></pre></td></tr></table></figure>
+
+<h4 id="00x2-启动clickhouse"><a href="#00x2-启动clickhouse" class="headerlink" title="00x2:启动clickhouse"></a>00x2:启动clickhouse</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name ch-server --ulimit nofile=262144:262144 -p 8123:8123 -p 9000:9000 -p 9009:9009 yandex/clickhouse-server</span><br></pre></td></tr></table></figure>
+
+<h4 id="00x3-查看docker启动的程序"><a href="#00x3-查看docker启动的程序" class="headerlink" title="00x3:查看docker启动的程序"></a>00x3:查看docker启动的程序</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps -a 查看容器</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/image-20210416112622522.png" alt="image-20210416112622522"></p>
+<a id="more"></a>
+
+<h4 id="00x4-进入容器"><a href="#00x4-进入容器" class="headerlink" title="00x4:进入容器"></a>00x4:进入容器</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it docker-clickhouse /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/image-20210416112920269.png" alt="image-20210416112920269"></p>
+<h4 id="00x5-导入样例数据"><a href="#00x5-导入样例数据" class="headerlink" title="00x5:导入样例数据"></a>00x5:导入样例数据</h4><p>数据存储在/var/lib/clickhouse/data中</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">cd /var/lib/clickhouse/tmp #数据的压缩包我存放在tmp下</span><br><span class="line">curl -O https://datasets.clickhouse.tech/hits/partitions/hits_v1.tar</span><br><span class="line"></span><br><span class="line">cd .. #回到clickhouse目录下</span><br><span class="line">tar xvf tmp/hits_v1.tar -C /var/lib/clickhouse # path to ClickHouse data directory</span><br><span class="line"><span class="meta">#</span><span class="bash"> check permissions on unpacked data, fix <span class="keyword">if</span> required</span></span><br><span class="line"></span><br><span class="line">curl -O tmp/https://datasets.clickhouse.tech/visits/partitions/visits_v1.tar</span><br><span class="line">tar xvf visits_v1.tar -C /var/lib/clickhouse # path to ClickHouse data directory</span><br><span class="line"><span class="meta">#</span><span class="bash"> check permissions on unpacked data, fix <span class="keyword">if</span> required</span></span><br><span class="line"></span><br><span class="line">sudo service clickhouse-server restart</span><br></pre></td></tr></table></figure>
+
+<p>压缩包存放在tmp下</p>
+<p><img src="/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/image-20210416113141288.png" alt="image-20210416113141288"></p>
+<p>解压缩之后会在data文件夹下生成datasets目录</p>
+<p><img src="/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/image-20210416113306278.png" alt="image-20210416113306278"></p>
+<p><img src="/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/image-20210416113353457.png" alt="image-20210416113353457"></p>
+<p>这就是datasets库下的两个表</p>
+<h4 id="00x6-进如clickhouse启动client"><a href="#00x6-进如clickhouse启动client" class="headerlink" title="00x6:进如clickhouse启动client"></a>00x6:进如clickhouse启动client</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">执行clickhouse-client</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/image-20210416113556075.png" alt="image-20210416113556075"></p>
+<p>查询数据库:</p>
+<p><img src="/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/image-20210416113626892.png" alt="image-20210416113626892"></p>
+<p>使用刚创建的库</p>
+<p><img src="/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/image-20210416113644823.png" alt="image-20210416113644823"></p>
+<p>查询数量:</p>
+<p><img src="/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/image-20210416113728071.png" alt="image-20210416113728071"></p>
+ 
+      <!-- reward -->
+      
+      <div id="reward-btn">
+        打赏
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2021/01/26/%E5%BC%80%E7%AA%97%E5%87%BD%E6%95%B0/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">开窗函数%</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "Dfy9sbO4s9px2dbCyrGKbdLm-gzGzoHsz",
+    app_key: "UL9nHVEnBrVAIePJrdmz9qYr",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
 </section>
       <footer class="footer">
   <div class="outer">
@@ -213,6 +431,23 @@
 <script src="/js/lazyload.min.js"></script>
 
 <!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2021-01-26T02:15:44.791Z</updated>
+  <updated>2021-04-16T03:38:17.803Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>docker环境下试验clickhouse</title>
+    <link href="http://yoursite.com/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/"/>
+    <id>http://yoursite.com/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/</id>
+    <published>2021-04-16T03:20:44.000Z</published>
+    <updated>2021-04-16T03:38:17.803Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;docker环境下搭建clickhouse环境&quot;&gt;&lt;a href=&quot;#docker环境下搭建clickhouse环境&quot; class=&quot;headerlink&quot; title=&quot;docker环境下搭建clickhouse环境&quot;&gt;&lt;/a&gt;docker环境下搭建clickhouse环境&lt;/h2&gt;&lt;h4 id=&quot;00x1-使用docker安装clickhouse&quot;&gt;&lt;a href=&quot;#00x1-使用docker安装clickhouse&quot; class=&quot;headerlink&quot; title=&quot;00x1:使用docker安装clickhouse&quot;&gt;&lt;/a&gt;00x1:使用docker安装clickhouse&lt;/h4&gt;&lt;figure class=&quot;highlight shell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;docker pull yandex/clickhouse-server&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;h4 id=&quot;00x2-启动clickhouse&quot;&gt;&lt;a href=&quot;#00x2-启动clickhouse&quot; class=&quot;headerlink&quot; title=&quot;00x2:启动clickhouse&quot;&gt;&lt;/a&gt;00x2:启动clickhouse&lt;/h4&gt;&lt;figure class=&quot;highlight shell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;docker run -d --name ch-server --ulimit nofile=262144:262144 -p 8123:8123 -p 9000:9000 -p 9009:9009 yandex/clickhouse-server&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;h4 id=&quot;00x3-查看docker启动的程序&quot;&gt;&lt;a href=&quot;#00x3-查看docker启动的程序&quot; class=&quot;headerlink&quot; title=&quot;00x3:查看docker启动的程序&quot;&gt;&lt;/a&gt;00x3:查看docker启动的程序&lt;/h4&gt;&lt;figure class=&quot;highlight shell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;docker ps -a 查看容器&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;img src=&quot;/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/image-20210416112622522.png&quot; alt=&quot;image-20210416112622522&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="clickhouse" scheme="http://yoursite.com/categories/clickhouse/"/>
+    
+    
+      <category term="数据库" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="docker" scheme="http://yoursite.com/tags/docker/"/>
+    
+  </entry>
   
   <entry>
     <title>开窗函数%</title>
@@ -507,30 +536,6 @@
       <category term="Hbase" scheme="http://yoursite.com/tags/Hbase/"/>
     
       <category term="学习笔记" scheme="http://yoursite.com/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>spark-streaming学习1</title>
-    <link href="http://yoursite.com/2020/08/17/spark-streaming%E5%AD%A6%E4%B9%A01/"/>
-    <id>http://yoursite.com/2020/08/17/spark-streaming%E5%AD%A6%E4%B9%A01/</id>
-    <published>2020-08-17T09:11:45.000Z</published>
-    <updated>2020-08-17T09:15:35.509Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;一、流处理&quot;&gt;&lt;a href=&quot;#一、流处理&quot; class=&quot;headerlink&quot; title=&quot;一、流处理&quot;&gt;&lt;/a&gt;一、流处理&lt;/h2&gt;&lt;h3 id=&quot;1-1-静态数据处理&quot;&gt;&lt;a href=&quot;#1-1-静态数据处理&quot; class=&quot;headerlink&quot; title=&quot;1.1 静态数据处理&quot;&gt;&lt;/a&gt;1.1 静态数据处理&lt;/h3&gt;&lt;p&gt;在流处理之前，数据通常存储在数据库，文件系统或其他形式的存储系统中。应用程序根据需要查询数据或计算数据。这就是传统的静态数据处理架构。Hadoop 采用 HDFS 进行数据存储，采用 MapReduce 进行数据查询或分析，这就是典型的静态数据处理架构。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/2020/08/17/spark-streaming%E5%AD%A6%E4%B9%A01/image-20200817171353524.png&quot; alt=&quot;image-20200817171353524&quot;&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="spark streaming" scheme="http://yoursite.com/categories/spark-streaming/"/>
-    
-    
-      <category term="流处理" scheme="http://yoursite.com/tags/%E6%B5%81%E5%A4%84%E7%90%86/"/>
-    
-      <category term="spark" scheme="http://yoursite.com/tags/spark/"/>
     
   </entry>
   

@@ -115,6 +115,68 @@
     
     
     <article
+  id="post-docker环境下试验clickhouse"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/"
+    >docker环境下试验clickhouse</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/" class="article-date">
+  <time datetime="2021-04-16T03:20:44.000Z" itemprop="datePublished">2021-04-16</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/clickhouse/">clickhouse</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="docker环境下搭建clickhouse环境"><a href="#docker环境下搭建clickhouse环境" class="headerlink" title="docker环境下搭建clickhouse环境"></a>docker环境下搭建clickhouse环境</h2><h4 id="00x1-使用docker安装clickhouse"><a href="#00x1-使用docker安装clickhouse" class="headerlink" title="00x1:使用docker安装clickhouse"></a>00x1:使用docker安装clickhouse</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull yandex/clickhouse-server</span><br></pre></td></tr></table></figure>
+
+<h4 id="00x2-启动clickhouse"><a href="#00x2-启动clickhouse" class="headerlink" title="00x2:启动clickhouse"></a>00x2:启动clickhouse</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name ch-server --ulimit nofile=262144:262144 -p 8123:8123 -p 9000:9000 -p 9009:9009 yandex/clickhouse-server</span><br></pre></td></tr></table></figure>
+
+<h4 id="00x3-查看docker启动的程序"><a href="#00x3-查看docker启动的程序" class="headerlink" title="00x3:查看docker启动的程序"></a>00x3:查看docker启动的程序</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps -a 查看容器</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/image-20210416112622522.png" alt="image-20210416112622522"></p> 
+      <a class="article-more-link" href="/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/"
+        >阅读更多...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+   
+</article>
+
+    
+    <article
   id="post-开窗函数"
   class="article article-type-post"
   itemscope
@@ -614,63 +676,6 @@
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git%E5%88%86%E6%94%AF/" rel="tag">Git分支</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF/" rel="tag">远程分支</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-   
-</article>
-
-    
-    <article
-  id="post-Hive解析json方法"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/09/14/Hive%E8%A7%A3%E6%9E%90json%E6%96%B9%E6%B3%95/"
-    >Hive解析json方法</a> 
-</h2>
- 
-
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2020/09/14/Hive%E8%A7%A3%E6%9E%90json%E6%96%B9%E6%B3%95/" class="article-date">
-  <time datetime="2020-09-14T10:36:53.000Z" itemprop="datePublished">2020-09-14</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Hive/">Hive</a>
-  </div>
-   
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <h4 id="1-get-json-object"><a href="#1-get-json-object" class="headerlink" title="1.get_json_object"></a>1.get_json_object</h4><p>底层日志经常会被储存为json字符串的形式，如果想获得各个维度的值，往往需要这个函数把对应的值取出来，具体用法为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">get_json_object(action,&#39;$.evt_id&#39;) 取出1111027379533</span><br><span class="line">此处假设需要解析的字段叫action，action的值如下：</span><br><span class="line">&#123;</span><br><span class="line">&quot;info_json&quot;: </span><br><span class="line">&#123;&quot;a&quot;: &#123;&quot;b&quot;: &quot;300&quot;,&quot;c&quot;: &quot;15000&quot;&#125;,</span><br><span class="line">&quot;d&quot;: &quot;110000&quot;,</span><br><span class="line">&quot;e&quot;: &quot;小花&quot;,</span><br><span class="line">&quot;f&quot;: &quot;小芳&quot;&#125;,</span><br><span class="line">&quot; token&quot;: &quot;1111027379533&quot;</span><br><span class="line">&#125;</span><br><span class="line">同样如果要取出d所对应的110000这个值，可用嵌套的get_json_object方法</span><br><span class="line"> get_json_object(get_json_object(</span><br><span class="line">&#39;&#123;</span><br><span class="line">&quot;info_json&quot;: </span><br><span class="line">&#123;&quot;a&quot;: &#123;&quot;b&quot;: &quot;300&quot;,&quot;c&quot;: &quot;15000&quot;&#125;,</span><br><span class="line">&quot;d&quot;: &quot;110000&quot;,</span><br><span class="line">&quot;e&quot;: &quot;小花&quot;,</span><br><span class="line">&quot;f&quot;: &quot;小芳&quot;&#125;,</span><br><span class="line">&quot;evt_id&quot;: &quot;1111027379533&quot;</span><br><span class="line">&#125;&#39;,&#39;$.info_json&#39;),&#39;$.d&#39;)</span><br><span class="line">1234567891011121314151617181920</span><br></pre></td></tr></table></figure> 
-      <a class="article-more-link" href="/2020/09/14/Hive%E8%A7%A3%E6%9E%90json%E6%96%B9%E6%B3%95/"
-        >阅读更多...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hive/" rel="tag">hive</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%A7%A3%E6%9E%90json/" rel="tag">解析json</a></li></ul>
 
     </footer>
   </div>

@@ -2598,4 +2598,46 @@ CombineTextInputFormat.setMinInputSplitSize(job, 2097152);</code></pre><p><img s
         <tag>开窗函数</tag>
       </tags>
   </entry>
+  <entry>
+    <title>docker环境下试验clickhouse</title>
+    <url>/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><h2 id="docker环境下搭建clickhouse环境"><a href="#docker环境下搭建clickhouse环境" class="headerlink" title="docker环境下搭建clickhouse环境"></a>docker环境下搭建clickhouse环境</h2><h4 id="00x1-使用docker安装clickhouse"><a href="#00x1-使用docker安装clickhouse" class="headerlink" title="00x1:使用docker安装clickhouse"></a>00x1:使用docker安装clickhouse</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull yandex/clickhouse-server</span><br></pre></td></tr></table></figure>
+
+<h4 id="00x2-启动clickhouse"><a href="#00x2-启动clickhouse" class="headerlink" title="00x2:启动clickhouse"></a>00x2:启动clickhouse</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -d --name ch-server --ulimit nofile=262144:262144 -p 8123:8123 -p 9000:9000 -p 9009:9009 yandex/clickhouse-server</span><br></pre></td></tr></table></figure>
+
+<h4 id="00x3-查看docker启动的程序"><a href="#00x3-查看docker启动的程序" class="headerlink" title="00x3:查看docker启动的程序"></a>00x3:查看docker启动的程序</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker ps -a 查看容器</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/image-20210416112622522.png" alt="image-20210416112622522"></p>
+<a id="more"></a>
+
+<h4 id="00x4-进入容器"><a href="#00x4-进入容器" class="headerlink" title="00x4:进入容器"></a>00x4:进入容器</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker exec -it docker-clickhouse /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/image-20210416112920269.png" alt="image-20210416112920269"></p>
+<h4 id="00x5-导入样例数据"><a href="#00x5-导入样例数据" class="headerlink" title="00x5:导入样例数据"></a>00x5:导入样例数据</h4><p>数据存储在/var/lib/clickhouse/data中</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd /var/lib/clickhouse/tmp #数据的压缩包我存放在tmp下</span><br><span class="line">curl -O https://datasets.clickhouse.tech/hits/partitions/hits_v1.tar</span><br><span class="line"></span><br><span class="line">cd .. #回到clickhouse目录下</span><br><span class="line">tar xvf tmp/hits_v1.tar -C /var/lib/clickhouse # path to ClickHouse data directory</span><br><span class="line"><span class="meta">#</span><span class="bash"> check permissions on unpacked data, fix <span class="keyword">if</span> required</span></span><br><span class="line"></span><br><span class="line">curl -O tmp/https://datasets.clickhouse.tech/visits/partitions/visits_v1.tar</span><br><span class="line">tar xvf visits_v1.tar -C /var/lib/clickhouse # path to ClickHouse data directory</span><br><span class="line"><span class="meta">#</span><span class="bash"> check permissions on unpacked data, fix <span class="keyword">if</span> required</span></span><br><span class="line"></span><br><span class="line">sudo service clickhouse-server restart</span><br></pre></td></tr></table></figure>
+
+<p>压缩包存放在tmp下</p>
+<p><img src="/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/image-20210416113141288.png" alt="image-20210416113141288"></p>
+<p>解压缩之后会在data文件夹下生成datasets目录</p>
+<p><img src="/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/image-20210416113306278.png" alt="image-20210416113306278"></p>
+<p><img src="/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/image-20210416113353457.png" alt="image-20210416113353457"></p>
+<p>这就是datasets库下的两个表</p>
+<h4 id="00x6-进如clickhouse启动client"><a href="#00x6-进如clickhouse启动client" class="headerlink" title="00x6:进如clickhouse启动client"></a>00x6:进如clickhouse启动client</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">执行clickhouse-client</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/image-20210416113556075.png" alt="image-20210416113556075"></p>
+<p>查询数据库:</p>
+<p><img src="/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/image-20210416113626892.png" alt="image-20210416113626892"></p>
+<p>使用刚创建的库</p>
+<p><img src="/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/image-20210416113644823.png" alt="image-20210416113644823"></p>
+<p>查询数量:</p>
+<p><img src="/2021/04/16/docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%AF%95%E9%AA%8Cclickhouse/image-20210416113728071.png" alt="image-20210416113728071"></p>
+]]></content>
+      <categories>
+        <category>clickhouse</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+        <tag>docker</tag>
+      </tags>
+  </entry>
 </search>
